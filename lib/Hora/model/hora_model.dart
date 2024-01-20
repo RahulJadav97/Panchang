@@ -62,13 +62,15 @@ class Day {
   String? planet;
   String? startTime;
   String? endTime;
+  String? significance;
 
-  Day({this.planet, this.startTime, this.endTime});
+  Day({this.planet, this.startTime, this.endTime, this.significance});
 
   Day.fromJson(Map<String, dynamic> json) {
     planet = json['Planet'];
     startTime = json['start_time'];
     endTime = json['end_time'];
+    significance = json['Significance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +78,7 @@ class Day {
     data['Planet'] = this.planet;
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
+    data['Significance'] = this.significance;
     return data;
   }
 }
@@ -84,13 +87,15 @@ class Night {
   String? planet;
   String? startTime;
   String? endTime;
+  String? significance;
 
-  Night({this.planet, this.startTime, this.endTime});
+  Night({this.planet, this.startTime, this.endTime, this.significance});
 
   Night.fromJson(Map<String, dynamic> json) {
     planet = json['Planet'];
     startTime = json['start_time'];
     endTime = json['end_time'];
+    significance = json['Significance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -98,7 +103,11 @@ class Night {
     data['Planet'] = this.planet;
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
+    data['Significance'] = this.significance;
     return data;
   }
 }
+
+
+
 

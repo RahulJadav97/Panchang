@@ -32,46 +32,46 @@ class WeeklyPredictionModel {
 }
 
 class Data {
-  String? horoscopeID;
-  String? sunsignID;
+  String? sunsignName;
   String? description;
   String? luckyColor;
   String? luckyNumber;
-  String? horoscopeType;
   String? horoscopeDate;
-  Null? createdDate;
+  String? sunsignKey;
+  String? startDate;
+  String? endDate;
 
   Data(
-      {this.horoscopeID,
-        this.sunsignID,
+      {this.sunsignName,
         this.description,
         this.luckyColor,
         this.luckyNumber,
-        this.horoscopeType,
         this.horoscopeDate,
-        this.createdDate});
+        this.sunsignKey,
+        this.startDate,
+        this.endDate});
 
   Data.fromJson(Map<String, dynamic> json) {
-    horoscopeID = json['HoroscopeID'];
-    sunsignID = json['SunsignID'];
+    sunsignName = json['SunsignName'];
     description = json['Description'];
     luckyColor = json['LuckyColor'];
     luckyNumber = json['LuckyNumber'];
-    horoscopeType = json['HoroscopeType'];
     horoscopeDate = json['HoroscopeDate'];
-    createdDate = json['CreatedDate'];
+    sunsignKey = json['SunsignKey'];
+    startDate = json['StartDate'];
+    endDate = json['EndDate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['HoroscopeID'] = this.horoscopeID;
-    data['SunsignID'] = this.sunsignID;
+    data['SunsignName'] = this.sunsignName;
     data['Description'] = this.description;
     data['LuckyColor'] = this.luckyColor;
     data['LuckyNumber'] = this.luckyNumber;
-    data['HoroscopeType'] = this.horoscopeType;
     data['HoroscopeDate'] = this.horoscopeDate;
-    data['CreatedDate'] = this.createdDate;
+    data['SunsignKey'] = this.sunsignKey;
+    data['StartDate'] = this.startDate;
+    data['EndDate'] = this.endDate;
     return data;
   }
 }

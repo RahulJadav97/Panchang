@@ -89,6 +89,13 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
+                                    child: Text("SunsignName :${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                      style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(Get.width*0.010),
+                                    width: Get.width,
+                                    // color: Colors.blue,
                                     child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
                                       style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                   ),

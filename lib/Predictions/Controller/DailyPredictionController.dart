@@ -8,6 +8,7 @@ class DailyPredictionController extends GetxController{
   var oldResponse = DailyPredictionModel().obs;
 
   List allData = [];
+
   // int? allDataLength;
 
   Future<void> dailyPredictionCont () async {

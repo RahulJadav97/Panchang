@@ -15,7 +15,6 @@ class DailyPredictionScreen extends StatefulWidget {
 class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
 
   DailyPredictionController _dailyPredictionCont_obj = Get.put(DailyPredictionController());
-
   @override
   void initState() {
     _dailyPredictionCont_obj.dailyPredictionCont();
@@ -86,6 +85,14 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                            child: Column(
                              crossAxisAlignment: CrossAxisAlignment.center,
                              children: [
+                               Container(
+                                 padding: EdgeInsets.all(Get.width*0.010),
+                                 width: Get.width,
+                                 // color: Colors.blue,
+                                 child: Text("SunsignName :${_dailyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                     style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
+                               ),
+
                                Container(
                                  padding: EdgeInsets.all(Get.width*0.010),
                                  width: Get.width,
