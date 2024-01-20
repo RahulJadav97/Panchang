@@ -1278,7 +1278,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Colors.purple,
                                     ),
-                                    child: Text("Chughadia",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: Text("Choghadiya",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
