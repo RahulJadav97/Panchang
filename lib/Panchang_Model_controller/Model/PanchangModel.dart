@@ -29,6 +29,8 @@ class PanchangModel {
 class Data {
   String? sunrise;
   String? sunset;
+  String? moonrise;
+  String? moonset;
   String? tithi;
   String? nakshatra;
   String? yoga;
@@ -44,7 +46,6 @@ class Data {
   String? ritu;
   String? dishaShool;
   String? mass;
-  String? horas;
   String? yamagamdam;
   String? gulikaKaal;
   String? durMuhurat;
@@ -52,6 +53,8 @@ class Data {
   Data(
       {this.sunrise,
         this.sunset,
+        this.moonrise,
+        this.moonset,
         this.tithi,
         this.nakshatra,
         this.yoga,
@@ -67,7 +70,6 @@ class Data {
         this.ritu,
         this.dishaShool,
         this.mass,
-        this.horas,
         this.yamagamdam,
         this.gulikaKaal,
         this.durMuhurat});
@@ -75,6 +77,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     sunrise = json['sunrise'];
     sunset = json['sunset'];
+    moonrise = json['moonrise'];
+    moonset = json['moonset'];
     tithi = json['tithi'];
     nakshatra = json['nakshatra'];
     yoga = json['yoga'];
@@ -90,7 +94,6 @@ class Data {
     ritu = json['ritu'];
     dishaShool = json['Disha Shool'];
     mass = json['Mass'];
-    horas = json['Horas'];
     yamagamdam = json['Yamagamdam'];
     gulikaKaal = json['gulika_kaal'];
     durMuhurat = json['Dur_muhurat'];
@@ -100,6 +103,8 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['sunrise'] = this.sunrise;
     data['sunset'] = this.sunset;
+    data['moonrise'] = this.moonrise;
+    data['moonset'] = this.moonset;
     data['tithi'] = this.tithi;
     data['nakshatra'] = this.nakshatra;
     data['yoga'] = this.yoga;
@@ -115,7 +120,6 @@ class Data {
     data['ritu'] = this.ritu;
     data['Disha Shool'] = this.dishaShool;
     data['Mass'] = this.mass;
-    data['Horas'] = this.horas;
     data['Yamagamdam'] = this.yamagamdam;
     data['gulika_kaal'] = this.gulikaKaal;
     data['Dur_muhurat'] = this.durMuhurat;

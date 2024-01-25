@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'common_colour.dart';
+
 
 class font_style{
 
@@ -86,6 +88,7 @@ class font_style{
 
   static TextStyle  Black_400_15 =GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black,);
   static TextStyle  Black_700_18 =GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w700, color:  Colors.black,);
+  static TextStyle  Red_700_18 =GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w700, color:common_red,);
   static TextStyle  Black_600_12 =GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w600, color:  Colors.black,);
   static TextStyle  Black_400_12 =GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black,);
 

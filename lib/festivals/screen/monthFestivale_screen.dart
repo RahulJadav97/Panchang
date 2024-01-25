@@ -6,6 +6,8 @@ import 'package:panchang/festivals/controller/festival_controller.dart';
 import 'package:panchang/festivals/controller/monthly_festival_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'festival_web_view.dart';
+
 class MonthFestivalScreen extends StatefulWidget {
   const MonthFestivalScreen({super.key});
 
@@ -154,21 +156,26 @@ class _MonthFestivalScreenState extends State<MonthFestivalScreen> {
                                itemBuilder: (BuildContext context ,int index){
                                  return Padding(
                                    padding: const EdgeInsets.all(8.0),
-                                   child: Container(
-                                     decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(10),
-                                         color:common_red
-                                     ),
+                                   child: GestureDetector(
+                                     onTap: (){
+                                       Get.to(()=>FestivalWebScreen(webUrl: monthFestival.monthFestivalList[index].link.toString(),));
+                                     },
+                                     child: Container(
+                                       decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(10),
+                                           color:common_red
+                                       ),
 
-                                     child: Padding(
-                                         padding: const EdgeInsets.all(8.0),
-                                         child: Column(
-                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                           children: [
-                                             Text('${monthFestival.monthFestivalList[index].title}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
-                                             Text('Date: ${monthFestival.monthFestivalList[index].date}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
-                                           ],
-                                         )
+                                       child: Padding(
+                                           padding: const EdgeInsets.all(8.0),
+                                           child: Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Text('${monthFestival.monthFestivalList[index].title}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
+                                               Text('Date: ${monthFestival.monthFestivalList[index].date}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
+                                             ],
+                                           )
+                                       ),
                                      ),
                                    ),
                                  );

@@ -47,7 +47,7 @@ class _SignificanceScreenState extends State<SignificanceScreen> {
                 onChanged: (value) {
                   setState(() {
                     significationListSearch = significance.significationList.where((element) => element.title.toString().toLowerCase().contains(value.toLowerCase())).toList();
-                    significationListSearch = significance.significationList.where((element) => element.date.toString().toLowerCase().contains(value.toLowerCase())).toList();
+                    // significationListSearch = significance.significationList.where((element) => element.date.toString().toLowerCase().contains(value.toLowerCase())).toList();
                     if(_searchCTC.text.isNotEmpty && significationListSearch.isEmpty){
                       print("Items Lenght ${significationListSearch.length}");
                     }

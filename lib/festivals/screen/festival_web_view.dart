@@ -27,17 +27,20 @@ class _FestivalWebScreenState extends State<FestivalWebScreen> {
       ),
       body:Stack(
         children: [
-          InAppWebView(
-            initialUrlRequest: URLRequest(url: WebUri("https://www.premastrologer.com")
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: InAppWebView(
+              initialUrlRequest: URLRequest(url: WebUri(widget.webUrl.toString())
+              ),
+              onWebViewCreated: (InAppWebViewController controller){
+                inAppWebViewController = controller;
+              },
+              onProgressChanged: (InAppWebViewController controller , int progress){
+                setState(() {
+                  _progress = progress / 100;
+                });
+              },
             ),
-            onWebViewCreated: (InAppWebViewController controller){
-              inAppWebViewController = controller;
-            },
-            onProgressChanged: (InAppWebViewController controller , int progress){
-              setState(() {
-                _progress = progress / 100;
-              });
-            },
           ),
           _progress < 1 ? Container(
             child: LinearProgressIndicator(

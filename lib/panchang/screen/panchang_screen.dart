@@ -17,6 +17,7 @@ import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/common_sharedprefrence.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/screen/festival_search_screen.dart';
+import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/festivals/screen/festivals.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -416,6 +417,43 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   ),
                                   alignment: Alignment.center,
                                   child: Text("Sunrise ${_panchangController_obj.sunrise} Sunset ${_panchangController_obj.sunset}", style: font_style.Black_bold_15_ff,),
+
+                                )
+                              ],
+                            ),
+                            SizedBox(height: SizeConfig.screenHeight*0.010,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
+                                  height: SizeConfig.screenHeight*0.060,
+                                  width: SizeConfig.screenWidth*0.310,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:common_red,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("moonrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                ),
+                                Container(
+                                  height: SizeConfig.screenHeight*0.065,
+                                  width: SizeConfig.screenWidth*0.650,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0XFFfedec5),
+                                      border: Border.all(color: common_red, width: 1),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            blurRadius: 1,
+                                            color: Color(0XFFbe765a),
+                                            spreadRadius: 1.0,
+                                            offset: Offset(0.0, 2.0)
+                                        )
+                                      ]
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text("moonrise ${_panchangController_obj.moonrise} moonset ${_panchangController_obj.moonset}", style: font_style.Black_bold_15_ff,),
 
                                 )
                               ],
@@ -1510,16 +1548,21 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             ),
 
                             //know About Yourself>>
-                            Container(
-                                margin: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.040),
-                                height: SizeConfig.screenHeight*0.040,
-                                width: SizeConfig.screenWidth,
-                                alignment: Alignment.center,
-                                decoration:  BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color:Color(0xff980101),
-                                ),
-                                child: Text("know About Yourself>>",style: font_style.white_600_15_cl,textAlign: TextAlign.center, )
+                            GestureDetector(
+                              onTap: (){
+                                Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer.com",));
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.040),
+                                  height: SizeConfig.screenHeight*0.040,
+                                  width: SizeConfig.screenWidth,
+                                  alignment: Alignment.center,
+                                  decoration:  BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color:Color(0xff980101),
+                                  ),
+                                  child: Text("know About Yourself>>",style: font_style.white_600_15_cl,textAlign: TextAlign.center, )
+                              ),
                             ),
 
                             //Client info

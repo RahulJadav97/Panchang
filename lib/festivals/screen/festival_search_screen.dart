@@ -111,7 +111,7 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                       itemBuilder:( BuildContext context,int index ){
                       return InkWell(
                         onTap: (){
-                          // Get.to(()=>FestivalWebScreen(webUrl:festivalController.festivalList[index].link.toString(),));
+                          Get.to(()=>FestivalWebScreen(webUrl:_searchCTC.text.isNotEmpty?festivalListSearch[index].link.toString():festivalController.festivalList[index].link.toString(),));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 5),

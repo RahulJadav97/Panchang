@@ -13,6 +13,9 @@ class PanchangController extends GetxController{
 
   String ?sunrise;
   String ?sunset;
+
+  String ?moonrise;
+  String ?moonset;
   String ?tithi;
   String ?nakshatra;
   String ?yoga;
@@ -99,6 +102,9 @@ class PanchangController extends GetxController{
 
         sunrise = oldResponse.value.data!.sunrise.toString();
         sunset = oldResponse.value.data!.sunset.toString();
+
+        moonrise = oldResponse.value.data!.moonrise.toString();
+        moonset = oldResponse.value.data!.moonset.toString();
         tithi = oldResponse.value.data!.tithi.toString();
         nakshatra = oldResponse.value.data!.nakshatra.toString();
         yoga = oldResponse.value.data!.yoga.toString();
@@ -114,7 +120,7 @@ class PanchangController extends GetxController{
         ritu = oldResponse.value.data!.ritu.toString();
         dishaShool = oldResponse.value.data!.dishaShool.toString();
         mass = oldResponse.value.data!.mass.toString();
-        horas = oldResponse.value.data!.horas.toString();
+        // horas = oldResponse.value.data!.horas.toString();
         yamagamdam = oldResponse.value.data!.yamagamdam.toString();
         gulikaKaal = oldResponse.value.data!.gulikaKaal.toString();
         durMuhurat = oldResponse.value.data!.durMuhurat.toString();

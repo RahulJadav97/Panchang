@@ -20,6 +20,7 @@ class _HoraScreenState extends State<HoraScreen> {
 
   var formattedDate ;
   bool chindex = false;
+  var colorIndex;
 
   @override
   void initState() {
@@ -271,18 +272,35 @@ class _HoraScreenState extends State<HoraScreen> {
                                     child: Text("${chindex == false?hora.oldResponse.value.data!.day![index].planet:hora.oldResponse.value.data!.night![index].planet}",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                                   ),
 
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: Get.width*0.020, vertical: 0.050),
-                                    height: SizeConfig.screenHeight*0.100,
-                                    width: Get.width*0.320,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(2),
-                                      color:common_red,
+                                  GestureDetector(
+                                    onTap:(){
+                                      setState(() {
+                                        colorIndex = index;
+                                        print("colorIndex ${colorIndex}");
+                                        print("colorIndex ${index}");
+                                      });
+                                      Get.defaultDialog(
+                                         backgroundColor: common_backcolor,
+                                        title: "Significance",
+                                        titleStyle: font_style.Red_700_18,
+                                        content: Column(
+                                          children: [
+                                            Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",style: font_style.Black_700_18,)
+                                          ],
+                                        )
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(horizontal: Get.width*0.020, vertical: 0.050),
+                                      height: SizeConfig.screenHeight*0.100,
+                                      width: Get.width*0.320,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(2),
+                                        color:colorIndex !=index ?common_red:common_green,
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",overflow: TextOverflow.ellipsis,style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                                     ),
-                                    alignment: Alignment.centerLeft,
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                        child: Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",style: font_style.White_700_18_ff,textAlign: TextAlign.center )),
                                   ),
                                 ],
                               ),
@@ -315,24 +333,24 @@ class _HoraScreenState extends State<HoraScreen> {
                         ),
                       ),
                       /// line
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.010, horizontal: SizeConfig.screenWidth*0.010),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(Get.width*0.010),
-                              // height: SizeConfig.screenHeight*0.100,
-                              width: Get.width*0.98,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2),
-                                color:common_red,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              child: Text(""" Not good for Auspicious Work. Good for Bravery works, sports and competitive activities, electrical and mechanical engineering works, fire related work, pursuing litigation, construction work can be performed during Hora of Mangal.""",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.010, horizontal: SizeConfig.screenWidth*0.010),
+                      //   child: Row(
+                      //     children: [
+                      //       Container(
+                      //         padding: EdgeInsets.all(Get.width*0.010),
+                      //         // height: SizeConfig.screenHeight*0.100,
+                      //         width: Get.width*0.98,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(2),
+                      //           color:common_red,
+                      //         ),
+                      //         alignment: Alignment.centerLeft,
+                      //         child: Text(""" Not good for Auspicious Work. Good for Bravery works, sports and competitive activities, electrical and mechanical engineering works, fire related work, pursuing litigation, construction work can be performed during Hora of Mangal.""",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       /// last
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.020, horizontal: SizeConfig.screenWidth*0.010),
