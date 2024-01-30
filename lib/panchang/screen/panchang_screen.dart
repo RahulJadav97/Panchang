@@ -50,6 +50,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
 
 
 
+
   Position? _currentlocation;
   late bool servicePermission=false;
   late LocationPermission Permission;
@@ -211,10 +212,22 @@ class _PanchangScreenState extends State<PanchangScreen> {
     ]);
     super.initState();
   }
-
+  var ddd  = "";
+  var mmm = "" ;
+  var yyy = "" ;
   getdelhiData() async {
     SharedPreferences sh = await SharedPreferences.getInstance();
     sh.setString("sh_cityRowId", "1724");
+    print("dd:${sh.getString("sh_selectedDay")}");
+    print("mm:${sh.getString("sh_selectedMonth")}");
+    print("yy:${sh.getString("sh_selectedYear")}");
+    setState(() {
+      ddd = sh.getString("sh_selectedDay").toString();
+      mmm = sh.getString("sh_selectedMonth").toString();
+      yyy = sh.getString("sh_selectedYear").toString();
+    });
+
+
 
   }
   bool panchagePageStatus = true;
@@ -351,7 +364,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0xFFA72929),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Date:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -394,7 +407,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0xFF121212),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Sunrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -431,7 +444,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFF0F695E),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("moonrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -509,7 +522,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFFBE2E2E),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Vikram Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -549,7 +562,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFFEA6B0A),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Shaka Samvat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -631,7 +644,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFF205D25),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Nakshatra :",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -673,7 +686,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFF503A34),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Yoga:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -714,7 +727,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFF2173C2),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Karan:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -755,7 +768,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:Color(0XFF225E27),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Rashi:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -796,7 +809,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       // color:Colors.purple,
-                                      color: common_red
+                                      color:Color(0XFFBB3030)
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Mass:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -836,7 +849,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: common_red
+                                      color: Color(0xFF311B92)
                                     // color:Colors.blue.shade700,
                                   ),
                                   alignment: Alignment.centerLeft,
@@ -877,7 +890,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: common_red
+                                      color:  Color(0xFF357638)
                                     // color:CupertinoColors.activeGreen,
                                   ),
                                   alignment: Alignment.centerLeft,
@@ -917,7 +930,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: common_red
+                                      color: Color(0xFF121212),
                                     // color:CupertinoColors.activeGreen,
                                   ),
                                   alignment: Alignment.centerLeft,
@@ -958,7 +971,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: common_red
+                                      color:  Color(0xFFB71C1C),
                                     // color:Colors.deepOrange,
                                   ),
                                   alignment: Alignment.centerLeft,
@@ -1000,7 +1013,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: common_red
+                                      color:  Color(0xFF7F2F93),
                                     // color:Color(0xff1b567a),
                                   ),
                                   alignment: Alignment.centerLeft,
@@ -1041,7 +1054,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: common_red
+                                      color:  Color(0xFF7F2F55),
                                     // color:Color(0xff654a24),
                                   ),
                                   alignment: Alignment.centerLeft,
@@ -1100,7 +1113,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color: Color(0xFF7F2F93),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Rahukaal:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -1140,7 +1153,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color: Color(0xFF7F2F11),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Yamagandam:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -1180,7 +1193,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color:  Color(0xFF7F9F22),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Gulika kaal:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -1220,7 +1233,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:common_red,
+                                    color: Color(0xFF7F5F22),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Dur Muhurat:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),

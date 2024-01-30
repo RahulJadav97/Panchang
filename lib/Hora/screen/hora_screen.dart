@@ -6,6 +6,7 @@ import 'package:panchang/Hora/controller/hora_controller.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HoraScreen extends StatefulWidget {
   const HoraScreen({super.key});
@@ -24,6 +25,7 @@ class _HoraScreenState extends State<HoraScreen> {
 
   @override
   void initState() {
+    getdelhiData();
     DateTime currentDate = DateTime.now();
 
      formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
@@ -34,8 +36,26 @@ class _HoraScreenState extends State<HoraScreen> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-  }
 
+  }
+  var ddd  = "";
+  var mmm = "" ;
+  var yyy = "" ;
+  getdelhiData() async {
+    SharedPreferences sh = await SharedPreferences.getInstance();
+    sh.setString("sh_cityRowId", "1724");
+    print("dd:${sh.getString("sh_selectedDay")}");
+    print("mm:${sh.getString("sh_selectedMonth")}");
+    print("yy:${sh.getString("sh_selectedYear")}");
+    setState(() {
+      ddd = sh.getString("sh_selectedDay").toString();
+      mmm = sh.getString("sh_selectedMonth").toString();
+      yyy = sh.getString("sh_selectedYear").toString();
+    });
+
+
+
+  }
 
 
   @override
@@ -114,7 +134,7 @@ class _HoraScreenState extends State<HoraScreen> {
 
                         ),
 
-                        child: Text("Hora ${formattedDate}", style: font_style.White_700_18_ff,),
+                        child: Text("Hora $ddd-$mmm-$yyy ", style: font_style.White_700_18_ff,),
 
                       ),
                       Container(

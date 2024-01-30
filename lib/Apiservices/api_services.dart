@@ -420,9 +420,9 @@ class ApiServices{
     FormData userForm = FormData();
 
     print("dd ${dd}");
-    userForm.fields.add(MapEntry("dd", dd));
-    userForm.fields.add(MapEntry("mm", mm));
-    userForm.fields.add(MapEntry("yy", yy));
+    userForm.fields.add(MapEntry("dd","${sh.getString("sh_selectedDay")}"));
+    userForm.fields.add(MapEntry("mm","${sh.getString("sh_selectedMonth")}"));
+    userForm.fields.add(MapEntry("yy","${sh.getString("sh_selectedYear")}"));
     userForm.fields.add(MapEntry("popupDatepicker",""));
     userForm.fields.add(MapEntry("mycity","sh_selectedCity :${sh.getString("sh_selectedCity")}"));
     userForm.fields.add(MapEntry("subcat","54"));
@@ -440,9 +440,9 @@ class ApiServices{
     userForm.fields.add(MapEntry("Hour","5"));
     userForm.fields.add(MapEntry("Min","30"));
     userForm.fields.add(MapEntry("txtnm",""));
-    userForm.fields.add(MapEntry("Day",dd));
-    userForm.fields.add(MapEntry("Month",mm));
-    userForm.fields.add(MapEntry("Year",yy));
+    userForm.fields.add(MapEntry("Day","${sh.getString("sh_selectedDay")}"));
+    userForm.fields.add(MapEntry("Month","${sh.getString("sh_selectedMonth")}"));
+    userForm.fields.add(MapEntry("Year","${sh.getString("sh_selectedYear")}"));
     userForm.fields.add(MapEntry("Asc","Capricorn"));
     userForm.fields.add(MapEntry("Asc2","9"));
     userForm.fields.add(MapEntry("AYNS","-24.191285219725508"));
