@@ -20,10 +20,19 @@ import 'package:panchang/common/common_base_url.dart';
 import 'package:panchang/common/common_sharedprefrence.dart';
 import 'package:panchang/festivals/model/festival_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiServices{
 
-  Dio dio = Dio();
+  final dio = Dio()
+    ..interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      compact: false,
+    ));
+
 
   //getAllCountry
   Future<GetAllCountryModel> getAllCountry ()async {
@@ -278,8 +287,11 @@ class ApiServices{
   Future<CityDataModel> getCityData ()async {
     FormData userForm = FormData();
     SharedPreferences sh = await SharedPreferences.getInstance();
+    var dd = sh.getString("sh_selectedDay").toString();
+    var mm = sh.getString("sh_selectedMonth").toString();
+    var yy = sh.getString("sh_selectedYear").toString();
 
-    final userValue = await dio.post("https://www.premastrologer.com/reference/panchang_api/api_coordinates.php?id=${sh.getString("sh_cityRowId")}", data: userForm);
+    final userValue = await dio.post("https://www.premastrologer.com/reference/panchang_api/api_coordinates.php?id=${sh.getString("sh_cityRowId")}&dob=$dd-$mm-$yy", data: userForm);
     if(userValue.statusCode == 200){
       final result = CityDataModel.fromJson(userValue.data);
       print("city api called..");
@@ -299,9 +311,9 @@ class ApiServices{
     FormData userForm = FormData();
 
     print("dd ${dd}");
-    userForm.fields.add(MapEntry("dd", dd));
-    userForm.fields.add(MapEntry("mm", mm));
-    userForm.fields.add(MapEntry("yy", yy));
+    userForm.fields.add(MapEntry("dd","${sh.getString("sh_selectedDay")}"));
+    userForm.fields.add(MapEntry("mm","${sh.getString("sh_selectedMonth")}"));
+    userForm.fields.add(MapEntry("yy","${sh.getString("sh_selectedYear")}"));
     userForm.fields.add(MapEntry("popupDatepicker",""));
     userForm.fields.add(MapEntry("mycity","${sh.getString("sh_selectedCity")}"));
     userForm.fields.add(MapEntry("subcat",""));

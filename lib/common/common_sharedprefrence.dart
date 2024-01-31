@@ -29,6 +29,7 @@ String sh_selectedWar='';
 
 String sh_selectedDirectionEast='';
 String sh_monthFestival='';
+String sh_currentNowDate='';
 
 
 String sh_cityRowId='';

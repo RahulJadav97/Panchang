@@ -44,7 +44,7 @@ class Data {
   String? statecountrycode;
   String? timecorrectioncode;
   int? zHour;
-  int? zMin;
+  var zMin;
   int? dST;
   int? wAR;
   int? direction;

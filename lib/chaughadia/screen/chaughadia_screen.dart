@@ -7,7 +7,10 @@ import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 
 class ChaughadiaScreen extends StatefulWidget {
-  const ChaughadiaScreen({super.key});
+
+  String ?date;
+
+  ChaughadiaScreen({required this.date}); // const ChaughadiaScreen({super.key});
 
   @override
   State<ChaughadiaScreen> createState() => _ChaughadiaScreenState();
@@ -16,98 +19,13 @@ class ChaughadiaScreen extends StatefulWidget {
 class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
   ChogadiyaController chogadiyaController = Get.put(ChogadiyaController());
 
-
-  List DateLineList =[
-    "Date",
-    "Sunrise",
-    "Tithi",
-    "Nakshatra",
-    "Yoga",
-    "Karan",
-    "Rashi",
-    "Rahukaal",
-    "Gandmool",
-    "Panchak",
-    "Festival",
-    "Yamangandamkal",
-    "Bhadra",
-    "Choughadia",
-    "Change Date",
-    "Change City",
-    "Festivals",
-    "Hora",
-    "Daily Predictions",
-    "Weekly Prediction",
-    "Monthly Prediction",
-    "know About Yourself>>",
-    ""
-  ];
-
-  List dayList = [
-    "Chal",
-    "Labh",
-    "Amrut",
-    "Kal",
-    "Shubh",
-    "Rog",
-    "Udveg",
-    "Chal",
-  ];
-
-  List nightList = [
-    "Rog",
-    "Kal",
-    "Labh",
-    "Udveg",
-    "Shubh",
-    "Amrut",
-    "Chal",
-    "Rog",
-  ];
-
-  List daytimeList = [
-    "07:36 to 08:18",
-    "08:36 to 10:18",
-    "10:36 to 12:18",
-    "12:36 to 14:18",
-    "14:36 to 16:18",
-    "16:36 to 18:18",
-    "18:36 to 20:18",
-    "20:36 to 22:18",
-  ];
-  List nighttimeList = [
-    "00:36 to 02:18",
-    "02:36 to 04:18",
-    "04:36 to 06:18",
-    "06:36 to 08:18",
-    "08:36 to 10:18",
-    "10:36 to 12:18",
-    "12:36 to 14:18",
-    "14:36 to 16:18",
-  ];
-
-  List SurriseLineList =[
-    "5-6-2023   (Wednesday)",
-    "Sunrise: 05:50 Sunset: 19:23",
-    "Chaturdashi till 19:57\n Krishna Praksha",
-    "Kritika till 21:18",
-    "Sakarma till 24:36",
-    "Vishit til 08:25/Sakuma",
-    "Rashi: Tourus",
-    "12:36 to 14:18",
-    "No",
-    "No",
-    "No",
-    "07:33 to 09:14",
-    "Bhardra to 08:59"
-  ];
-
   bool chindex = false;
 
   @override
   void initState() {
     chogadiyaController.choghadiyaCont();
     getCurrentDate();
+    print("date :${widget.date.toString()}");
     super.initState();
   }
   // setState(() {
@@ -185,7 +103,8 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
 
                         ),
 
-                        child: Text("Chaughadia ${currentDate.toString()}", style: font_style.White_700_16_ff,),
+                        // child: Text("Chaughadia ${currentDate.toString()}", style: font_style.White_700_16_ff,),
+                        child: Text("Chaughadia ${widget.date.toString()}", style: font_style.White_700_16_ff,),
 
                       ),
                       SizedBox(height: SizeConfig.screenHeight*0.010,),
@@ -302,4 +221,90 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
         )
     );
   }
+
+
+  List DateLineList =[
+    "Date",
+    "Sunrise",
+    "Tithi",
+    "Nakshatra",
+    "Yoga",
+    "Karan",
+    "Rashi",
+    "Rahukaal",
+    "Gandmool",
+    "Panchak",
+    "Festival",
+    "Yamangandamkal",
+    "Bhadra",
+    "Choughadia",
+    "Change Date",
+    "Change City",
+    "Festivals",
+    "Hora",
+    "Daily Predictions",
+    "Weekly Prediction",
+    "Monthly Prediction",
+    "know About Yourself>>",
+    ""
+  ];
+
+  List dayList = [
+    "Chal",
+    "Labh",
+    "Amrut",
+    "Kal",
+    "Shubh",
+    "Rog",
+    "Udveg",
+    "Chal",
+  ];
+
+  List nightList = [
+    "Rog",
+    "Kal",
+    "Labh",
+    "Udveg",
+    "Shubh",
+    "Amrut",
+    "Chal",
+    "Rog",
+  ];
+
+  List daytimeList = [
+    "07:36 to 08:18",
+    "08:36 to 10:18",
+    "10:36 to 12:18",
+    "12:36 to 14:18",
+    "14:36 to 16:18",
+    "16:36 to 18:18",
+    "18:36 to 20:18",
+    "20:36 to 22:18",
+  ];
+  List nighttimeList = [
+    "00:36 to 02:18",
+    "02:36 to 04:18",
+    "04:36 to 06:18",
+    "06:36 to 08:18",
+    "08:36 to 10:18",
+    "10:36 to 12:18",
+    "12:36 to 14:18",
+    "14:36 to 16:18",
+  ];
+
+  List SurriseLineList =[
+    "5-6-2023   (Wednesday)",
+    "Sunrise: 05:50 Sunset: 19:23",
+    "Chaturdashi till 19:57\n Krishna Praksha",
+    "Kritika till 21:18",
+    "Sakarma till 24:36",
+    "Vishit til 08:25/Sakuma",
+    "Rashi: Tourus",
+    "12:36 to 14:18",
+    "No",
+    "No",
+    "No",
+    "07:33 to 09:14",
+    "Bhardra to 08:59"
+  ];
 }

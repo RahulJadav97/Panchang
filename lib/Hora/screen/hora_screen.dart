@@ -23,25 +23,30 @@ class _HoraScreenState extends State<HoraScreen> {
   bool chindex = false;
   var colorIndex;
 
+
+  Future<void> dateFun() async {
+    DateTime currentDate = DateTime.now();
+    formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
+    print('Formatted Current Date: $formattedDate');
+  }
+
   @override
   void initState() {
-    getdelhiData();
-    DateTime currentDate = DateTime.now();
-
-     formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    print('Formatted Current Date: $formattedDate');
+    getdelhiData().then((value){
+      dateFun();
+    });
     hora.horaCont();
-    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-
+    super.initState();
   }
   var ddd  = "";
   var mmm = "" ;
   var yyy = "" ;
-  getdelhiData() async {
+
+  Future<void> getdelhiData() async {
     SharedPreferences sh = await SharedPreferences.getInstance();
     sh.setString("sh_cityRowId", "1724");
     print("dd:${sh.getString("sh_selectedDay")}");
@@ -52,9 +57,6 @@ class _HoraScreenState extends State<HoraScreen> {
       mmm = sh.getString("sh_selectedMonth").toString();
       yyy = sh.getString("sh_selectedYear").toString();
     });
-
-
-
   }
 
 
