@@ -1,7 +1,7 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
+// import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:panchang/Panchang_Model_controller/Controller/PanchanGController.dart';
 import 'package:panchang/changecity/controller/city_controller.dart';
@@ -13,11 +13,11 @@ import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/standalone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
-import 'package:timezone/data/latest.dart' as tz;
+// import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/standalone.dart' as tz;
+// import 'package:timezone/data/latest_all.dart' as tz;
+// import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
+// import 'package:timezone/data/latest.dart' as tz;
 
 
 
@@ -880,108 +880,108 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
   var longitude;
 
 
-  Future<void> getLatLngFromCityName(String cityName) async {
-    try {
-      List<Location> locations = await locationFromAddress(cityName);
-      if (locations.isNotEmpty) {
-        latitude = locations[0].latitude;
-        longitude = locations[0].longitude;
-         print("latitude${latitude}");
-         print("longitude${longitude}");
-
-        var latitudex = '$latitude';
-        var longitudex = '$longitude';
-        // Split the string based on the dot (.)
-        List<String> parts = latitudex.split('.');
-        String wholeNumber = parts[0];
-        String decimalPart = parts.length > 1 ? parts[1].substring(0, 2) : '00';
-        print('Whole Number: $wholeNumber');
-        print('Decimal Part: $decimalPart');
-
-        List<String> parts1 = longitudex.split('.');
-        String wholeNumber1 = parts1[0];
-        String decimalPart1 = parts1.length > 1 ? parts1[1].substring(0, 2) : '00';
-        print('Whole Number1: $wholeNumber1');
-        print('Decimal Part1: $decimalPart1');
-        /// ===================== commment  ==========///
-        // setState(() {
-        //   _ltdCTC.text= wholeNumber.toString();
-        //   _ltd1CTC.text= decimalPart.toString();
-        //   _longCTC.text= wholeNumber1.toString();
-        //   _long1CTC.text= decimalPart1.toString();
-        // });
-
-
-         // Extract latitude degrees and minutes
-         int latitudeDegrees = latitude.floor();
-         double latitudeMinutes = (latitude - latitudeDegrees) * 60;
-
-
-         // Extract longitude degrees and minutes
-         int longitudeDegrees = longitude.floor();
-         double longitudeMinutes = (longitude - longitudeDegrees) * 60;
-
-
-        SharedPreferences sh = await SharedPreferences.getInstance();
-        sh.setString("sh_selectedLtd", latitude.toString());
-         sh.setString("sh_selectedLtdDeg", latitudeDegrees.toString());
-         sh.setString("sh_selectedLtdMin", latitudeMinutes.toString());
-
-         sh.setString("sh_selectedLong", longitude.toString());
-         sh.setString("sh_selectedLongDeg", longitudeDegrees.toString());
-         sh.setString("sh_selectedLongMin", longitudeMinutes.toString());
-
-         print("==============================================GetAddressFromLatLong open ================================");
-         print("sh_selectedCity : ${sh.getString("sh_selectedCity")}");
-
-         print("sh_selectedLtd : ${sh.getString("sh_selectedLtd")}");
-         print("sh_selectedLtdDeg : ${sh.getString("sh_selectedLtdDeg")}");
-         print("sh_selectedLtdMin : ${sh.getString("sh_selectedLtdMin")}");
-
-         print("sh_selectedLong : ${sh.getString("sh_selectedLong")}");
-         print("sh_selectedLongDeg : ${sh.getString("sh_selectedLongDeg")}");
-         print("sh_selectedLongMin : ${sh.getString("sh_selectedLongMin")}");
-         print("==============================================GetAddressFromLatLong close ================================");
-
-
-
-      } else {
-        throw Exception('No locations found for the city: $cityName');
-      }
-    } catch (e) {
-      print('Error: $e');
-      return null;
-    }
-  }
+  // Future<void> getLatLngFromCityName(String cityName) async {
+  //   try {
+  //     List<Location> locations = await locationFromAddress(cityName);
+  //     if (locations.isNotEmpty) {
+  //       latitude = locations[0].latitude;
+  //       longitude = locations[0].longitude;
+  //        print("latitude${latitude}");
+  //        print("longitude${longitude}");
+  //
+  //       var latitudex = '$latitude';
+  //       var longitudex = '$longitude';
+  //       // Split the string based on the dot (.)
+  //       List<String> parts = latitudex.split('.');
+  //       String wholeNumber = parts[0];
+  //       String decimalPart = parts.length > 1 ? parts[1].substring(0, 2) : '00';
+  //       print('Whole Number: $wholeNumber');
+  //       print('Decimal Part: $decimalPart');
+  //
+  //       List<String> parts1 = longitudex.split('.');
+  //       String wholeNumber1 = parts1[0];
+  //       String decimalPart1 = parts1.length > 1 ? parts1[1].substring(0, 2) : '00';
+  //       print('Whole Number1: $wholeNumber1');
+  //       print('Decimal Part1: $decimalPart1');
+  //       /// ===================== commment  ==========///
+  //       // setState(() {
+  //       //   _ltdCTC.text= wholeNumber.toString();
+  //       //   _ltd1CTC.text= decimalPart.toString();
+  //       //   _longCTC.text= wholeNumber1.toString();
+  //       //   _long1CTC.text= decimalPart1.toString();
+  //       // });
+  //
+  //
+  //        // Extract latitude degrees and minutes
+  //        int latitudeDegrees = latitude.floor();
+  //        double latitudeMinutes = (latitude - latitudeDegrees) * 60;
+  //
+  //
+  //        // Extract longitude degrees and minutes
+  //        int longitudeDegrees = longitude.floor();
+  //        double longitudeMinutes = (longitude - longitudeDegrees) * 60;
+  //
+  //
+  //       SharedPreferences sh = await SharedPreferences.getInstance();
+  //       sh.setString("sh_selectedLtd", latitude.toString());
+  //        sh.setString("sh_selectedLtdDeg", latitudeDegrees.toString());
+  //        sh.setString("sh_selectedLtdMin", latitudeMinutes.toString());
+  //
+  //        sh.setString("sh_selectedLong", longitude.toString());
+  //        sh.setString("sh_selectedLongDeg", longitudeDegrees.toString());
+  //        sh.setString("sh_selectedLongMin", longitudeMinutes.toString());
+  //
+  //        print("==============================================GetAddressFromLatLong open ================================");
+  //        print("sh_selectedCity : ${sh.getString("sh_selectedCity")}");
+  //
+  //        print("sh_selectedLtd : ${sh.getString("sh_selectedLtd")}");
+  //        print("sh_selectedLtdDeg : ${sh.getString("sh_selectedLtdDeg")}");
+  //        print("sh_selectedLtdMin : ${sh.getString("sh_selectedLtdMin")}");
+  //
+  //        print("sh_selectedLong : ${sh.getString("sh_selectedLong")}");
+  //        print("sh_selectedLongDeg : ${sh.getString("sh_selectedLongDeg")}");
+  //        print("sh_selectedLongMin : ${sh.getString("sh_selectedLongMin")}");
+  //        print("==============================================GetAddressFromLatLong close ================================");
+  //
+  //
+  //
+  //     } else {
+  //       throw Exception('No locations found for the city: $cityName');
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     return null;
+  //   }
+  // }
 
   String? realTimeZon;
   var timeZoneMin;
   var timeZoneHour;
-  Future<void> setup() async {
-    var londonLocation = tz.getLocation("Asia/Kolkata");
-    print("londonLocation $londonLocation");
-    var nowInLondon = tz.TZDateTime.now(londonLocation);
-    print(nowInLondon.minute);
-
-    setState(() {
-      realTimeZon = nowInLondon.toString();
-      timeZoneMin = nowInLondon.minute;
-      timeZoneHour = nowInLondon.hour;
-
-      setState(() {
-        _timeHour1CTC.text = timeZoneHour.toString();
-        _timemin1CTC.text = timeZoneMin.toString();
-      });
-    });
-
-    print("==============================================setup open ================================");
-    SharedPreferences sh = await SharedPreferences.getInstance();
-    sh.setString("sh_selectedZHour", timeZoneHour.toString());
-    sh.setString("sh_selectedZMin", timeZoneMin.toString());
-
-    print("sh_selectedZHour : ${sh.getString("sh_selectedZHour")}");
-    print("sh_selectedZMin : ${sh.getString("sh_selectedZMin")}");
-    print("==============================================setup Close ================================");
-
-  }
+  // Future<void> setup() async {
+  //   var londonLocation = tz.getLocation("Asia/Kolkata");
+  //   print("londonLocation $londonLocation");
+  //   var nowInLondon = tz.TZDateTime.now(londonLocation);
+  //   print(nowInLondon.minute);
+  //
+  //   setState(() {
+  //     realTimeZon = nowInLondon.toString();
+  //     timeZoneMin = nowInLondon.minute;
+  //     timeZoneHour = nowInLondon.hour;
+  //
+  //     setState(() {
+  //       _timeHour1CTC.text = timeZoneHour.toString();
+  //       _timemin1CTC.text = timeZoneMin.toString();
+  //     });
+  //   });
+  //
+  //   print("==============================================setup open ================================");
+  //   SharedPreferences sh = await SharedPreferences.getInstance();
+  //   sh.setString("sh_selectedZHour", timeZoneHour.toString());
+  //   sh.setString("sh_selectedZMin", timeZoneMin.toString());
+  //
+  //   print("sh_selectedZHour : ${sh.getString("sh_selectedZHour")}");
+  //   print("sh_selectedZMin : ${sh.getString("sh_selectedZMin")}");
+  //   print("==============================================setup Close ================================");
+  //
+  // }
 }

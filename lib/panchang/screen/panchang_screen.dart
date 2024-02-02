@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
+// import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:panchang/Hora/screen/hora_screen.dart';
@@ -22,12 +22,12 @@ import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/festivals/screen/festivals.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/standalone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
-import 'package:timezone/data/latest.dart' as tz;
+// import 'package:geolocator/geolocator.dart';
+// import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/standalone.dart' as tz;
+// import 'package:timezone/data/latest_all.dart' as tz;
+// import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
+// import 'package:timezone/data/latest.dart' as tz;
 
 
 
@@ -52,9 +52,9 @@ class _PanchangScreenState extends State<PanchangScreen> {
 
 
 
-  Position? _currentlocation;
+  // Position? _currentlocation;
   late bool servicePermission=false;
-  late LocationPermission Permission;
+  // late LocationPermission Permission;
   String currentAddress = '';
 
 
@@ -195,6 +195,47 @@ class _PanchangScreenState extends State<PanchangScreen> {
       _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon);
     });
   }
+
+  ChangeDate() async {
+    SharedPreferences sh = await SharedPreferences.getInstance();
+    String dateString = "${sh.getString("sh_selectedDate")}";
+    // String dateString = "21-12-2023";
+    List<String> dateParts = dateString.split('-');
+    int day = int.parse(selectedDateX!.day.toString().padLeft(2, '0'));
+    int month = int.parse(selectedDateX!.month.toString().padLeft(2, '0'));
+    int year = int.parse(selectedDateX!.year.toString());
+
+    DateTime date = DateTime(year, month, day);
+    var selectedDate = date;
+
+    String datex = "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}";
+    String dayName = getDayName(selectedDate.year, selectedDate.month, selectedDate.day);
+
+    sh.setString("sh_selectedDate", datex.toString());
+    sh.setString("sh_selectedDayName", dayName.toString());
+    sh.setString("sh_selectedDay", selectedDate.day.toString());
+    sh.setString('sh_selectedMonth', selectedDate.month.toString());
+    sh.setString('sh_selectedYear', selectedDate.year.toString());
+
+    print("==============================================ForwordUpdateDate open===============================================");
+
+    print("sh_selectedDate :${sh.getString("sh_selectedDate")}");
+    print("sh_selectedDayName :${sh.getString("sh_selectedDayName")}");
+    print("sh_selectedDay :${sh.getString("sh_selectedDay")}");
+    print("sh_selectedMonth :${sh.getString("sh_selectedMonth")}");
+    print("sh_selectedYear :${sh.getString("sh_selectedYear")}");
+
+
+    currentdate = sh.getString("sh_selectedDate");
+    currentdatedayname = sh.getString("sh_selectedDayName");
+
+    print("==============================================ForwordUpdateDate Close===============================================");
+
+    setState(() {
+      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon);
+    });
+  }
+
 
   @override
   void initState() {
@@ -1679,9 +1720,11 @@ class _PanchangScreenState extends State<PanchangScreen> {
     if (picked != null && picked != selectedDateX) {
       setState(() {
         selectedDateX = picked;
-        formattedDate = "${selectedDateX!.year}-${selectedDateX!.month.toString().padLeft(2, '0')}-${selectedDateX!.day.toString().padLeft(2, '0')}";
+        formattedDate = "${selectedDateX!.day.toString().padLeft(2, '0')}-${selectedDateX!.month.toString().padLeft(2, '0')}-${selectedDateX!.year}";
+        // formattedDate = "${selectedDateX!.year}-${selectedDateX!.month.toString().padLeft(2, '0')}-${selectedDateX!.day.toString().padLeft(2, '0')}";
         selectedDate = formattedDate ;
         print("selectedDateX :$selectedDate");
+        ChangeDate();
       });
     }
   }

@@ -3,16 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:panchang/auth/screen/login_screen.dart';
 import 'package:get/get.dart';
 import 'package:panchang/splash_screen.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
+// import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async  {
   WidgetsFlutterBinding.ensureInitialized();
-  tz.initializeTimeZones();
-  var londonLocation = tz.getLocation('Asia/Kolkata');
-  print("londonLocation $londonLocation");
-  var nowInLondon = tz.TZDateTime.now(londonLocation);
-  print(nowInLondon);
+  // tz.initializeTimeZones();
+  // var londonLocation = tz.getLocation('Asia/Kolkata');
+  // print("londonLocation $londonLocation");
+  // var nowInLondon = tz.TZDateTime.now(londonLocation);
+  // print(nowInLondon);
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

@@ -1,4 +1,4 @@
-package com.panchang.sparkstoideas
+package com.panchang.astrofree
 
 import io.flutter.embedding.android.FlutterActivity
 

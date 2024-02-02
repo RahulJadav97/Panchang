@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
+// import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:panchang/Panchang_Model_controller/Controller/PanchanGController.dart';
 import 'package:panchang/changecity/controller/city_data_controller.dart';
@@ -12,12 +12,12 @@ import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/standalone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
-import 'package:timezone/data/latest.dart' as tz;
+// import 'package:geolocator/geolocator.dart';
+// import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/standalone.dart' as tz;
+// import 'package:timezone/data/latest_all.dart' as tz;
+// import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
+// import 'package:timezone/data/latest.dart' as tz;
 
 
 
@@ -590,132 +590,132 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// --------- current location ----------------///
 
-  Future<Position> _determinePosition() async {
-    print("current location call");
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-
-  Future<void> getPosition() async {
-    // Get the current position
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    await GetAddressFromLatLong(position);
-  }
-
-  var ltd ;
-  var long;
-  var Address;
-  Future<void> GetAddressFromLatLong(Position position) async {
-    setState(() {
-      ltd =  position.latitude;
-      long =  position.longitude;
-    });
-    timezoneName();
-    double latitude = position.latitude;
-    double longitude = position.longitude;
-
-    SharedPreferences sh = await SharedPreferences.getInstance();
-
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
-    );
-
-    print(placemarks);
-    Placemark place = placemarks[0];
-    setState(() {
-      Address = '${place.locality}';
-      sh.setString("sh_selectedCity", Address.toString());
-      print("Address: $Address");
-    });
-
-    // Extract latitude degrees and minutes
-    int latitudeDegrees = latitude.floor();
-    double latitudeMinutes = (latitude - latitudeDegrees) * 60;
-
-    // Extract longitude degrees and minutes
-    int longitudeDegrees = longitude.floor();
-    double longitudeMinutes = (longitude - longitudeDegrees) * 60;
-
-    sh.setString("sh_selectedLtd", latitude.toString());
-    sh.setString("sh_selectedLtdDeg", latitudeDegrees.toString());
-    sh.setString("sh_selectedLtdMin", latitudeMinutes.toString());
-
-    sh.setString("sh_selectedLong", longitude.toString());
-    sh.setString("sh_selectedLongDeg", longitudeDegrees.toString());
-    sh.setString("sh_selectedLongMin", longitudeMinutes.toString());
-
-    print("==============================================GetAddressFromLatLong open ================================");
-    print("sh_selectedCity : ${sh.getString("sh_selectedCity")}");
-
-    print("sh_selectedLtd : ${sh.getString("sh_selectedLtd")}");
-    print("sh_selectedLtdDeg : ${sh.getString("sh_selectedLtdDeg")}");
-    print("sh_selectedLtdMin : ${sh.getString("sh_selectedLtdMin")}");
-
-    print("sh_selectedLong : ${sh.getString("sh_selectedLong")}");
-    print("sh_selectedLongDeg : ${sh.getString("sh_selectedLongDeg")}");
-    print("sh_selectedLongMin : ${sh.getString("sh_selectedLongMin")}");
-    print("==============================================GetAddressFromLatLong close ================================");
-  }
-
-  var tzName;
-  timezoneName(){
-    print(ltd);
-    String tz = tzmap.latLngToTimezoneString(ltd,long);
-    setState(() {
-      tzName = tz;
-      setup();
-    });
-    print('Montreal is in the $tz time zone.');
-
-
-  }
-  String? realTimeZon;
-  var timeZoneMin;
-  var timeZoneHour;
-  Future<void> setup() async {
-    var londonLocation = tz.getLocation(tzName.toString());
-    print("londonLocation $londonLocation");
-    var nowInLondon = tz.TZDateTime.now(londonLocation);
-    print("minute${nowInLondon.minute}");
-    print("hour${nowInLondon.hour}");
-    // print(nowInLondon.hour);
-
-    setState(() {
-      realTimeZon = nowInLondon.toString();
-      timeZoneMin = nowInLondon.minute;
-      timeZoneHour = nowInLondon.hour;
-    });
-
-    print("==============================================setup open ================================");
-    SharedPreferences sh = await SharedPreferences.getInstance();
-    sh.setString("sh_selectedZHour", timeZoneHour.toString());
-    sh.setString("sh_selectedZMin", timeZoneMin.toString());
-
-    print("sh_selectedZHour : ${sh.getString("sh_selectedZHour")}");
-    print("sh_selectedZMin : ${sh.getString("sh_selectedZMin")}");
-    print("==============================================setup Close ================================");
-
-  }
+  // Future<Position> _determinePosition() async {
+  //   print("current location call");
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //
+  //   return await Geolocator.getCurrentPosition();
+  // }
+  //
+  //
+  // Future<void> getPosition() async {
+  //   // Get the current position
+  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  //   await GetAddressFromLatLong(position);
+  // }
+  //
+  // var ltd ;
+  // var long;
+  // var Address;
+  // Future<void> GetAddressFromLatLong(Position position) async {
+  //   setState(() {
+  //     ltd =  position.latitude;
+  //     long =  position.longitude;
+  //   });
+  //   timezoneName();
+  //   double latitude = position.latitude;
+  //   double longitude = position.longitude;
+  //
+  //   SharedPreferences sh = await SharedPreferences.getInstance();
+  //
+  //   List<Placemark> placemarks = await placemarkFromCoordinates(
+  //     position.latitude,
+  //     position.longitude,
+  //   );
+  //
+  //   print(placemarks);
+  //   Placemark place = placemarks[0];
+  //   setState(() {
+  //     Address = '${place.locality}';
+  //     sh.setString("sh_selectedCity", Address.toString());
+  //     print("Address: $Address");
+  //   });
+  //
+  //   // Extract latitude degrees and minutes
+  //   int latitudeDegrees = latitude.floor();
+  //   double latitudeMinutes = (latitude - latitudeDegrees) * 60;
+  //
+  //   // Extract longitude degrees and minutes
+  //   int longitudeDegrees = longitude.floor();
+  //   double longitudeMinutes = (longitude - longitudeDegrees) * 60;
+  //
+  //   sh.setString("sh_selectedLtd", latitude.toString());
+  //   sh.setString("sh_selectedLtdDeg", latitudeDegrees.toString());
+  //   sh.setString("sh_selectedLtdMin", latitudeMinutes.toString());
+  //
+  //   sh.setString("sh_selectedLong", longitude.toString());
+  //   sh.setString("sh_selectedLongDeg", longitudeDegrees.toString());
+  //   sh.setString("sh_selectedLongMin", longitudeMinutes.toString());
+  //
+  //   print("==============================================GetAddressFromLatLong open ================================");
+  //   print("sh_selectedCity : ${sh.getString("sh_selectedCity")}");
+  //
+  //   print("sh_selectedLtd : ${sh.getString("sh_selectedLtd")}");
+  //   print("sh_selectedLtdDeg : ${sh.getString("sh_selectedLtdDeg")}");
+  //   print("sh_selectedLtdMin : ${sh.getString("sh_selectedLtdMin")}");
+  //
+  //   print("sh_selectedLong : ${sh.getString("sh_selectedLong")}");
+  //   print("sh_selectedLongDeg : ${sh.getString("sh_selectedLongDeg")}");
+  //   print("sh_selectedLongMin : ${sh.getString("sh_selectedLongMin")}");
+  //   print("==============================================GetAddressFromLatLong close ================================");
+  // }
+  //
+  // var tzName;
+  // timezoneName(){
+  //   print(ltd);
+  //   String tz = tzmap.latLngToTimezoneString(ltd,long);
+  //   setState(() {
+  //     tzName = tz;
+  //     setup();
+  //   });
+  //   print('Montreal is in the $tz time zone.');
+  //
+  //
+  // }
+  // String? realTimeZon;
+  // var timeZoneMin;
+  // var timeZoneHour;
+  // Future<void> setup() async {
+  //   var londonLocation = tz.getLocation(tzName.toString());
+  //   print("londonLocation $londonLocation");
+  //   var nowInLondon = tz.TZDateTime.now(londonLocation);
+  //   print("minute${nowInLondon.minute}");
+  //   print("hour${nowInLondon.hour}");
+  //   // print(nowInLondon.hour);
+  //
+  //   setState(() {
+  //     realTimeZon = nowInLondon.toString();
+  //     timeZoneMin = nowInLondon.minute;
+  //     timeZoneHour = nowInLondon.hour;
+  //   });
+  //
+  //   print("==============================================setup open ================================");
+  //   SharedPreferences sh = await SharedPreferences.getInstance();
+  //   sh.setString("sh_selectedZHour", timeZoneHour.toString());
+  //   sh.setString("sh_selectedZMin", timeZoneMin.toString());
+  //
+  //   print("sh_selectedZHour : ${sh.getString("sh_selectedZHour")}");
+  //   print("sh_selectedZMin : ${sh.getString("sh_selectedZMin")}");
+  //   print("==============================================setup Close ================================");
+  //
+  // }
 }
