@@ -83,8 +83,8 @@ class font_style{
   static TextStyle  Black_700_18_ff =TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color:  Colors.black,fontFamily: 'calibri');
   static TextStyle  Black_500_18_ff =TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color:  Colors.black,fontFamily: 'calibri');
   static TextStyle  Black_400_15_ff =TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black,fontFamily: 'calibri');
-  static TextStyle  Black_bold_15_ff =TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black,fontFamily: 'calibri');
-  static TextStyle  Black_700_15_ff =TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.black,fontFamily: 'calibri');
+  static TextStyle  Black_bold_15_ff =TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,fontFamily: 'calibri');
+  static TextStyle  Black_700_15_ff =TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,fontFamily: 'calibri');
 
   static TextStyle  Black_400_15 =GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black,);
   static TextStyle  Black_700_18 =GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w700, color:  Colors.black,);
@@ -110,7 +110,7 @@ class font_style{
 
   static TextStyle  white_400_14 =TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white,  fontFamily: 'calibri');
   static TextStyle  white_400_13 =TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Colors.white,  fontFamily: 'calibri');
-  static TextStyle  white_400_11 =TextStyle(fontSize: 11, fontWeight: FontWeight.w400, color: Colors.white,  fontFamily: 'calibri');
+  static TextStyle  white_400_11 =TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white,  fontFamily: 'calibri');
 
   static TextStyle  Blue_700_20 =GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w700, color:  Colors.black,);
 

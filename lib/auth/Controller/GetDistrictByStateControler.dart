@@ -9,7 +9,7 @@ class GetDistrictByStateController extends GetxController{
   var loading = false.obs;
   var old_response = GetDistrictByStateModel().obs;
 
-  List allDistrictName = [];
+  List<String> allDistrictName = [];
   List allDistrictId = [];
 
   Future<void> getDistrictByStateCont (StateId) async {

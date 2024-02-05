@@ -200,7 +200,7 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                                   ]
                               ),
                               alignment: Alignment.center,
-                              child: Text("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}", style: font_style.Black_400_15_ff,),
+                              child: Text("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}", style: font_style.Black_bold_15_ff,),
                             )
                           ],
                         ),

@@ -27,6 +27,7 @@ class _SignificanceScreenState extends State<SignificanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: common_backcolor,
       appBar: AppBar(
         leading: IconButton(onPressed: (){Get.back();},icon: Icon(Icons.arrow_back,color: Colors.white,)),
         backgroundColor: common_red,
@@ -104,8 +105,8 @@ class _SignificanceScreenState extends State<SignificanceScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Title:${_searchCTC.text.isNotEmpty?significationListSearch[index].title != null?significationListSearch[index].title:"Title Not Found": significance.oldResponse.value.data![index].title != null?significance.oldResponse.value.data![index].title:"Title Not Found"}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w300,fontSize: 18),),
-                            Text("Date: ${_searchCTC.text.isNotEmpty?significationListSearch[index].date != null?significationListSearch[index].date:"Date Not Found": significance.oldResponse.value.data![index].date != null?significance.oldResponse.value.data![index].date:"Date Not Found"}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w200,fontSize: 15),),
+                            Text("${_searchCTC.text.isNotEmpty?significationListSearch[index].title != null?significationListSearch[index].title:"Title Not Found": significance.oldResponse.value.data![index].title != null?significance.oldResponse.value.data![index].title:"Title Not Found"}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18),),
+                            Text("Date: ${_searchCTC.text.isNotEmpty?significationListSearch[index].date != null?significationListSearch[index].date:"Date Not Found": significance.oldResponse.value.data![index].date != null?significance.oldResponse.value.data![index].date:"Date Not Found"}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w300,fontSize: 15),),
                           ],
                         ),
                       ),
@@ -115,7 +116,6 @@ class _SignificanceScreenState extends State<SignificanceScreen> {
               ),
             ),
           )
-
         ],
       ),
       )

@@ -8,7 +8,7 @@ class GetStateByCountryroller extends GetxController{
   var loading = false.obs;
   var old_response = GetStateByCountryModel().obs;
 
-  List allstateName = [];
+  List<String> allstateName = [];
   List allstateid = [];
 
   Future<void> getStateByCountry (CountryId) async {

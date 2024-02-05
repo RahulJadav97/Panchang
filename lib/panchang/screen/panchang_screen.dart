@@ -381,6 +381,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
+                                      alignment: Alignment.center,
+                                      height: SizeConfig.screenHeight*0.05,
                                       // height: SizeConfig.screenHeight*0.020,
                                       decoration: BoxDecoration(
                                           color: Color(0xffcb1505),

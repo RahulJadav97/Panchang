@@ -1,3 +1,4 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
@@ -30,9 +31,20 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _birthController = TextEditingController();
   TextEditingController _birthController1 = TextEditingController();
 
+  TextEditingController _searchController = TextEditingController();
+  TextEditingController _searchControllerState = TextEditingController();
+  TextEditingController _searchControllerDistrict = TextEditingController();
+
+  final GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
+  final GlobalKey<AutoCompleteTextFieldState<String>> keyState = GlobalKey();
+  final GlobalKey<AutoCompleteTextFieldState<String>> keyDistrict = GlobalKey();
+
   DateTime? _selectedDate;
   var passCheck = true;
   var compassCheck = true;
+  var checkSelectedCountry;
+  var checkSelectedState;
+  var checkSelectedDistrict;
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -299,8 +311,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         height: Get.height * 0.020,
                       ),
 
-                      //Country:
-                      DropdownButtonFormField(
+                      /// --------- Country:----------///
+                      _getAllCountryController_obj.loading.value
+                          ? Container(
+                        height: Get.height * 0.030,
+                        width: Get.width * 0.030,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          color: common_red,
+                        ),
+                      ):
+                      AutoCompleteTextField<String>(
+                        key: key,
+                        clearOnSubmit: false,
+                        suggestions:_getAllCountryController_obj.allCountryName, // List of suggestions
+                        // style: FontStyles.regular_16_white, // Your text style
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -324,56 +349,125 @@ class _SignupScreenState extends State<SignupScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        icon: _getAllCountryController_obj.loading.value
-                            ? Container(
-                          height: Get.height * 0.030,
-                          width: Get.width * 0.030,
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(
-                            color: common_red,
-                          ),
-                        )
-                            : Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.red,
-                        ),
-                        onTap: () {
-                          print('object');
-                          _getAllCountryController_obj.getAllCountryCont();
+                        itemFilter: (item, query) {
+                          return item.toLowerCase().contains(query.toLowerCase());
                         },
-                        onChanged: (String? value) {
-                          var index = _getAllCountryController_obj.allCountryName.indexOf(value);
-                          print("country index :$index");
-                           countryId = _getAllCountryController_obj.allCountryid[index];
-                          print("CountryId :$countryId");
-                          _getStateByCountryroller_obj.getStateByCountry(countryId.toString());
+                        itemSorter: (a, b) {
+                          return a.compareTo(b);
                         },
-                        items: _getAllCountryController_obj.allCountryName.map<DropdownMenuItem<String>>((var value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    value.toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );}).toList(),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Country is required';
-                          } else {
-                            return null;
-                          }
+                        itemSubmitted: (value) async {
+                          setState(() {
+                            checkSelectedCountry = value.toString();
+                            _searchController.text = value.toString();
+                            print("checkSelectedCountry ${checkSelectedCountry}");
+                            var index = _getAllCountryController_obj.allCountryName.indexOf(value);
+                            print("country index :$index");
+                            countryId = _getAllCountryController_obj.allCountryid[index];
+                            print("CountryId :$countryId");
+                            _getStateByCountryroller_obj.getStateByCountry(countryId.toString());
+                            // var index = cityController.allCityName.indexOf(value);
+                            // cityRowId = cityController.CityRowId[index].toString();
+
+
+                          });
+                        },
+                        itemBuilder: (context, item) {
+                          return ListTile(
+                            title: Text(item),
+                          );
                         },
                       ),
-                      SizedBox(height: Get.height * 0.020,),
+                      SizedBox(
+                        height: Get.height * 0.020,
+                      ),
 
-                      //State
-                      DropdownButtonFormField(
+                      // Country:
+                      // DropdownButtonFormField(
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //     ),
+                      //     contentPadding: EdgeInsets.only(left: 15, right: 10, top: 8, bottom: 8),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: common_red),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Colors.transparent,
+                      //     hintText: "Please Select Country",
+                      //     hintStyle: TextStyle(
+                      //       fontFamily: 'calibri',
+                      //       color: Colors.grey,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //   ),
+                      //   icon: _getAllCountryController_obj.loading.value
+                      //       ? Container(
+                      //     height: Get.height * 0.030,
+                      //     width: Get.width * 0.030,
+                      //     alignment: Alignment.center,
+                      //     child: CircularProgressIndicator(
+                      //       color: common_red,
+                      //     ),
+                      //   )
+                      //       : Icon(
+                      //     Icons.arrow_drop_down,
+                      //     color: Colors.red,
+                      //   ),
+                      //   onTap: () {
+                      //     print('object');
+                      //     _getAllCountryController_obj.getAllCountryCont();
+                      //   },
+                      //   onChanged: (String? value) {
+                      //     var index = _getAllCountryController_obj.allCountryName.indexOf(value!);
+                      //     print("country index :$index");
+                      //      countryId = _getAllCountryController_obj.allCountryid[index];
+                      //     print("CountryId :$countryId");
+                      //     _getStateByCountryroller_obj.getStateByCountry(countryId.toString());
+                      //   },
+                      //   items: _getAllCountryController_obj.allCountryName.map<DropdownMenuItem<String>>((var value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Container(
+                      //         margin: EdgeInsets.symmetric(horizontal: 5),
+                      //         child: Row(
+                      //           children: [
+                      //             Text(
+                      //               value.toString(),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     );}).toList(),
+                      //   validator: (String? value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Country is required';
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //   },
+                      // ),
+
+                      /// --------- State --------///
+                      _getStateByCountryroller_obj.loading.value
+                          ? Container(
+                        height: Get.height * 0.030,
+                        width: Get.width * 0.030,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          color: common_red,
+                        ),
+                      ):
+                      AutoCompleteTextField<String>(
+                        key: keyState,
+                        clearOnSubmit: false,
+                        suggestions:_getStateByCountryroller_obj.allstateName, // List of suggestions
+                        // style: FontStyles.regular_16_white, // Your text style
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -397,130 +491,110 @@ class _SignupScreenState extends State<SignupScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        icon: _getStateByCountryroller_obj.loading.value
-                            ? Container(
-                          height: Get.height * 0.030,
-                          width: Get.width * 0.030,
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(
-                            color: common_red,
-                          ),
-                        )
-                            : Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.red,
-                        ),
-                        onTap: () {
-                          print('object');
-                          // _getAllCountryController_obj.getAllCountryCont();
+                        itemFilter: (item, query) {
+                          return item.toLowerCase().contains(query.toLowerCase());
                         },
-                        onChanged: (String? value) {
-                          var index = _getStateByCountryroller_obj.allstateName.indexOf(value);
-                          print("State index :$index");
-                           stateId = _getStateByCountryroller_obj.allstateid[index];
-                          print("stateId :$stateId");
-                          _getDistrictByStateController_obj.getDistrictByStateCont(stateId.toString());
+                        itemSorter: (a, b) {
+                          return a.compareTo(b);
                         },
-                        items: _getStateByCountryroller_obj.allstateName.map<DropdownMenuItem<String>>((var value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    value.toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );}).toList(),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Country is required';
-                          } else {
-                            return null;
-                          }
+                        itemSubmitted: (value) async {
+                          setState(() {
+                            checkSelectedCountry = value.toString();
+                            _searchControllerState.text = value.toString();
+                            var index = _getStateByCountryroller_obj.allstateName.indexOf(value);
+                            print("State index :$index");
+                            stateId = _getStateByCountryroller_obj.allstateid[index];
+                            print("stateId :$stateId");
+                            _getDistrictByStateController_obj.getDistrictByStateCont(stateId.toString());
+
+
+                          });
+                        },
+                        itemBuilder: (context, item) {
+                          return ListTile(
+                            title: Text(item),
+                          );
                         },
                       ),
+                      // DropdownButtonFormField(
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //     ),
+                      //     contentPadding: EdgeInsets.only(left: 15, right: 10, top: 8, bottom: 8),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: common_red),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Colors.transparent,
+                      //     hintText: "Please Select State",
+                      //     hintStyle: TextStyle(
+                      //       fontFamily: 'calibri',
+                      //       color: Colors.grey,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //   ),
+                      //   icon: _getStateByCountryroller_obj.loading.value
+                      //       ? Container(
+                      //     height: Get.height * 0.030,
+                      //     width: Get.width * 0.030,
+                      //     alignment: Alignment.center,
+                      //     child: CircularProgressIndicator(
+                      //       color: common_red,
+                      //     ),
+                      //   )
+                      //       : Icon(
+                      //     Icons.arrow_drop_down,
+                      //     color: Colors.red,
+                      //   ),
+                      //   onTap: () {
+                      //     print('object');
+                      //     // _getAllCountryController_obj.getAllCountryCont();
+                      //   },
+                      //   onChanged: (String? value) {
+                      //     var index = _getStateByCountryroller_obj.allstateName.indexOf(value!);
+                      //     print("State index :$index");
+                      //      stateId = _getStateByCountryroller_obj.allstateid[index];
+                      //     print("stateId :$stateId");
+                      //     _getDistrictByStateController_obj.getDistrictByStateCont(stateId.toString());
+                      //   },
+                      //   items: _getStateByCountryroller_obj.allstateName.map<DropdownMenuItem<String>>((var value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Container(
+                      //         width: Get.width*0.75,
+                      //         margin: EdgeInsets.symmetric(horizontal: 5),
+                      //         child: Row(
+                      //           children: [
+                      //             Text(
+                      //               value.toString(),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     );}).toList(),
+                      //   validator: (String? value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Country is required';
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //   },
+                      // ),
                       SizedBox(height: Get.height * 0.020,),
 
-                      //District
-                      DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          contentPadding: EdgeInsets.only(left: 15, right: 10, top: 8, bottom: 8),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: common_red),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          hintText: "Please Select District",
-                          hintStyle: TextStyle(
-                            fontFamily: 'calibri',
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        icon: _getDistrictByStateController_obj.loading.value
-                            ? Container(
-                          height: Get.height * 0.030,
-                          width: Get.width * 0.030,
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(
-                            color: common_red,
-                          ),
-                        )
-                            : Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.red,
-                        ),
-                        onTap: () {
-                          print('object');
-                          // _getAllCountryController_obj.getAllCountryCont();
-                        },
-                        onChanged: (String? value) {
-                          var index = _getDistrictByStateController_obj.allDistrictName.indexOf(value);
-                          print("district index :$index");
-                           districtId = _getDistrictByStateController_obj.allDistrictId[index];
-                          print("districtId :$districtId");
-                          _getCityByDistrictController_obj.getCityByDistrictCont(districtId.toString());
-
-                        },
-                        items: _getDistrictByStateController_obj.allDistrictName.map<DropdownMenuItem<String>>((var value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    value.toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );}).toList(),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Country is required';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      SizedBox(height: Get.height * 0.020,),
-
-                      //City
-                      DropdownButtonFormField(
+                      /// --------- District ---------///
+                      AutoCompleteTextField<String>(
+                        key: keyDistrict,
+                        clearOnSubmit: false,
+                        suggestions:_getDistrictByStateController_obj.allDistrictName, // List of suggestions
+                        // style: FontStyles.regular_16_white, // Your text style
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -544,52 +618,176 @@ class _SignupScreenState extends State<SignupScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        icon: _getCityByDistrictController_obj.loading.value
-                            ? Container(
-                          height: Get.height * 0.030,
-                          width: Get.width * 0.030,
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(
-                            color: common_red,
-                          ),
-                        )
-                            : Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.red,
-                        ),
-                        onTap: () {
-                          print('object');
-                          // _getAllCountryController_obj.getAllCountryCont();
+                        itemFilter: (item, query) {
+                          return item.toLowerCase().contains(query.toLowerCase());
                         },
-                        onChanged: (String? value) {
-                          var index = _getCityByDistrictController_obj.allCityName.indexOf(value);
-                          print("City index :$index");
-                           cityId = _getCityByDistrictController_obj.allCityId[index];
-                          print("cityId :$cityId");
+                        itemSorter: (a, b) {
+                          return a.compareTo(b);
                         },
-                        items: _getCityByDistrictController_obj.allCityName.map<DropdownMenuItem<String>>((var value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    value.toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );}).toList(),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Country is required';
-                          } else {
-                            return null;
-                          }
+                        itemSubmitted: (value) async {
+                          setState(() {
+                            checkSelectedDistrict = value.toString();
+                            _searchControllerDistrict.text = value.toString();
+                            var index = _getDistrictByStateController_obj.allDistrictName.indexOf(value);
+                            print("district index :$index");
+                            districtId = _getDistrictByStateController_obj.allDistrictId[index];
+                            print("districtId :$districtId");
+                            _getCityByDistrictController_obj.getCityByDistrictCont(districtId.toString());
+
+                          });
+                        },
+                        itemBuilder: (context, item) {
+                          return ListTile(
+                            title: Text(item),
+                          );
                         },
                       ),
+
+                      // DropdownButtonFormField(
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //     ),
+                      //     contentPadding: EdgeInsets.only(left: 15, right: 10, top: 8, bottom: 8),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: common_red),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Colors.transparent,
+                      //     hintText: "Please Select City",
+                      //     hintStyle: TextStyle(
+                      //       fontFamily: 'calibri',
+                      //       color: Colors.grey,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //   ),
+                      //   icon: _getDistrictByStateController_obj.loading.value
+                      //       ? Container(
+                      //     height: Get.height * 0.030,
+                      //     width: Get.width * 0.030,
+                      //     alignment: Alignment.center,
+                      //     child: CircularProgressIndicator(
+                      //       color: common_red,
+                      //     ),
+                      //   )
+                      //       : Icon(
+                      //     Icons.arrow_drop_down,
+                      //     color: Colors.red,
+                      //   ),
+                      //   onTap: () {
+                      //     print('object');
+                      //     // _getAllCountryController_obj.getAllCountryCont();
+                      //   },
+                      //   onChanged: (String? value) {
+                      //     var index = _getDistrictByStateController_obj.allDistrictName.indexOf(value!);
+                      //     print("district index :$index");
+                      //      districtId = _getDistrictByStateController_obj.allDistrictId[index];
+                      //     print("districtId :$districtId");
+                      //     _getCityByDistrictController_obj.getCityByDistrictCont(districtId.toString());
+                      //
+                      //   },
+                      //   items: _getDistrictByStateController_obj.allDistrictName.map<DropdownMenuItem<String>>((var value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Container(
+                      //         width: Get.width*0.75,
+                      //         margin: EdgeInsets.symmetric(horizontal: 5),
+                      //         child: Row(
+                      //           children: [
+                      //             Text(
+                      //               value.toString(),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     );}).toList(),
+                      //   validator: (String? value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Country is required';
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //   },
+                      // ),
                       SizedBox(height: Get.height * 0.020,),
+
+                      //City
+                      // DropdownButtonFormField(
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //     ),
+                      //     contentPadding: EdgeInsets.only(left: 15, right: 10, top: 8, bottom: 8),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.grey),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: common_red),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Colors.transparent,
+                      //     hintText: "Please Select City",
+                      //     hintStyle: TextStyle(
+                      //       fontFamily: 'calibri',
+                      //       color: Colors.grey,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //   ),
+                      //   icon: _getCityByDistrictController_obj.loading.value
+                      //       ? Container(
+                      //     height: Get.height * 0.030,
+                      //     width: Get.width * 0.030,
+                      //     alignment: Alignment.center,
+                      //     child: CircularProgressIndicator(
+                      //       color: common_red,
+                      //     ),
+                      //   )
+                      //       : Icon(
+                      //     Icons.arrow_drop_down,
+                      //     color: Colors.red,
+                      //   ),
+                      //   onTap: () {
+                      //     print('object');
+                      //     // _getAllCountryController_obj.getAllCountryCont();
+                      //   },
+                      //   onChanged: (String? value) {
+                      //     var index = _getCityByDistrictController_obj.allCityName.indexOf(value);
+                      //     print("City index :$index");
+                      //      cityId = _getCityByDistrictController_obj.allCityId[index];
+                      //     print("cityId :$cityId");
+                      //   },
+                      //   items: _getCityByDistrictController_obj.allCityName.map<DropdownMenuItem<String>>((var value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Container(
+                      //         margin: EdgeInsets.symmetric(horizontal: 5),
+                      //         child: Row(
+                      //           children: [
+                      //             Text(
+                      //               value.toString(),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     );}).toList(),
+                      //   validator: (String? value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Country is required';
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //   },
+                      // ),
+                      // SizedBox(height: Get.height * 0.020,),
 
 
                       //Birth
