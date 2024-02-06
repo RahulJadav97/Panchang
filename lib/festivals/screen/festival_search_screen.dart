@@ -135,7 +135,7 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                                             border: Border.all(color: common_red,width: 2),
                                             borderRadius: BorderRadius.circular(15)
                                         ),
-                                        child:Image.network("${ festivalController.festivalList[index].image.toString()}"),
+                                        child:Image.network("${_searchCTC.text.isNotEmpty?festivalListSearch[index].image:festivalController.festivalList[index].image.toString()}"),
                                         // CachedNetworkImage(
                                         //   imageUrl: festivalController.festivalList[index].image.toString(), // Replace with your image URL
                                         //   placeholder: (context, url) => Center(child: CupertinoActivityIndicator(color: common_red,)), // Placeholder widget while loading
@@ -164,7 +164,7 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                                           Row(
                                             children: [
                                               Text("Date : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),),
-                                              Text("${festivalController.festivalList[index].date != ""?festivalController.festivalList[index].date:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)
+                                              Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].date.toString(): festivalController.festivalList[index].date != ""?festivalController.festivalList[index].date:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)
                                             ],
                                           ),
                                           SizedBox(height: Get.height*0.01,),
@@ -178,7 +178,7 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                                                   width: Get.width*0.64,
                                                   child: SingleChildScrollView(
                                                       scrollDirection: Axis.vertical,
-                                                      child: Text("${festivalController.festivalList[index].description != ""?festivalController.festivalList[index].description:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)))
+                                                      child: Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].description.toString(): festivalController.festivalList[index].description != ""?festivalController.festivalList[index].description:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)))
                                             ],
                                           )
                                         ],

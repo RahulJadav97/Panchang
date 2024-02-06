@@ -18,6 +18,7 @@ import 'package:panchang/changecity/model/city_model.dart';
 import 'package:panchang/chaughadia/model/choghadiya_model.dart';
 import 'package:panchang/common/common_base_url.dart';
 import 'package:panchang/common/common_sharedprefrence.dart';
+import 'package:panchang/festivals/model/festival_date_model.dart';
 import 'package:panchang/festivals/model/festival_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -484,6 +485,22 @@ class ApiServices{
       return result;
     }else{
       print("significance api failed..");
+      throw "Something Went Wrong..";
+    }
+
+  }
+
+  Future<FestivalDateModel> festivalDate()async {
+    FormData userForm = FormData();
+    SharedPreferences sh = await SharedPreferences.getInstance();
+
+    final userValue = await dio.get("https://festivals.premastrologer.com/api_datewiase.php?dateTime=${sh.getString("sh_selectedYear")}-${sh.getString("sh_selectedMonth")}-${sh.getString("sh_selectedDay")}", data: userForm);
+    if(userValue.statusCode == 200){
+      final result = FestivalDateModel.fromJson(userValue.data);
+      print("festivals date api called..");
+      return result;
+    }else{
+      print("festivals date api failed..");
       throw "Something Went Wrong..";
     }
 

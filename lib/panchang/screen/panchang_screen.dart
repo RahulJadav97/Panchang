@@ -17,6 +17,7 @@ import 'package:panchang/chaughadia/screen/chaughadia_screen.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/common_sharedprefrence.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/festivals/controller/festival_date_controller.dart';
 import 'package:panchang/festivals/screen/festival_search_screen.dart';
 import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/festivals/screen/festivals.dart';
@@ -115,6 +116,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
   }
 
   PanchangController _panchangController_obj = Get.put(PanchangController());
+  FestivalDateList festivalDate = Get.put(FestivalDateList());
 
 
 
@@ -152,7 +154,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
 
     print("==============================================BackWordupdateDate Close===============================================");
     setState(() {
-      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon);
+      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon).then((value) => festivalDate.festivalDateCont());
     });
 }
 
@@ -192,7 +194,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
     print("==============================================ForwordUpdateDate Close===============================================");
 
     setState(() {
-      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon);
+      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon).then((value) => festivalDate.festivalDateCont());
     });
   }
 
@@ -232,7 +234,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
     print("==============================================ForwordUpdateDate Close===============================================");
 
     setState(() {
-      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon);
+      _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon).then((value) => festivalDate.festivalDateCont());
     });
   }
 
@@ -241,7 +243,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
   void initState() {
     getSaharedDateData().then((value){
       _panchangController_obj.panchangCont(popupDatepicker, mycity, subcat, LatDeg, LatMin, LonDeg, LonMin, East, ZHour, ZMin, DST, WAR, Hour, Min, txtnm, Day, Month, Year, Asc, Asc2, AYNS, as, moon);
-    });
+    }).then((value) => festivalDate.festivalDateCont());
+    
     // getSaharedDateData();
     // setup();
     // _determinePosition();
@@ -450,10 +453,10 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:Color(0xFFfc1303),
+                                    color:Color(0xFF04d479),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Sunrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: Text("Sunrise:\nSunset:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
                                 ),
                                 Container(
                                   height: SizeConfig.screenHeight*0.065,
@@ -612,7 +615,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:Color(0XFF33f707),
+                                    color:Color(0XFF447eeb),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Shaka Samvat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
@@ -653,7 +656,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:Color(0XFF05edce),
+                                    color:Color(0XFFb402c4),
                                   ),
                                   alignment: Alignment.centerLeft,
                                   child: Text("Tithi :",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
@@ -1055,7 +1058,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Festival
                             GestureDetector(
                               onTap: (){
-                                Get.to(()=>FestivalWebScreen(webUrl: "https://festivals.premastrologer.com/",));
+                                // Get.to(()=>FestivalWebScreen(webUrl: "https://festivals.premastrologer.com/",));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1091,9 +1094,32 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                         ]
                                     ),
                                     alignment: Alignment.center,
-                                    child: Text(_panchangController_obj.fastival.toString().isEmpty?" No Festival":_panchangController_obj.fastival.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
-
-                                  )
+                                    child:Obx(() => festivalDate.loading1.value?Center(child: CircularProgressIndicator(color: common_red,),):
+                                    festivalDate.oldResponse.value.data!.isEmpty?
+                                    Text(" No Festival", style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,):
+                                    Container(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: festivalDate.oldResponse.value.data!.length,
+                                          itemBuilder:(BuildContext context,int indexx) {
+                                            return InkWell(
+                                                onTap: (){
+                                                  Get.to(()=>FestivalWebScreen(webUrl: "${festivalDate.oldResponse.value.data![indexx].link}",));
+                                                },
+                                                child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Column(
+                                                      children: [
+                                                        Text("${festivalDate.oldResponse.value.data![indexx].title?.trim()??"No Festival"}", style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                                        festivalDate.oldResponse.value.data!.length ==1?SizedBox(): Divider(color: common_red,thickness: 3,)
+                                                      ],
+                                                    )));
+                                          }
+                                      ),
+                                    ),
+                                    )
+                                    // Text(_panchangController_obj.fastival.toString().isEmpty?" No Festival":_panchangController_obj.fastival.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                  ),
                                 ],
                               ),
                             ),
