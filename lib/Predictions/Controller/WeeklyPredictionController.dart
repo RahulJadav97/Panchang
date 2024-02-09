@@ -33,7 +33,7 @@ class WeeklyPredictionController extends GetxController{
       }else{
         oldResponse = new_response.obs;
         print("weeklyPredictionCont failed...");
-        Get.snackbar("", "${oldResponse.value.responseMessage.toString()}");
+        // Get.snackbar("", "${oldResponse.value.responseMessage.toString()}");
       }
 
     }catch(e){

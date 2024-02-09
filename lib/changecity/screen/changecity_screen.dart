@@ -74,8 +74,6 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
     cityController.cityCont();
     _searchController.text = "Ahmedabad";
     super.initState();
-
-
   }
 
   String? selectedCity;

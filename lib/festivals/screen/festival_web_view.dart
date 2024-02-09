@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:panchang/common/common_colour.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 class FestivalWebScreen extends StatefulWidget {
   var webUrl;
   FestivalWebScreen({super.key,required this.webUrl});

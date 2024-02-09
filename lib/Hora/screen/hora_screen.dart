@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:panchang/Hora/controller/hora_controller.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HoraScreen extends StatefulWidget {
   const HoraScreen({super.key});
@@ -327,7 +329,6 @@ class _HoraScreenState extends State<HoraScreen> {
                                 ],
                               ),
                             );
-
                           },
                           // separatorBuilder: (context, index) {
                           //   return SizedBox(height: Get.height*0.020,);
@@ -335,25 +336,25 @@ class _HoraScreenState extends State<HoraScreen> {
                         ),
                       ),
                       /// signi
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.010, horizontal: SizeConfig.screenWidth*0.010),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: Get.width*0.020, vertical: 0.050),
-                              height: SizeConfig.screenHeight*0.100,
-                              width: Get.width*0.320,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: common_red,width: 3),
-                                borderRadius: BorderRadius.circular(2),
-                                color:common_green,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              child: Text("Significance:",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.010, horizontal: SizeConfig.screenWidth*0.010),
+                      //   child: Row(
+                      //     children: [
+                      //       Container(
+                      //         padding: EdgeInsets.symmetric(horizontal: Get.width*0.020, vertical: 0.050),
+                      //         height: SizeConfig.screenHeight*0.100,
+                      //         width: Get.width*0.320,
+                      //         decoration: BoxDecoration(
+                      //           border: Border.all(color: common_red,width: 3),
+                      //           borderRadius: BorderRadius.circular(2),
+                      //           color:common_green,
+                      //         ),
+                      //         alignment: Alignment.centerLeft,
+                      //         child: Text("Significance:",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       /// line
                       // Padding(
                       //   padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.010, horizontal: SizeConfig.screenWidth*0.010),
@@ -406,10 +407,18 @@ class _HoraScreenState extends State<HoraScreen> {
                                           Text("Reach us at:",style: font_style.white_600_20_cl,textAlign: TextAlign.center, ),
                                           SizedBox(height: SizeConfig.screenHeight*0.010,),
 
-                                          Text("www.premastrologer.com",style: font_style.white_600_20_cl,textAlign: TextAlign.center, ),
+                                          InkWell(
+                                              onTap: (){
+                                                Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer.com/",));
+                                              },
+                                              child: Text("www.premastrologer.com",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
                                           SizedBox(height: SizeConfig.screenHeight*0.010,),
 
-                                          Text("psharma@premastrologer.com",style: font_style.white_600_20_cl,textAlign: TextAlign.center, ),
+                                          InkWell(
+                                            onTap: (){
+                                              redirectToGmail();
+                                            },
+                                              child: Text("psharma@premastrologer.com",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
 
 
                                         ],
@@ -433,5 +442,17 @@ class _HoraScreenState extends State<HoraScreen> {
           )
       ),
     );
+  }
+  void redirectToGmail() async {
+    const emailAddress = 'psharma@premastrologer.com';
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: emailAddress,
+    );
+    if (await canLaunch(emailLaunchUri.toString())) {
+      await launch(emailLaunchUri.toString());
+    } else {
+      throw 'Could not launch $emailLaunchUri';
+    }
   }
 }

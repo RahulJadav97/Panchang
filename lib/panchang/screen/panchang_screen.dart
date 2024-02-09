@@ -1,28 +1,24 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:panchang/Hora/screen/hora_screen.dart';
 import 'package:panchang/Panchang_Model_controller/Controller/PanchanGController.dart';
 import 'package:panchang/Predictions/screen/MonthlyPredictionScreen.dart';
 import 'package:panchang/Predictions/screen/WeeklyPredictionScreen.dart';
 import 'package:panchang/Predictions/screen/dailyPredictionScreen.dart';
 import 'package:panchang/Significance/screen/Significance_screen.dart';
-import 'package:panchang/changecity/controller/city_data_controller.dart';
 import 'package:panchang/changecity/screen/changecity_screen.dart';
 import 'package:panchang/chaughadia/screen/chaughadia_screen.dart';
 import 'package:panchang/common/common_colour.dart';
-import 'package:panchang/common/common_sharedprefrence.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/controller/festival_date_controller.dart';
-import 'package:panchang/festivals/screen/festival_search_screen.dart';
 import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/festivals/screen/festivals.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:timezone/timezone.dart' as tz;
 // import 'package:timezone/standalone.dart' as tz;
@@ -456,7 +452,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0xFF04d479),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Sunrise:\nSunset:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: Text("Sunrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
                                 ),
                                 Container(
                                   height: SizeConfig.screenHeight*0.065,
@@ -475,12 +471,52 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       ]
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text("Sunrise ${_panchangController_obj.sunrise} Sunset ${_panchangController_obj.sunset}", style: font_style.Black_bold_15_ff,),
+                                  child: Text("Sunrise ${_panchangController_obj.sunrise}", style: font_style.Black_bold_15_ff,),
 
                                 )
                               ],
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.010,),
+                            // Sunset
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
+                                  height: SizeConfig.screenHeight*0.060,
+                                  width: SizeConfig.screenWidth*0.310,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Color(0xFFf505d1),
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("Sunset:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                ),
+                                Container(
+                                  height: SizeConfig.screenHeight*0.065,
+                                  width: SizeConfig.screenWidth*0.650,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0XFFfedec5),
+                                      border: Border.all(color: common_red, width: 1),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            blurRadius: 1,
+                                            color: Color(0XFFbe765a),
+                                            spreadRadius: 1.0,
+                                            offset: Offset(0.0, 2.0)
+                                        )
+                                      ]
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text("Sunset ${_panchangController_obj.sunset}", style: font_style.Black_bold_15_ff,),
+
+                                )
+                              ],
+                            ),
+                            SizedBox(height: SizeConfig.screenHeight*0.010,),
+
+
                             // Moonrise
 
                             _panchangController_obj.moonrise != "0"?
@@ -517,7 +553,45 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                           ]
                                       ),
                                       alignment: Alignment.center,
-                                      child: Text("Moonrise ${_panchangController_obj.moonrise} Moonset ${_panchangController_obj.moonset}", style: font_style.Black_bold_15_ff,),
+                                      child: Text("Moonrise ${_panchangController_obj.moonrise}", style: font_style.Black_bold_15_ff,),
+
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: SizeConfig.screenHeight*0.010,),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
+                                      height: SizeConfig.screenHeight*0.060,
+                                      width: SizeConfig.screenWidth*0.310,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:Color(0XFFf57105),
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Moonset:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                    ),
+                                    Container(
+                                      height: SizeConfig.screenHeight*0.065,
+                                      width: SizeConfig.screenWidth*0.650,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0XFFfedec5),
+                                          border: Border.all(color: common_red, width: 1),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                blurRadius: 1,
+                                                color: Color(0XFFbe765a),
+                                                spreadRadius: 1.0,
+                                                offset: Offset(0.0, 2.0)
+                                            )
+                                          ]
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text("Moonset ${_panchangController_obj.moonset}", style: font_style.Black_bold_15_ff,),
 
                                     )
                                   ],
@@ -578,7 +652,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFFBE2E2E),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Vikram Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: Text("Vikrami Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
@@ -618,7 +692,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFF447eeb),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Shaka Samvat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: Text("Shaka Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
@@ -1694,10 +1768,18 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                           Text("Reach us at:",style: font_style.White_700_17_ff,textAlign: TextAlign.center, ),
                                           SizedBox(height: SizeConfig.screenHeight*0.010,),
 
-                                          Text("www.premastrologer.com",style: font_style.White_700_17_ff,textAlign: TextAlign.center, ),
+                                          InkWell(
+                                            onTap: (){
+                                              Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer.com/",));
+                                            },
+                                              child: Text("www.premastrologer.com",style: font_style.White_700_17_ff,textAlign: TextAlign.center, )),
                                           SizedBox(height: SizeConfig.screenHeight*0.010,),
 
-                                          Text("psharma@premastrologer.com",style: font_style.White_700_17_ff,textAlign: TextAlign.center, ),
+                                          InkWell(
+                                            onTap: (){
+                                              redirectToGmail();
+                                            },
+                                              child: Text("psharma@premastrologer.com",style: font_style.White_700_17_ff,textAlign: TextAlign.center, )),
 
 
                                         ],
@@ -1754,6 +1836,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
         print("selectedDateX :$selectedDate");
         ChangeDate();
       });
+    }
+  }
+
+  void redirectToGmail() async {
+    const emailAddress = 'psharma@premastrologer.com';
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: emailAddress,
+    );
+    if (await canLaunch(emailLaunchUri.toString())) {
+      await launch(emailLaunchUri.toString());
+    } else {
+      throw 'Could not launch $emailLaunchUri';
     }
   }
 

@@ -12,6 +12,7 @@ import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:timezone/timezone.dart' as tz;
 // import 'package:timezone/standalone.dart' as tz;
@@ -495,15 +496,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                 SizedBox(
                                   height: SizeConfig.screenHeight * 0.010,),
 
-                                Text("www.premastrologer.com",
-                                  style: font_style.White_700_18_ff,
-                                  textAlign: TextAlign.center,),
+                                InkWell(
+                                  onTap: (){
+                                    Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer.com/",));
+                                  },
+                                  child: Text("www.premastrologer.com",
+                                    style: font_style.White_700_18_ff,
+                                    textAlign: TextAlign.center,),
+                                ),
                                 SizedBox(
                                   height: SizeConfig.screenHeight * 0.010,),
 
-                                Text("psharma@premastrologer.com",
-                                  style: font_style.White_700_18_ff,
-                                  textAlign: TextAlign.center,),
+                                InkWell(
+                                  onTap: (){
+                                    redirectToGmail();
+                                  },
+                                  child: Text("psharma@premastrologer.com",
+                                    style: font_style.White_700_18_ff,
+                                    textAlign: TextAlign.center,),
+                                ),
 
 
                               ],
@@ -586,6 +597,19 @@ class _HomeScreenState extends State<HomeScreen> {
     "Day 31",
     "Day 32",
   ];
+
+  void redirectToGmail() async {
+    const emailAddress = 'psharma@premastrologer.com';
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: emailAddress,
+    );
+    if (await canLaunch(emailLaunchUri.toString())) {
+      await launch(emailLaunchUri.toString());
+    } else {
+      throw 'Could not launch $emailLaunchUri';
+    }
+  }
 
 
   /// --------- current location ----------------///

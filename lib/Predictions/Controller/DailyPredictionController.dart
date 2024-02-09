@@ -35,7 +35,7 @@ class DailyPredictionController extends GetxController{
       }else{
         oldResponse = new_response.obs;
         print("dailyPredictionCont failed...");
-        Get.snackbar("", "${oldResponse.value.responseMessage.toString()}");
+        // Get.snackbar("", "${oldResponse.value.responseMessage.toString()}");
       }
 
     }catch(e){
