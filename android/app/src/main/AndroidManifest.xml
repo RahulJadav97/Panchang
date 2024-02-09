@@ -10,7 +10,7 @@
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="mailto" />
-            <data android:scheme="https" android:host="mail.google.com" android:pathPrefix="/mail" />
+<!--            <data android:scheme="https" android:host="mail.google.com" android:pathPrefix="/mail" />-->
         </intent>
     </queries>
 
