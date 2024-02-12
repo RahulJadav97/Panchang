@@ -89,9 +89,21 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
                                   // color: Colors.blue,
-                                  child: Text("SunsignName :${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                  child: Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
                                       style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
                                 ),
+                                _weeklyPredictionCont_obj.oldResponse.value.data![index].luckyDays != ""?
+                                Container(
+                                  padding: EdgeInsets.all(Get.width*0.010),
+                                  width: Get.width,
+                                  // color: Colors.blue,
+                                  child: Row(
+                                    children: [
+                                      Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyDays.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                      Text("-${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyMonths.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold))
+                                    ],
+                                  ),
+                                ):SizedBox(),
                                 Container(
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
@@ -104,7 +116,7 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      height: Get.height*0.060,
+                                      // height: Get.height*0.060,
                                       width: Get.width*0.400,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(10),
@@ -120,11 +132,11 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                           ]
                                       ),
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: Get.width*0.020),
+                                      padding: EdgeInsets.all(Get.width*0.015),
                                       child: Text("Lucky Number : ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
                                     ),
                                     Container(
-                                      height: Get.height*0.060,
+                                      // height: Get.height*0.060,
                                       width: Get.width*0.400,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(10),
@@ -140,7 +152,7 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                           ]
                                       ),
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: Get.width*0.020),
+                                      padding: EdgeInsets.all(Get.width*0.015),
                                       child: Text("Lucky Colour: ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
                                     )
 

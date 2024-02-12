@@ -357,7 +357,7 @@ class ApiServices{
     FormData userForm = FormData();
     SharedPreferences sh = await SharedPreferences.getInstance();
 
-    final userValue = await dio.get("https://www.premastrologer.com/bk_21sep2017/api_forecast_daily.php", data: userForm);
+    final userValue = await dio.get("https://www.premastrologer.com/bk_21sep2017/api_forecast_daily.php?date=${sh.getString("sh_selectedYear")}-0${sh.getString("sh_selectedMonth")}-${sh.getString("sh_selectedDay")}", data: userForm);
     if(userValue.statusCode == 200){
       final result = DailyPredictionModel.fromJson(userValue.data);
       print("dailyPrediction api called..");
@@ -373,7 +373,7 @@ class ApiServices{
     FormData userForm = FormData();
     SharedPreferences sh = await SharedPreferences.getInstance();
 
-    final userValue = await dio.get("https://www.premastrologer.com/bk_21sep2017/api_forecast_weekly.php", data: userForm);
+    final userValue = await dio.get("https://www.premastrologer.com/bk_21sep2017/api_forecast_weekly.php?date=${sh.getString("sh_selectedYear")}-0${sh.getString("sh_selectedMonth")}-${sh.getString("sh_selectedDay")}", data: userForm);
     if(userValue.statusCode == 200){
       final result = WeeklyPredictionModel.fromJson(userValue.data);
       print("weeklyPrediction api called..");
@@ -389,7 +389,7 @@ class ApiServices{
     FormData userForm = FormData();
     SharedPreferences sh = await SharedPreferences.getInstance();
 
-    final userValue = await dio.get("https://www.premastrologer.com/bk_21sep2017/api_forecast_monthly.php", data: userForm);
+    final userValue = await dio.get("https://www.premastrologer.com/bk_21sep2017/api_forecast_monthly.php?date=${sh.getString("sh_selectedYear")}-0${sh.getString("sh_selectedMonth")}-${sh.getString("sh_selectedDay")}", data: userForm);
     if(userValue.statusCode == 200){
       final result = MonthlyPredictionModel.fromJson(userValue.data);
       print("monthlyPrediction api called..");

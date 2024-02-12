@@ -32,46 +32,46 @@ class WeeklyPredictionModel {
 }
 
 class Data {
-  String? sunsignName;
-  String? description;
-  String? luckyColor;
-  String? luckyNumber;
-  String? horoscopeDate;
+  String? sunsignID;
   String? sunsignKey;
-  String? startDate;
-  String? endDate;
+  String? sunsignName;
+  String? luckyNumber;
+  String? luckyColor;
+  String? luckyMonths;
+  String? luckyDays;
+  String? description;
 
   Data(
-      {this.sunsignName,
-        this.description,
-        this.luckyColor,
-        this.luckyNumber,
-        this.horoscopeDate,
+      {this.sunsignID,
         this.sunsignKey,
-        this.startDate,
-        this.endDate});
+        this.sunsignName,
+        this.luckyNumber,
+        this.luckyColor,
+        this.luckyMonths,
+        this.luckyDays,
+        this.description});
 
   Data.fromJson(Map<String, dynamic> json) {
-    sunsignName = json['SunsignName'];
-    description = json['Description'];
-    luckyColor = json['LuckyColor'];
-    luckyNumber = json['LuckyNumber'];
-    horoscopeDate = json['HoroscopeDate'];
+    sunsignID = json['SunsignID'];
     sunsignKey = json['SunsignKey'];
-    startDate = json['StartDate'];
-    endDate = json['EndDate'];
+    sunsignName = json['SunsignName'];
+    luckyNumber = json['LuckyNumber'];
+    luckyColor = json['LuckyColor'];
+    luckyMonths = json['LuckyMonths'];
+    luckyDays = json['LuckyDays'];
+    description = json['Description'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['SunsignName'] = this.sunsignName;
-    data['Description'] = this.description;
-    data['LuckyColor'] = this.luckyColor;
-    data['LuckyNumber'] = this.luckyNumber;
-    data['HoroscopeDate'] = this.horoscopeDate;
+    data['SunsignID'] = this.sunsignID;
     data['SunsignKey'] = this.sunsignKey;
-    data['StartDate'] = this.startDate;
-    data['EndDate'] = this.endDate;
+    data['SunsignName'] = this.sunsignName;
+    data['LuckyNumber'] = this.luckyNumber;
+    data['LuckyColor'] = this.luckyColor;
+    data['LuckyMonths'] = this.luckyMonths;
+    data['LuckyDays'] = this.luckyDays;
+    data['Description'] = this.description;
     return data;
   }
 }

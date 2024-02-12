@@ -89,7 +89,7 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Text("SunsignName :${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                    child: Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
                                       style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
                                   ),
                                   Container(
@@ -99,12 +99,24 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
                                       style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                   ),
+                                  _monthlyPredictionCont_obj.oldResponse.value.data![index].luckyDays != ""?
+                                  Container(
+                                    padding: EdgeInsets.all(Get.width*0.010),
+                                    width: Get.width,
+                                    // color: Colors.blue,
+                                    child: Row(
+                                      children: [
+                                        Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyDays.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                        Text("-${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyMonths.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold))
+                                      ],
+                                    ),
+                                  ):SizedBox(),
                                   // SizedBox(height: Get.height*0.005,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
-                                        height: Get.height*0.060,
+                                        // height: Get.height*0.060,
                                         width: Get.width*0.400,
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(10),
@@ -120,11 +132,11 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                             ]
                                         ),
                                         alignment: Alignment.centerLeft,
-                                        padding: EdgeInsets.only(left: Get.width*0.020),
+                                        padding: EdgeInsets.all( Get.width*0.020),
                                         child: Text("Lucky Number : ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
                                       ),
                                       Container(
-                                        height: Get.height*0.060,
+                                        // height: Get.height*0.060,
                                         width: Get.width*0.400,
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(10),
@@ -140,7 +152,7 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                             ]
                                         ),
                                         alignment: Alignment.centerLeft,
-                                        padding: EdgeInsets.only(left: Get.width*0.020),
+                                        padding: EdgeInsets.all( Get.width*0.020),
                                         child: Text("Lucky Colour: ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
                                       )
 

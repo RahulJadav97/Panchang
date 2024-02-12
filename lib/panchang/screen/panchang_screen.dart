@@ -334,7 +334,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                               shape: BoxShape.circle
                                           ),
                                           alignment: Alignment.center,
-                                          child: Text("<<", style:TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700),),
+                                          child: Text("<<", style:TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),),
                                         ),
                                       ),
                                       SizedBox(width: SizeConfig.screenWidth*0.010,),
@@ -372,7 +372,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                               shape: BoxShape.circle
                                           ),
                                           alignment: Alignment.center,
-                                          child: Text(">>", style:TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700),),
+                                          child: Text(">>", style:TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),),
                                         ),
                                       ),
                                     ],
