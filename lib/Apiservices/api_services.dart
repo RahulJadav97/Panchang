@@ -395,11 +395,12 @@ class ApiServices{
       print("monthlyPrediction api called..");
       return result;
     }else{
-      print("monthlyPrediction api failed..");
+      print("monthlyPrediction api failed....");
       throw "Something Went Wrong..";
     }
 
   }
+
 
 
   Future<HoraModel> getHora (dd, mm, yy,)async {
