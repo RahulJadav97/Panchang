@@ -96,15 +96,16 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
-                                      style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
+                                    child: Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                    child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                      style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                   ),
+
                                   // SizedBox(height: Get.height*0.005,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
