@@ -99,18 +99,12 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
                                       style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                   ),
-                                  _monthlyPredictionCont_obj.oldResponse.value.data![index].luckyDays != ""?
                                   Container(
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Row(
-                                      children: [
-                                        Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyDays.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
-                                        Text("-${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyMonths.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold))
-                                      ],
-                                    ),
-                                  ):SizedBox(),
+                                    child: Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                  ),
                                   // SizedBox(height: Get.height*0.005,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

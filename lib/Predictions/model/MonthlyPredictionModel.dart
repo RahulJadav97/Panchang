@@ -32,6 +32,7 @@ class MonthlyPredictionModel {
 }
 
 class Data {
+  String? date;
   String? sunsignID;
   String? sunsignKey;
   String? sunsignName;
@@ -42,7 +43,8 @@ class Data {
   String? description;
 
   Data(
-      {this.sunsignID,
+      {this.date,
+        this.sunsignID,
         this.sunsignKey,
         this.sunsignName,
         this.luckyNumber,
@@ -52,6 +54,7 @@ class Data {
         this.description});
 
   Data.fromJson(Map<String, dynamic> json) {
+    date = json['date'];
     sunsignID = json['SunsignID'];
     sunsignKey = json['SunsignKey'];
     sunsignName = json['SunsignName'];
@@ -64,6 +67,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['date'] = this.date;
     data['SunsignID'] = this.sunsignID;
     data['SunsignKey'] = this.sunsignKey;
     data['SunsignName'] = this.sunsignName;

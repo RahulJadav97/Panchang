@@ -92,18 +92,12 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                   child: Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
                                       style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
                                 ),
-                                _weeklyPredictionCont_obj.oldResponse.value.data![index].luckyDays != ""?
                                 Container(
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
                                   // color: Colors.blue,
-                                  child: Row(
-                                    children: [
-                                      Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyDays.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
-                                      Text("-${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyMonths.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold))
-                                    ],
-                                  ),
-                                ):SizedBox(),
+                                  child: Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                ),
                                 Container(
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
