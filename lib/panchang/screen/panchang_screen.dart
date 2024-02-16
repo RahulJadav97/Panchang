@@ -164,7 +164,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
     int year = int.parse(dateParts[2]);
 
     DateTime date = DateTime(year, month, day);
-    var selectedDate = date.add(Duration(days: 1));
+    var selectedDate = date.add(Duration(days: 1,));
 
     String datex = "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}";
     String dayName = getDayName(selectedDate.year, selectedDate.month, selectedDate.day);
@@ -319,6 +319,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             Container(
                               child:Column(
                                 children: [
+                                  SizedBox(height: Get.height*0.010,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -339,7 +340,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       ),
                                       SizedBox(width: SizeConfig.screenWidth*0.010,),
                                       Container(
-                                        height: SizeConfig.screenHeight*0.050,
+                                        // height: SizeConfig.screenHeight*0.050,
                                         width: SizeConfig.screenWidth*0.6,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -355,7 +356,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                               )
                                             ]
                                         ),
-
+                                        padding: EdgeInsets.all(Get.width*0.030),
                                         child: Text("Panchang", style: font_style.white_bold_20_ff,),
 
                                       ),
@@ -377,18 +378,23 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: Get.height*0.010,),
+
                                   Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
                                       alignment: Alignment.center,
-                                      height: SizeConfig.screenHeight*0.05,
+                                      // height: SizeConfig.screenHeight*0.05,
                                       // height: SizeConfig.screenHeight*0.020,
                                       decoration: BoxDecoration(
                                           color: Color(0xffcb1505),
                                           borderRadius: BorderRadius.circular(10)
                                       ),
                                       padding: EdgeInsets.all(SizeConfig.screenWidth*0.020),
-                                      child: Text("Place: ${currentCityName}", style:font_style.white_400_11 ,),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Place: ${currentCityName}", style:font_style.white_400_11 ,),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -401,8 +407,9 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
+                                  // height: SizeConfig.screenHeight*0.060,
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -444,8 +451,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -482,8 +489,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -526,8 +533,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                      height: SizeConfig.screenHeight*0.060,
+                                      padding: EdgeInsets.all(Get.height*0.008),
+                                      constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                       width: SizeConfig.screenWidth*0.310,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -564,8 +571,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                      height: SizeConfig.screenHeight*0.060,
+                                      padding: EdgeInsets.all(Get.height*0.008),
+                                      constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                       width: SizeConfig.screenWidth*0.310,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -644,8 +651,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -684,8 +691,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -725,8 +732,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -766,8 +773,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -808,8 +815,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
 
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -849,8 +856,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -890,8 +897,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -926,53 +933,58 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             SizedBox(height: SizeConfig.screenHeight*0.010,),
 
                             //Maas
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
-                                  width: SizeConfig.screenWidth*0.310,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      // color:Colors.purple,
-                                      color:Color(0XFFBB3030)
-                                  ),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Mass:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.mass.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                            _panchangController_obj.mass != "0"?
+                           Column(
+                             children: [
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                 children: [
+                                   Container(
+                                     padding: EdgeInsets.all(Get.height*0.008),
+                                     constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
+                                     width: SizeConfig.screenWidth*0.310,
+                                     decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(10),
+                                         // color:Colors.purple,
+                                         color:Color(0XFFBB3030)
+                                     ),
+                                     alignment: Alignment.centerLeft,
+                                     child: Text("Mass:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                   ),
+                                   Container(
+                                     padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
+                                     // height: SizeConfig.screenHeight*0.065,
+                                     width: SizeConfig.screenWidth*0.650,
+                                     decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(10),
+                                         color: Color(0XFFfedec5),
+                                         border: Border.all(color: common_red, width: 1),
+                                         boxShadow: const [
+                                           BoxShadow(
+                                               blurRadius: 1,
+                                               color: Color(0XFFbe765a),
+                                               spreadRadius: 1.0,
+                                               offset: Offset(0.0, 2.0)
+                                           )
+                                         ]
+                                     ),
+                                     alignment: Alignment.center,
+                                     child: Text(_panchangController_obj.mass.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
 
-                                )
-                              ],
-                            ),
-                            SizedBox(height: SizeConfig.screenHeight*0.010,),
+                                   )
+                                 ],
+                               ),
+                               SizedBox(height: SizeConfig.screenHeight*0.010,),
+                             ],
+                           ):SizedBox(),
 
                             //Ritu
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -1012,8 +1024,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -1052,8 +1064,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -1093,8 +1105,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -1139,8 +1151,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                    height: SizeConfig.screenHeight*0.060,
+                                    padding: EdgeInsets.all(Get.height*0.008),
+                                    constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                     width: SizeConfig.screenWidth*0.310,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -1204,8 +1216,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -1245,8 +1257,10 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             Row(
                               children: [
                                 Container(
-                                  height: SizeConfig.screenHeight*0.050,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  // constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.5,
+                                  height: Get.height*0.05,
                                   decoration: BoxDecoration(
                                       color: Color(0XFFfc051e),
                                       borderRadius: BorderRadius.circular(15)
@@ -1263,8 +1277,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -1303,8 +1317,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -1343,8 +1357,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                  height: SizeConfig.screenHeight*0.060,
+                                  padding: EdgeInsets.all(Get.height*0.008),
+                                  constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -1386,8 +1400,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                  children: [
                                    Container(
-                                     padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.010, ),
-                                     height: SizeConfig.screenHeight*0.060,
+                                     padding: EdgeInsets.all(Get.height*0.008),
+                                     constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                      width: SizeConfig.screenWidth*0.310,
                                      decoration: BoxDecoration(
                                        borderRadius: BorderRadius.circular(10),

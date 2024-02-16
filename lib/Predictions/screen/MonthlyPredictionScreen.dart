@@ -105,7 +105,6 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
                                       style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                   ),
-
                                   // SizedBox(height: Get.height*0.005,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

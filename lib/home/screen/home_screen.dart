@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:panchang/Panchang_Model_controller/Controller/PanchanGController.dart';
 import 'package:panchang/changecity/controller/city_data_controller.dart';
 import 'package:panchang/common/common_colour.dart';
@@ -10,6 +11,7 @@ import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
+import 'package:panchang/tithi/tithi_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   PanchangController _panchangController_obj = Get.put(PanchangController());
   CityDataController cityDataController = Get.put(CityDataController());
+  TithiController tithiController = Get.put(TithiController());
 
 
   String dd = "";
@@ -79,16 +82,99 @@ class _HomeScreenState extends State<HomeScreen> {
   //
   // }
 
-
+  List tithiList = [];
   @override
   void initState() {
-    getdelhiData();
+    getCurrentMonthAndYear().then((value) =>
+        tithiController.tithiCont(month,year).then((value) {
+          // tithiController.allDateTithi.forEach((element) {
+          //   tithiList.add(element);
+          // });
+          print("tithiList${tithiList}");
+          getdelhiData();
+        }
+
+        )
+    );
+
+
+
     // _determinePosition().then((value) {
     //   getPosition();
     // });
     // TODO: implement initState
     super.initState();
   }
+  String? month;
+  String? year;
+   Future<void> getCurrentMonthAndYear()async {
+    DateTime now = DateTime.now();
+     focusedDay = DateTime.now();
+     month = DateFormat('MM').format(now);
+     print("month  ${month}");
+     year = DateFormat('yyyy').format(now);
+    print("year  ${year}");
+
+
+  }
+
+
+
+
+  DateTime? focusedDay;
+
+  Future<void> forwardMonthAndYear(int currentMonth, int currentYear) async {
+    // Increment month and year
+    int monthdd = currentMonth + 1;
+    int yeardd = currentYear;
+
+    // Check if month exceeds 12 (December)
+    if (monthdd > 12) {
+      monthdd = 1; // Reset month to January
+      yeardd++;    // Increment year
+    }
+
+
+
+    month = monthdd.toString();
+    year = yeardd.toString();
+    // Update month and year variables
+    tithiController.tithiCont(month.toString(), year.toString());
+
+
+    // Update the focused day to the beginning of the new month
+    setState(() {
+      focusedDay = DateTime(int.parse(year.toString()) , int.parse(month.toString()), 1);
+      print('forward focusedDay: $focusedDay');
+    });
+  }
+
+  Future<void> backwardMonthAndYear(int currentMonth, int currentYear) async {
+    // Decrement month and year
+    int monthdd = currentMonth - 1;
+    int yeardd = currentYear;
+
+    // Check if month is less than 1 (January)
+    if (monthdd < 1) {
+      monthdd = 12;  // Set month to December
+      yeardd--;      // Decrement year
+    }
+
+    month = monthdd.toString();
+    year = yeardd.toString();
+    // Update month and year variables
+    tithiController.tithiCont(month.toString(), year.toString());
+
+
+    // Update the focused day to the beginning of the new month
+    setState(() {
+      focusedDay = DateTime(int.parse(year.toString()) , int.parse(month.toString()), 1);
+      print('backward focusedDay: $focusedDay');
+    });
+  }
+
+
+
   getdelhiData() async {
     SharedPreferences sh = await SharedPreferences.getInstance();
     sh.setString("sh_cityRowId", "1724").then((value) =>
@@ -166,7 +252,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Scaffold(
           backgroundColor: common_backcolor,
-          body: SingleChildScrollView(
+          body:Obx(() => tithiController.loading.value?Center(child: CircularProgressIndicator(color: common_red,),):
+          SingleChildScrollView(
             child: Container(
               // decoration: const BoxDecoration(
               //   image: DecorationImage(
@@ -214,231 +301,365 @@ class _HomeScreenState extends State<HomeScreen> {
                   // SizedBox(height: SizeConfig.screenHeight*0.010,),
 
                   Container(
-                    child: TableCalendar(
-                      focusedDay: DateTime.now(),
-                      firstDay: DateTime.utc(2000, 1, 1),
-                      lastDay: DateTime.utc(3000, 1, 1),
-                      headerStyle: HeaderStyle(
-                          titleCentered: true,
-                          formatButtonVisible: false,
-                          leftChevronIcon: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(width: 2, color: Colors.red),
-                            ),
-                            child: const RotatedBox(
-                              quarterTurns: 6,
-                              child: Icon(Icons.play_arrow, color: Colors.green,
-                                  size: 50),
-                            ),
-                          ),
-                          rightChevronIcon: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(width: 2, color: Colors.red),
-                            ),
-                            child: const RotatedBox(
-                              quarterTurns: 0,
-                              child: Icon(Icons.play_arrow, color: Colors.green,
-                                  size: 50),
-                            ),
-                          ),
-                          titleTextStyle: font_style.Black_600_22_ff_bold
 
-                      ),
-                      daysOfWeekStyle: const DaysOfWeekStyle(
-                        weekdayStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15 // Set the font weight to bold
-                        ),
-                        weekendStyle: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15 // Set the font weight to bold
-                        ),
-                      ),
-                      daysOfWeekVisible: true,
-                      dayHitTestBehavior: HitTestBehavior.deferToChild,
-                      daysOfWeekHeight: SizeConfig.screenHeight * 0.050,
-
-                      onDaySelected: (selectedDate, focusedDay) async {
-                        setState(() {
-                          selectedDay = selectedDate;
-                        });
-                        String datex = "${selectedDate.day}-${selectedDate
-                            .month}-${selectedDate.year}";
-                        String dayName = getDayName(selectedDate.year,
-                            selectedDate.month, selectedDate.day);
-
-                        SharedPreferences sh = await SharedPreferences
-                            .getInstance();
-                        sh.setString("sh_selectedDate", datex.toString());
-                        sh.setString("sh_selectedDayName", dayName.toString());
-                        sh.setString("sh_selectedDay", selectedDate.day
-                            .toString());
-                        sh.setString('sh_selectedMonth', selectedDate.month
-                            .toString());
-                        sh.setString('sh_selectedYear', selectedDate.year
-                            .toString());
-
-                        print(
-                            "==================================onDaySelected=============================================");
-
-                        print("selected date: $datex");
-                        print("selected dayname: $dayName");
-
-                        print(
-                            "==================================onDaySelected=============================================");
-
-                        print("sh_selectedDate :${sh.getString(
-                            "sh_selectedDate")}");
-                        print("sh_selectedDayName :${sh.getString(
-                            "sh_selectedDayName")}");
-                        print("sh_selectedDay :${sh.getString(
-                            "sh_selectedDay")}");
-                        print("sh_selectedMonth :${sh.getString(
-                            "sh_selectedMonth")}");
-                        print("sh_selectedYear :${sh.getString(
-                            "sh_selectedYear")}");
-                        print(
-                            "==================================onDaySelected=============================================");
-
-
-                        Get.to(PanchangScreen(
-                          date: datex,
-                          dayname: dayName,
-                        ));
-                      },
-
-                      calendarStyle: CalendarStyle(
-                        outsideDaysVisible: true,
-                        // Show previous and next month days
-                        outsideDecoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.grey.withOpacity(0.2),
-                          border: Border.all(width: 2, color: Colors.white),
-
-                        ),
-                        selectedDecoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.orange,
-                          border: Border.all(width: 1.5, color: common_red),
-                        ),
-                        todayDecoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.blue,
-                          border: Border.all(width: 1.5, color: common_red),
-                        ),
-                      ),
-
-                      calendarBuilders: CalendarBuilders(
-                        defaultBuilder: (context, date, events,) {
-                          bool isSelected = isSameDay(selectedDay, date);
-                          // Get the index of the current date to select the corresponding letter
-                          int index = date.day % dayNames.length;
-                          return GestureDetector(
-                            onTap: () async {
-                              selectedDay = date;
-                              String datex = "${selectedDay.day}-${selectedDay
-                                  .month}-${selectedDay.year}";
-                              String dayName = getDayName(
-                                  selectedDay.year, selectedDay.month,
-                                  selectedDay.day);
-
-                              print(
-                                  "=================================home calender Tap==============================================");
-
-                              print("selectedDay :${selectedDay}");
-
-                              print("selected date: $datex");
-                              print("selected dayname: $dayName");
-
-                              SharedPreferences sh = await SharedPreferences
-                                  .getInstance();
-                              sh.setString("sh_selectedDate", datex.toString());
-                              sh.setString(
-                                  "sh_selectedDayName", dayName.toString());
-                              sh.setString(
-                                  "sh_selectedDay", selectedDay.day.toString());
-                              sh.setString('sh_selectedMonth',
-                                  selectedDay.month.toString());
-                              sh.setString('sh_selectedYear',
-                                  selectedDay.year.toString());
-
-                              print(
-                                  "=================================home calender Tap==============================================");
-
-                              print("sh_selectedDate :${sh.getString(
-                                  "sh_selectedDate")}");
-                              print("sh_selectedDayName :${sh.getString(
-                                  "sh_selectedDayName")}");
-                              print("sh_selectedDay :${sh.getString(
-                                  "sh_selectedDay")}");
-                              print("sh_selectedMonth :${sh.getString(
-                                  "sh_selectedMonth")}");
-                              print("sh_selectedYear :${sh.getString(
-                                  "sh_selectedYear")}");
-
-                              Get.to(PanchangScreen(
-                                  date: datex, dayname: dayName));
-
-                              print(
-                                  "=================================home calender Tap close==============================================");
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(4.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(8.0),
-                                border: Border.all(
-                                    width: 1.5, color: common_red),
-                                color: isSelected ? Colors.orange : Colors.green
-                                    .shade800,
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '${date.day}',
-                                      style: TextStyle(
-                                          color: isSelected
-                                              ? Colors.white
-                                              : Colors.white,
-                                          fontFamily: "calibri",
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15
-                                      ),
-                                    ),
-                                    SizedBox(height: 4.0),
-                                    // Adjust the spacing as needed
-                                    Text(
-                                        ' ${dayNames[index - 1]} ',
-                                        // Add your additional text here
-                                        style: TextStyle(color: isSelected
-                                            ? Colors.white
-                                            : Colors.yellow,
-                                            fontFamily: "calibri",
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 10) // Adjust the font size as needed),
-                                    ),
-                                  ],
+                    child: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: TableCalendar(
+                        availableGestures: AvailableGestures.none,
+                        // pageAnimationEnabled: false,
+                        // focusedDay: DateTime.now(),
+                        focusedDay: focusedDay!,
+                        firstDay: DateTime.utc(2000, 1, 1),
+                        lastDay: DateTime.utc(3000, 1, 1),
+                        headerStyle: HeaderStyle(
+                            titleCentered: true,
+                            formatButtonVisible: false,
+                            leftChevronIcon: InkWell(
+                              onTap: (){
+                                setState(() {
+                                  backwardMonthAndYear(int.parse(month.toString()),int.parse(year.toString()));
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(width: 2, color: Colors.red),
+                                ),
+                                child: const RotatedBox(
+                                  quarterTurns: 6,
+                                  child: Icon(Icons.play_arrow, color: Colors.green,
+                                      size: 50),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                      rowHeight: SizeConfig.screenHeight * 0.085,
 
+                          rightChevronIcon: InkWell(
+                            onTap: (){
+                              forwardMonthAndYear(int.parse(month.toString()),int.parse(year.toString()));
+                            },
+                            child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(width: 2, color: Colors.red),
+                                ),
+                                child:  RotatedBox(
+                                  quarterTurns: 0,
+                                  child: Icon(Icons.play_arrow, color: Colors.green,
+                                      size: 50),
+                                ),
+                              ),
+                          ),
+                            titleTextStyle: font_style.Black_600_22_ff_bold
+
+                        ),
+                        daysOfWeekStyle: const DaysOfWeekStyle(
+                          weekdayStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15 // Set the font weight to bold
+                          ),
+                          weekendStyle: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15 // Set the font weight to bold
+                          ),
+                        ),
+                        daysOfWeekVisible: true,
+                        dayHitTestBehavior: HitTestBehavior.deferToChild,
+                        daysOfWeekHeight: SizeConfig.screenHeight * 0.050,
+
+                        onDaySelected: (selectedDate, focusedDay) async {
+                          setState(() {
+                            selectedDay = selectedDate;
+                          });
+                          String datex = "${selectedDate.day}-${selectedDate
+                              .month}-${selectedDate.year}";
+                          String dayName = getDayName(selectedDate.year,
+                              selectedDate.month, selectedDate.day);
+
+                          SharedPreferences sh = await SharedPreferences
+                              .getInstance();
+                          sh.setString("sh_selectedDate", datex.toString());
+                          sh.setString("sh_selectedDayName", dayName.toString());
+                          sh.setString("sh_selectedDay", selectedDate.day
+                              .toString());
+                          sh.setString('sh_selectedMonth', selectedDate.month
+                              .toString());
+                          sh.setString('sh_selectedYear', selectedDate.year
+                              .toString());
+
+                          print(
+                              "==================================onDaySelected=============================================");
+
+                          print("selected date: $datex");
+                          print("selected dayname: $dayName");
+
+                          print(
+                              "==================================onDaySelected=============================================");
+
+                          print("sh_selectedDate :${sh.getString(
+                              "sh_selectedDate")}");
+                          print("sh_selectedDayName :${sh.getString(
+                              "sh_selectedDayName")}");
+                          print("sh_selectedDay :${sh.getString(
+                              "sh_selectedDay")}");
+                          print("sh_selectedMonth :${sh.getString(
+                              "sh_selectedMonth")}");
+                          print("sh_selectedYear :${sh.getString(
+                              "sh_selectedYear")}");
+                          print(
+                              "==================================onDaySelected=============================================");
+
+
+                          Get.to(PanchangScreen(
+                            date: datex,
+                            dayname: dayName,
+                          ));
+                        },
+
+                        calendarStyle: CalendarStyle(
+                          cellMargin: EdgeInsets.symmetric(horizontal: 2,vertical: 6),
+                          outsideDaysVisible: true,
+                          // Show previous and next month days
+                          outsideDecoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.grey.withOpacity(0.2),
+                            border: Border.all(width: 2, color: Colors.white),
+
+                          ),
+                          selectedDecoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.orange,
+                            border: Border.all(width: 1.5, color: common_red),
+                          ),
+                          // todayDecoration: BoxDecoration(
+                          //   shape: BoxShape.rectangle,
+                          //   borderRadius: BorderRadius.circular(8.0),
+                          //   color: Colors.blue,
+                          //   border: Border.all(width: 1.5, color: common_red),
+                          // ),
+                        ),
+
+                        calendarBuilders: CalendarBuilders(
+                          todayBuilder: (context, date, events,) {
+                            bool isSelected = isSameDay(selectedDay, date);
+                            // Get the index of the current date to select the corresponding letter
+                            // int index = date.day % dayNames.length;
+                            // int index = tithiList.isNotEmpty ? date.day % tithiList.length : 0;
+                            int index = tithiController.allDateTithi.isNotEmpty ? date.day % tithiController.allDateTithi.length : 0;
+
+
+                            return GestureDetector(
+                              onTap: () async {
+                                selectedDay = date;
+                                String datex = "${selectedDay.day}-${selectedDay
+                                    .month}-${selectedDay.year}";
+                                String dayName = getDayName(
+                                    selectedDay.year, selectedDay.month,
+                                    selectedDay.day);
+
+                                print(
+                                    "=================================home calender Tap==============================================");
+
+                                print("selectedDay :${selectedDay}");
+
+                                print("selected date: $datex");
+                                print("selected dayname: $dayName");
+
+                                SharedPreferences sh = await SharedPreferences
+                                    .getInstance();
+                                sh.setString("sh_selectedDate", datex.toString());
+                                sh.setString(
+                                    "sh_selectedDayName", dayName.toString());
+                                sh.setString(
+                                    "sh_selectedDay", selectedDay.day.toString());
+                                sh.setString('sh_selectedMonth',
+                                    selectedDay.month.toString());
+                                sh.setString('sh_selectedYear',
+                                    selectedDay.year.toString());
+
+                                print(
+                                    "=================================home calender Tap==============================================");
+
+                                print("sh_selectedDate :${sh.getString(
+                                    "sh_selectedDate")}");
+                                print("sh_selectedDayName :${sh.getString(
+                                    "sh_selectedDayName")}");
+                                print("sh_selectedDay :${sh.getString(
+                                    "sh_selectedDay")}");
+                                print("sh_selectedMonth :${sh.getString(
+                                    "sh_selectedMonth")}");
+                                print("sh_selectedYear :${sh.getString(
+                                    "sh_selectedYear")}");
+
+                                Get.to(PanchangScreen(
+                                    date: datex, dayname: dayName));
+
+                                print(
+                                    "=================================home calender Tap close==============================================");
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 1,vertical: 6),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                      width: 1.5, color: common_red),
+                                  // color: isSelected ? Colors.orange : Colors.green
+                                  //     .shade800,
+                                  color: Colors.blue
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${date.day}',
+                                        style: TextStyle(
+                                          color: isSelected ? Colors.white : Colors.white,
+                                          fontFamily: "calibri",
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.0),
+
+                                      Text(
+                                        // tithiController.allDateTithi.isNotEmpty ? '${tithiController.allDateTithi[index-1]}' : '',
+                                        tithiController.allDateTithi[index-1],
+                                        maxLines: 1,// Use a conditional to check if the list is empty
+                                        style: TextStyle(
+                                          color:  Colors.yellow,
+                                          fontFamily: "calibri",
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 8,
+                                        ),
+                                      ),
+
+
+                                    ],
+                                  ),
+
+                                ),
+                              ),
+                            );
+
+
+                          },
+                          defaultBuilder: (context, date, events,) {
+                            bool isSelected = isSameDay(selectedDay, date);
+                            // Get the index of the current date to select the corresponding letter
+                            // int index = date.day % dayNames.length;
+                            // int index = tithiList.isNotEmpty ? date.day % tithiList.length : 0;
+                            int index = tithiController.allDateTithi.isNotEmpty ? date.day % tithiController.allDateTithi.length : 0;
+
+
+                            return GestureDetector(
+                              onTap: () async {
+                                selectedDay = date;
+                                String datex = "${selectedDay.day}-${selectedDay
+                                    .month}-${selectedDay.year}";
+                                String dayName = getDayName(
+                                    selectedDay.year, selectedDay.month,
+                                    selectedDay.day);
+
+                                print(
+                                    "=================================home calender Tap==============================================");
+
+                                print("selectedDay :${selectedDay}");
+
+                                print("selected date: $datex");
+                                print("selected dayname: $dayName");
+
+                                SharedPreferences sh = await SharedPreferences
+                                    .getInstance();
+                                sh.setString("sh_selectedDate", datex.toString());
+                                sh.setString(
+                                    "sh_selectedDayName", dayName.toString());
+                                sh.setString(
+                                    "sh_selectedDay", selectedDay.day.toString());
+                                sh.setString('sh_selectedMonth',
+                                    selectedDay.month.toString());
+                                sh.setString('sh_selectedYear',
+                                    selectedDay.year.toString());
+
+                                print(
+                                    "=================================home calender Tap==============================================");
+
+                                print("sh_selectedDate :${sh.getString(
+                                    "sh_selectedDate")}");
+                                print("sh_selectedDayName :${sh.getString(
+                                    "sh_selectedDayName")}");
+                                print("sh_selectedDay :${sh.getString(
+                                    "sh_selectedDay")}");
+                                print("sh_selectedMonth :${sh.getString(
+                                    "sh_selectedMonth")}");
+                                print("sh_selectedYear :${sh.getString(
+                                    "sh_selectedYear")}");
+
+                                Get.to(PanchangScreen(
+                                    date: datex, dayname: dayName));
+
+                                print(
+                                    "=================================home calender Tap close==============================================");
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 1,vertical: 6),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                      width: 1.5, color: common_red),
+                                  color: isSelected ? Colors.orange : Colors.green
+                                      .shade800,
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${date.day}',
+                                        style: TextStyle(
+                                          color: isSelected ? Colors.white : Colors.white,
+                                          fontFamily: "calibri",
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.0),
+
+                                      Text(
+                                        // tithiController.allDateTithi.isNotEmpty ? '${tithiController.allDateTithi[index-1]}' : '',
+                                        tithiController.allDateTithi[index-1],
+                                        maxLines: 1,// Use a conditional to check if the list is empty
+                                        style: TextStyle(
+                                          color: isSelected ? Colors.white : Colors.yellow,
+                                          fontFamily: "calibri",
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 8,
+                                        ),
+                                      ),
+
+
+                                    ],
+                                  ),
+
+                                ),
+                              ),
+                            );
+
+
+                          },
+                        ),
+                        rowHeight: SizeConfig.screenHeight * 0.085,
+
+                      ),
                     ),
                   ),
                   // SizedBox(height: SizeConfig.screenHeight*0.010,),
@@ -527,6 +748,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          )
+
         ),
       ),
     );

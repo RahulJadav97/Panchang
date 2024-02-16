@@ -184,7 +184,7 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                               child: Text("${chindex == false?dayindex.choghadiya:nightindex.choghadiya}",style: font_style.White_700_16_ff,textAlign: TextAlign.center ),
                             ),
                             Container(
-                              height: SizeConfig.screenHeight*0.055,
+                              // height: SizeConfig.screenHeight*0.055,
                               width: SizeConfig.screenWidth*0.650,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
@@ -200,7 +200,20 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                                   ]
                               ),
                               alignment: Alignment.center,
-                              child: Text("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}", style: font_style.Black_bold_15_ff,),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Column(
+                                  children: [
+                                    Text("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}", style: font_style.Black_bold_15_ff,),
+                                    chindex == false&& dayindex.yamagandam !="0"?
+                                    Text("${chindex == false?dayindex.yamagandam:nightindex.yamagandam}", style: font_style.Black_bold_15_ff,):SizedBox(),
+                                    chindex == false&& dayindex.gulikaKaal !="0"?
+                                    Text("${chindex == false?dayindex.gulikaKaal:nightindex.gulikaKaal}", style: font_style.Black_bold_15_ff,):SizedBox(),
+                                    chindex == false&& dayindex.rahuKaal !="0"?
+                                    Text("${chindex == false?dayindex.rahuKaal:nightindex.rahuKaal}", style: font_style.Black_bold_15_ff,):SizedBox(),
+                                  ],
+                                ),
+                              )
                             )
                           ],
                         ),

@@ -20,6 +20,7 @@ import 'package:panchang/common/common_base_url.dart';
 import 'package:panchang/common/common_sharedprefrence.dart';
 import 'package:panchang/festivals/model/festival_date_model.dart';
 import 'package:panchang/festivals/model/festival_model.dart';
+import 'package:panchang/tithi/tithi_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -502,6 +503,23 @@ class ApiServices{
       return result;
     }else{
       print("festivals date api failed..");
+      throw "Something Went Wrong..";
+    }
+
+  }
+
+  Future<TithiModel> tithi (String tmonth, String tyear )async {
+    FormData userForm = FormData();
+    SharedPreferences sh = await SharedPreferences.getInstance();
+
+    // final userValue = await dio.post("https://www.premastrologer.com/bk_21sep2017/api_forecast_weekly.php?date=${sh.getString("sh_selectedYear")}-0${sh.getString("sh_selectedMonth")}-${sh.getString("sh_selectedDay")}", data: userForm);
+    final userValue = await dio.post("https://www.premastrologer.com/bk_21sep2017/api_month_tithi.php?month=${tmonth}&year=${tyear}", data: userForm);
+    if(userValue.statusCode == 200){
+      final result = TithiModel.fromJson(userValue.data);
+      print("Tithi api called..");
+      return result;
+    }else{
+      print("Tithi api failed..");
       throw "Something Went Wrong..";
     }
 
