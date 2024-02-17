@@ -253,14 +253,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           backgroundColor: common_backcolor,
           body:Obx(() => tithiController.loading.value?Center(child: CircularProgressIndicator(color: common_red,),):
-          SingleChildScrollView(
-            child: Container(
-              // decoration: const BoxDecoration(
-              //   image: DecorationImage(
-              //     fit: BoxFit.cover,
-              //     image: AssetImage("assets/images/texture3.jpg",)
-              //   )
-              // ),
+          Container(
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     fit: BoxFit.cover,
+            //     image: AssetImage("assets/images/texture3.jpg",)
+            //   )
+            // ),
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
@@ -272,10 +272,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Panchang Calendar", style: font_style.White_700_18_ff,),
-
+                        
                   ),
                   SizedBox(height: SizeConfig.screenHeight * 0.010,),
-
+                        
                   Container(
                     height: SizeConfig.screenHeight * 0.060,
                     width: SizeConfig.screenWidth * 0.8,
@@ -299,9 +299,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Select Date: ", style: font_style.White_700_18_ff,),
                   ),
                   // SizedBox(height: SizeConfig.screenHeight*0.010,),
-
+                        
                   Container(
-
+                        
                     child: SingleChildScrollView(
                       physics: NeverScrollableScrollPhysics(),
                       child: TableCalendar(
@@ -334,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-
+                        
                           rightChevronIcon: InkWell(
                             onTap: (){
                               forwardMonthAndYear(int.parse(month.toString()),int.parse(year.toString()));
@@ -354,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                           ),
                             titleTextStyle: font_style.Black_600_22_ff_bold
-
+                        
                         ),
                         daysOfWeekStyle: const DaysOfWeekStyle(
                           weekdayStyle: TextStyle(
@@ -371,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         daysOfWeekVisible: true,
                         dayHitTestBehavior: HitTestBehavior.deferToChild,
                         daysOfWeekHeight: SizeConfig.screenHeight * 0.050,
-
+                        
                         onDaySelected: (selectedDate, focusedDay) async {
                           setState(() {
                             selectedDay = selectedDate;
@@ -380,7 +380,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               .month}-${selectedDate.year}";
                           String dayName = getDayName(selectedDate.year,
                               selectedDate.month, selectedDate.day);
-
+                        
                           SharedPreferences sh = await SharedPreferences
                               .getInstance();
                           sh.setString("sh_selectedDate", datex.toString());
@@ -391,16 +391,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               .toString());
                           sh.setString('sh_selectedYear', selectedDate.year
                               .toString());
-
+                        
                           print(
                               "==================================onDaySelected=============================================");
-
+                        
                           print("selected date: $datex");
                           print("selected dayname: $dayName");
-
+                        
                           print(
                               "==================================onDaySelected=============================================");
-
+                        
                           print("sh_selectedDate :${sh.getString(
                               "sh_selectedDate")}");
                           print("sh_selectedDayName :${sh.getString(
@@ -413,16 +413,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               "sh_selectedYear")}");
                           print(
                               "==================================onDaySelected=============================================");
-
-
+                        
+                        
                           Get.to(PanchangScreen(
                             date: datex,
                             dayname: dayName,
                           ));
                         },
-
+                        
                         calendarStyle: CalendarStyle(
-                          cellMargin: EdgeInsets.symmetric(horizontal: 2,vertical: 6),
+                          cellMargin: EdgeInsets.symmetric(horizontal: Get.width*0.002,vertical: Get.height*0.005),
                           outsideDaysVisible: true,
                           // Show previous and next month days
                           outsideDecoration: BoxDecoration(
@@ -430,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(8.0),
                             color: Colors.grey.withOpacity(0.2),
                             border: Border.all(width: 2, color: Colors.white),
-
+                        
                           ),
                           selectedDecoration: BoxDecoration(
                             shape: BoxShape.rectangle,
@@ -445,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           //   border: Border.all(width: 1.5, color: common_red),
                           // ),
                         ),
-
+                        
                         calendarBuilders: CalendarBuilders(
                           todayBuilder: (context, date, events,) {
                             bool isSelected = isSameDay(selectedDay, date);
@@ -453,8 +453,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             // int index = date.day % dayNames.length;
                             // int index = tithiList.isNotEmpty ? date.day % tithiList.length : 0;
                             int index = tithiController.allDateTithi.isNotEmpty ? date.day % tithiController.allDateTithi.length : 0;
-
-
+                        
+                        
                             return GestureDetector(
                               onTap: () async {
                                 selectedDay = date;
@@ -463,15 +463,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 String dayName = getDayName(
                                     selectedDay.year, selectedDay.month,
                                     selectedDay.day);
-
+                        
                                 print(
                                     "=================================home calender Tap==============================================");
-
+                        
                                 print("selectedDay :${selectedDay}");
-
+                        
                                 print("selected date: $datex");
                                 print("selected dayname: $dayName");
-
+                        
                                 SharedPreferences sh = await SharedPreferences
                                     .getInstance();
                                 sh.setString("sh_selectedDate", datex.toString());
@@ -483,10 +483,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     selectedDay.month.toString());
                                 sh.setString('sh_selectedYear',
                                     selectedDay.year.toString());
-
+                        
                                 print(
                                     "=================================home calender Tap==============================================");
-
+                        
                                 print("sh_selectedDate :${sh.getString(
                                     "sh_selectedDate")}");
                                 print("sh_selectedDayName :${sh.getString(
@@ -497,15 +497,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     "sh_selectedMonth")}");
                                 print("sh_selectedYear :${sh.getString(
                                     "sh_selectedYear")}");
-
+                        
                                 Get.to(PanchangScreen(
                                     date: datex, dayname: dayName));
-
+                        
                                 print(
                                     "=================================home calender Tap close==============================================");
                               },
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 1,vertical: 6),
+                                margin: EdgeInsets.symmetric(horizontal: Get.width*0.002,vertical: Get.height*0.005),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(8.0),
@@ -529,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       SizedBox(height: 4.0),
-
+                        
                                       Text(
                                         // tithiController.allDateTithi.isNotEmpty ? '${tithiController.allDateTithi[index-1]}' : '',
                                         tithiController.allDateTithi[index-1],
@@ -541,16 +541,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontSize: 8,
                                         ),
                                       ),
-
-
+                        
+                        
                                     ],
                                   ),
-
+                        
                                 ),
                               ),
                             );
-
-
                           },
                           defaultBuilder: (context, date, events,) {
                             bool isSelected = isSameDay(selectedDay, date);
@@ -558,8 +556,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             // int index = date.day % dayNames.length;
                             // int index = tithiList.isNotEmpty ? date.day % tithiList.length : 0;
                             int index = tithiController.allDateTithi.isNotEmpty ? date.day % tithiController.allDateTithi.length : 0;
-
-
                             return GestureDetector(
                               onTap: () async {
                                 selectedDay = date;
@@ -568,15 +564,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 String dayName = getDayName(
                                     selectedDay.year, selectedDay.month,
                                     selectedDay.day);
-
+                        
                                 print(
                                     "=================================home calender Tap==============================================");
-
+                        
                                 print("selectedDay :${selectedDay}");
-
+                        
                                 print("selected date: $datex");
                                 print("selected dayname: $dayName");
-
+                        
                                 SharedPreferences sh = await SharedPreferences
                                     .getInstance();
                                 sh.setString("sh_selectedDate", datex.toString());
@@ -588,10 +584,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     selectedDay.month.toString());
                                 sh.setString('sh_selectedYear',
                                     selectedDay.year.toString());
-
+                        
                                 print(
                                     "=================================home calender Tap==============================================");
-
+                        
                                 print("sh_selectedDate :${sh.getString(
                                     "sh_selectedDate")}");
                                 print("sh_selectedDayName :${sh.getString(
@@ -602,15 +598,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     "sh_selectedMonth")}");
                                 print("sh_selectedYear :${sh.getString(
                                     "sh_selectedYear")}");
-
+                        
                                 Get.to(PanchangScreen(
                                     date: datex, dayname: dayName));
-
+                        
                                 print(
                                     "=================================home calender Tap close==============================================");
                               },
                               child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 1,vertical: 6),
+                                margin: EdgeInsets.symmetric(horizontal: Get.width*0.002,vertical: Get.height*0.005),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(8.0),
@@ -633,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       SizedBox(height: 4.0),
-
+                        
                                       Text(
                                         // tithiController.allDateTithi.isNotEmpty ? '${tithiController.allDateTithi[index-1]}' : '',
                                         tithiController.allDateTithi[index-1],
@@ -645,25 +641,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontSize: 8,
                                         ),
                                       ),
-
-
+                        
+                        
                                     ],
                                   ),
-
+                        
                                 ),
                               ),
                             );
-
-
+                        
+                        
                           },
                         ),
                         rowHeight: SizeConfig.screenHeight * 0.085,
-
+                        
                       ),
                     ),
                   ),
                   // SizedBox(height: SizeConfig.screenHeight*0.010,),
-
+                        
                   GestureDetector(
                     onTap: (){
                       Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer .com",));
@@ -715,7 +711,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   textAlign: TextAlign.center,),
                                 SizedBox(
                                   height: SizeConfig.screenHeight * 0.010,),
-
+                        
                                 InkWell(
                                   onTap: (){
                                     Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer.com/",));
@@ -726,7 +722,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 SizedBox(
                                   height: SizeConfig.screenHeight * 0.010,),
-
+                        
                                 InkWell(
                                   onTap: (){
                                     redirectToGmail();
@@ -735,15 +731,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: font_style.White_700_18_ff,
                                     textAlign: TextAlign.center,),
                                 ),
-
-
+                        
+                        
                               ],
                             ),
                           ),
                         ],
                       )),
-
-
+                  SizedBox(height: 50,),
+                        
+                        
                 ],
               ),
             ),

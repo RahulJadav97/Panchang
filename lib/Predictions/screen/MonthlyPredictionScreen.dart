@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:panchang/Predictions/Controller/MonthlyPredictionController.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/sizeConfig/sizeConfig.dart';
 
 class MonthlyPredictionScreen extends StatefulWidget {
-  const MonthlyPredictionScreen({super.key});
+  String? date;
+   MonthlyPredictionScreen({required this.date});
 
   @override
   State<MonthlyPredictionScreen> createState() => _MonthlyPredictionScreenState();
@@ -18,8 +21,21 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
 
   @override
   void initState() {
+    getMonth();
     _monthlyPredictionCont_obj.monthlyPredictionCont();
     super.initState();
+  }
+  var formattedMonth;
+  getMonth(){
+    String dateString = widget.date.toString();
+
+    // Parse the string into a DateTime object
+    DateTime dateTime = DateFormat("dd-MM-yyyy").parse(dateString);
+
+    // Format the DateTime object to get the month name
+     formattedMonth =  DateFormat("MMMM yyyy").format(dateTime);
+
+    print(formattedMonth); // Output: February
   }
   @override
   Widget build(BuildContext context) {
@@ -50,6 +66,28 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                       child: Text("Monthly Prediction", style:font_style.White_700_18_ff ,),
 
                     ),
+
+                    SizedBox(height: SizeConfig.screenHeight*0.010,),
+                    Container(
+                      height: SizeConfig.screenHeight*0.040,
+                      width: SizeConfig.screenWidth,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color:common_red,
+                        borderRadius: BorderRadius.circular(5),
+
+                      ),
+
+                      // child: Text("Chaughadia ${currentDate.toString()}", style: font_style.White_700_16_ff,),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text("Monthly Prediction ( $formattedMonth )", style: font_style.White_700_16_ff,)),
+                      ),
+
+                    ),
+                    SizedBox(height: SizeConfig.screenHeight*0.010,),
                     // SizedBox(height: Get.height*0.020,),
 
                     _monthlyPredictionCont_obj.allDataMonthly.length == 0

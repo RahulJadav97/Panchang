@@ -4,9 +4,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:panchang/Predictions/Controller/DailyPredictionController.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/sizeConfig/sizeConfig.dart';
 
 class DailyPredictionScreen extends StatefulWidget {
-  const DailyPredictionScreen({super.key});
+  String ?date;
+   DailyPredictionScreen({required this.date});
 
   @override
   State<DailyPredictionScreen> createState() => _DailyPredictionScreenState();
@@ -50,6 +52,25 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                     child: Text("Daily Prediction", style:font_style.White_700_18_ff ,),
 
                   ),
+                  SizedBox(height: SizeConfig.screenHeight*0.010,),
+                  Container(
+                    // height: SizeConfig.screenHeight*0.040,
+                    width: SizeConfig.screenWidth,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color:common_red,
+                      borderRadius: BorderRadius.circular(5),
+
+                    ),
+
+                    // child: Text("Chaughadia ${currentDate.toString()}", style: font_style.White_700_16_ff,),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text("Daily Prediction ${widget.date.toString()}", style: font_style.White_700_16_ff,),
+                    ),
+
+                  ),
+                  SizedBox(height: SizeConfig.screenHeight*0.010,),
                   // SizedBox(height: Get.height*0.020,),
 
                   _dailyPredictionCont_obj.allData.length == 0

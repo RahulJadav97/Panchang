@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:panchang/Predictions/Controller/WeeklyPredictionController.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/sizeConfig/sizeConfig.dart';
 
 class WeeklyPredictionScreen extends StatefulWidget {
-  const WeeklyPredictionScreen({super.key});
+  String ?date;
+   WeeklyPredictionScreen({required this.date});
 
   @override
   State<WeeklyPredictionScreen> createState() => _WeeklyPredictionScreenState();
@@ -18,8 +21,34 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
 
   @override
   void initState() {
+    getWeekDate();
     _weeklyPredictionCont_obj.weeklyPredictionCont();
     super.initState();
+  }
+
+ var formattedDate;
+ var formattedDate1;
+  void getWeekDate() {
+    String dateString = "${widget.date}";
+    List<String> dateParts = dateString.split('-');
+
+    int day = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int year = int.parse(dateParts[2]);
+    DateTime now = DateTime(year, month, day);
+
+    // Calculate the start of the week (Sunday)
+    DateTime weekStart = now.subtract(Duration(days: now.weekday % 7));
+
+    // Calculate the end of the week (Saturday)
+    DateTime weekEnd = weekStart.add(Duration(days: 6));
+
+    // Format dates
+    formattedDate = DateFormat('d MMM').format(weekStart);
+    formattedDate1 = DateFormat('d MMM yyyy').format(weekEnd);
+
+    print("Week start (Sunday): $formattedDate"); // Output: Week start (Sunday): 18 Feb
+    print("Week end (Saturday): $formattedDate1"); // Output: Week end (Saturday): 24 Feb 2024
   }
 
   @override
@@ -49,8 +78,25 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                     color: Colors.grey.shade700,
                     alignment: Alignment.centerLeft,
                     child: Text("Weekly Prediction", style:font_style.White_700_18_ff ,),
+                  ),
+                  SizedBox(height: Get.height*0.02,),
+                  Container(
+                    // height: SizeConfig.screenHeight*0.040,
+                    width: SizeConfig.screenWidth,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color:common_red,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text("Weekly Prediction ${formattedDate.toString()} to ${formattedDate1.toString()}", style: font_style.White_700_16_ff,)),
+                    ),
 
                   ),
+                  SizedBox(height: Get.height*0.02,),
                   // SizedBox(height: Get.height*0.020,),
                   _weeklyPredictionCont_obj.allDataweekly.length == 0
                       ?

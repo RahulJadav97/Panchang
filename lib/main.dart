@@ -12,7 +12,7 @@ Future<void> main() async  {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
-  await ScreenUtil.ensureScreenSize();
+
   runApp(const MyApp());
 }
 
@@ -23,27 +23,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        // Use builder only if you need to use library outside ScreenUtilInit context
-        builder: (_ , child) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Panchang',
-            // You can use the library anywhere in the app even in theme
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            ),
-            home: child,
-          );
-        },
-
-        child:const SplashScreen(),
-
-      );
+      // ScreenUtilInit(
+      //   designSize: const Size(360, 690),
+      //   minTextAdapt: true,
+      //   splitScreenMode: true,
+      //   // Use builder only if you need to use library outside ScreenUtilInit context
+      //   builder: (_ , child) {
+      //     return GetMaterialApp(
+      //       debugShowCheckedModeBanner: false,
+      //       title: 'Panchang',
+      //       // You can use the library anywhere in the app even in theme
+      //       theme: ThemeData(
+      //         useMaterial3: true,
+      //         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      //       ),
+      //       home: child,
+      //     );
+      //   },
+      //
+      //   child:const SplashScreen(),
+      //
+      // );
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Panchang',
+      // You can use the library anywhere in the app even in theme
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home:const SplashScreen() ,
+    );
   }
 }
 

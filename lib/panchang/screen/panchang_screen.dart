@@ -393,7 +393,9 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       padding: EdgeInsets.all(SizeConfig.screenWidth*0.020),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("Place: ${currentCityName}", style:font_style.white_400_11 ,),
+                                        child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Text("Place: ${currentCityName}", style:font_style.white_400_11 ,)),
                                       ),
                                     ),
                                   )
@@ -954,6 +956,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                    Container(
                                      padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
                                      // height: SizeConfig.screenHeight*0.065,
+
+
                                      width: SizeConfig.screenWidth*0.650,
                                      decoration: BoxDecoration(
                                          borderRadius: BorderRadius.circular(10),
@@ -1654,7 +1658,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Daily Predictions
                             InkWell(
                               onTap: (){
-                                Get.to(DailyPredictionScreen());
+                                Get.to(DailyPredictionScreen(date: currentdate.toString()));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(SizeConfig.screenWidth*0.010),
@@ -1682,7 +1686,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Weekly Predictions
                             InkWell(
                               onTap: (){
-                                Get.to(WeeklyPredictionScreen());
+                                Get.to(WeeklyPredictionScreen(date: currentdate.toString()));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(SizeConfig.screenWidth*0.010),
@@ -1710,7 +1714,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Monthly Predictions
                             InkWell(
                               onTap: (){
-                                Get.to(MonthlyPredictionScreen());
+                                Get.to(MonthlyPredictionScreen(date: currentdate.toString()));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(SizeConfig.screenWidth*0.010),
