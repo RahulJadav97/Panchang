@@ -9,6 +9,7 @@ class TithiController extends GetxController{
   var oldResponse = TithiModel().obs;
 
   List allDateTithi = [];
+  List allDateTithiColor = [];
 
   Future<void> tithiCont (tmonth,tyear) async {
 
@@ -23,11 +24,16 @@ class TithiController extends GetxController{
         print("Tithi sucessfully called...");
 
         allDateTithi.clear();
+        allDateTithiColor.clear();
         oldResponse.value.data!.forEach((element) {
           allDateTithi.add(element.value);
         });
+        oldResponse.value.data!.forEach((element) {
+          allDateTithiColor.add(element.dateColor);
+        });
         allDateTithi.add("hello");
         print("allDateTithi $allDateTithi");
+        print("allDateTithiColor $allDateTithiColor");
 
         loading(false);
 

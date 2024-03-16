@@ -13,6 +13,9 @@ import 'package:panchang/auth/model/GetCityByDistrictModel.dart';
 import 'package:panchang/auth/model/GetDistrictByStateModel.dart';
 import 'package:panchang/auth/model/GetStateByCountryModel.dart';
 import 'package:panchang/auth/model/LoginUserModel.dart';
+import 'package:panchang/auth/model/delete_account_model.dart';
+import 'package:panchang/auth/model/forgot_pass_model.dart';
+import 'package:panchang/auth/model/social_register_model.dart';
 import 'package:panchang/changecity/model/city_data_model.dart';
 import 'package:panchang/changecity/model/city_model.dart';
 import 'package:panchang/chaughadia/model/choghadiya_model.dart';
@@ -131,6 +134,39 @@ class ApiServices{
     }
   }
 
+  // SOCIAL REGISTER
+  Future<SocialRegisterModel> social_register (Email)async {
+    FormData userForm = FormData();
+
+
+    userForm.fields.add(MapEntry("Email", Email));
+
+    final userValue = await dio.post("$baseUrl/social_register", data: userForm);
+    if(userValue.statusCode == 200){
+      final result = SocialRegisterModel.fromJson(userValue.data);
+      return result;
+    }else{
+      throw "Something Went Wrong..";
+    }
+  }
+
+  // SOCIAL REGISTER
+  Future<DeleteAccountModel> delete_account ()async {
+    FormData userForm = FormData();
+    SharedPreferences sh = await SharedPreferences.getInstance();
+    // sh.getString("sh_userId");
+    userForm.fields.add(MapEntry("userid", sh.getString("sh_userId").toString()));
+
+
+    final userValue = await dio.post("$baseUrl/delete_account", data: userForm);
+    if(userValue.statusCode == 200){
+      final result = DeleteAccountModel.fromJson(userValue.data);
+      return result;
+    }else{
+      throw "Something Went Wrong..";
+    }
+  }
+
 
   Future<LoginUserModel> loginUser (Email,Password )async {
     FormData userForm = FormData();
@@ -145,6 +181,25 @@ class ApiServices{
       return result;
     }else{
       print("loginUser api failed..");
+      throw "Something Went Wrong..";
+    }
+
+  }
+
+
+
+  Future<ForgotPassModel> forgotPass(email)async {
+    FormData userForm = FormData();
+
+    userForm.fields.add(MapEntry("email", email));
+
+    final userValue = await dio.post("$baseUrl/forgotpass", data: userForm);
+    if(userValue.statusCode == 200){
+      final result = ForgotPassModel.fromJson(userValue.data);
+      print("forgot password api called..");
+      return result;
+    }else{
+      print("forgot pass word api failed..");
       throw "Something Went Wrong..";
     }
 

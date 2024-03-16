@@ -30,7 +30,7 @@ class _FestivalWebScreenState extends State<FestivalWebScreen> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: InAppWebView(
-              initialUrlRequest: URLRequest(url: WebUri(widget.webUrl.toString())
+              initialUrlRequest: URLRequest(url: Uri.parse(widget.webUrl.toString())
               ),
               onWebViewCreated: (InAppWebViewController controller){
                 inAppWebViewController = controller;

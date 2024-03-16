@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:panchang/Panchang_Model_controller/Controller/PanchanGController.dart';
+import 'package:panchang/auth/screen/login_screen.dart';
 import 'package:panchang/changecity/controller/city_data_controller.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/common_sharedprefrence.dart';
@@ -34,7 +35,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   DateTime selectedDay = DateTime.now();
-
+  String _selectedValue = '1';
   PanchangController _panchangController_obj = Get.put(PanchangController());
   CityDataController cityDataController = Get.put(CityDataController());
   TithiController tithiController = Get.put(TithiController());
@@ -270,8 +271,91 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: SizeConfig.screenWidth,
                     color: Colors.grey.shade700,
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Panchang Calendar", style: font_style.White_700_18_ff,),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Panchang Calendar", style: font_style.White_700_18_ff,),
+                        PopupMenuButton<String>(
+                          iconColor: Colors.white,
+                          onSelected: (String value) {
+                            setState(() {
+                              _selectedValue = value;
+                            });
+                            if(_selectedValue.toString() == "1"){
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible: false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Are You Sure You Want To Delete Account?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      Obx(
+                                         () {
+                                          return TextButton(
+                                            child:
+                                            cityDataController.del_loading.value ?Center(child: CircularProgressIndicator())
+                                          :
+                                             Text('Ok'),
+                                            onPressed: () {
+                                              cityDataController.deleteAccountCont().then((value) {
+                                                Get.back();
+                                              });
+                                            },
+                                          );
+                                        }
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }else{
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible: false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Are You Sure You Want To Logout?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Ok'),
+                                        onPressed: () async {
+                                          Get.to(()=> LoginScreen());
+                                          SharedPreferences sh = await SharedPreferences.getInstance();
+                                          sh.clear();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          itemBuilder: (BuildContext context) => [
+                            PopupMenuItem(
+                              value: '1',
+                              child: Text('Delete Account?'),
+                            ),
+                            PopupMenuItem(
+                              value: '2',
+                              child: Text('Logout'),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                         
                   ),
                   SizedBox(height: SizeConfig.screenHeight * 0.010,),
@@ -453,7 +537,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             // int index = date.day % dayNames.length;
                             // int index = tithiList.isNotEmpty ? date.day % tithiList.length : 0;
                             int index = tithiController.allDateTithi.isNotEmpty ? date.day % tithiController.allDateTithi.length : 0;
-                        
+
+
                         
                             return GestureDetector(
                               onTap: () async {
@@ -510,7 +595,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(8.0),
                                   border: Border.all(
-                                      width: 1.5, color: common_red),
+                                      width: 1.5, color:tithiController.allDateTithiColor[index-1] =="1"?common_red: common_red),
                                   // color: isSelected ? Colors.orange : Colors.green
                                   //     .shade800,
                                   color: Colors.blue
@@ -612,7 +697,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   border: Border.all(
                                       width: 1.5, color: common_red),
-                                  color: isSelected ? Colors.orange : Colors.green
+                                  color: tithiController.allDateTithiColor[index-1] =="1" ? Colors.red : Colors.green
                                       .shade800,
                                 ),
                                 child: Center(

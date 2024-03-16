@@ -32,18 +32,21 @@ class TithiModel {
 
 class Data {
   String? date;
+  String? dateColor;
   String? value;
 
-  Data({this.date, this.value});
+  Data({this.date, this.dateColor, this.value});
 
   Data.fromJson(Map<String, dynamic> json) {
     date = json['date'];
+    dateColor = json['date_color'];
     value = json['value'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['date'] = this.date;
+    data['date_color'] = this.dateColor;
     data['value'] = this.value;
     return data;
   }

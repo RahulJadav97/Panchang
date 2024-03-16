@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io' show Platform;
 import 'package:panchang/auth/Controller/LoginUserController.dart';
 import 'package:panchang/auth/screen/forgotPassword_screen.dart';
 import 'package:panchang/auth/screen/signup_screen.dart';
@@ -23,6 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   LoginUserController _loginUserController_OBJ  = Get.put(LoginUserController());
   var passCheck = true;
+  @override
+  void initState() {
+    plateformCheck();
+    super.initState();
+  }
+
+  String? plateForm;
+  Future<void>plateformCheck()async{
+    if (Platform.isAndroid) {
+      plateForm = 'Android';
+    } else if (Platform.isIOS) {
+      plateForm = 'IOS';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +174,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   ),
                   SizedBox(height: SizeConfig.screenHeight*0.030,),
+                  plateForm == 'IOS'?
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          _loginUserController_OBJ.appleSign();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: Get.height*0.070,
+                          width: Get.width*0.2,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child:  Icon(Icons.apple, color: Color(0xff3F3E3E).withOpacity(0.9),size: 35,),
+                        ),
+                      )
+                    ],
+                  ):SizedBox(),
 
                   InkWell(
                     onTap: (){

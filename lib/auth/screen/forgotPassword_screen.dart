@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:panchang/auth/Controller/forgot_pass_controller.dart';
 import 'package:panchang/common/teststyle.dart';
 
 import '../../common/common_colour.dart';
@@ -16,6 +17,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   TextEditingController emailController = TextEditingController();
+
+  var forgot = Get.put(ForgotPassController());
 
   final _formKey =GlobalKey<FormState>();
   @override
@@ -44,18 +47,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   // Text("Mobile No.",style: font_style.Black_700_15,),
                   // SizedBox(height: Get.height*0.015,),
                   TextFormField(
-                  controller: emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Email is required';
-                    }
-                    // Use a regular expression to check if the entered email is valid
-                    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                        .hasMatch(value)) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null; // Return null if the entered email is valid
-                  },
+                  controller: forgot.emailCTC,
+                  // validator: (value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return 'Email is required';
+                  //   }
+                  //   // Use a regular expression to check if the entered email is valid
+                  //   if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                  //       .hasMatch(value)) {
+                  //     return 'Please enter a valid email address';
+                  //   }
+                  //   return null; // Return null if the entered email is valid
+                  // },
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.mail, color: common_red,),
                       label: const Text("Email", ),
@@ -78,14 +81,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                   GestureDetector(
                     onTap: (){
-
-                      if(_formKey.currentState!.validate()){
-                        print("password send to your email..");
+                      if(forgot.emailCTC.text != ""){
+                        forgot.forgotPassCont();
                       }
 
                       // Get.to(()=>LoginScreen());
                     },
-                    child: Container(
+                    child: Obx(() => forgot.isLoading.value?Center(child: CircularProgressIndicator(color: common_red,)):
+                    Container(
                       height: Get.height*0.06,
                       child: Center(child: Text("Continue",style: font_style.White_700_20,)),
                       decoration: BoxDecoration(
@@ -93,6 +96,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           borderRadius: BorderRadius.circular(15)
                       ),
                     ),
+                    )
                   )
 
                   // InkWell(
@@ -108,8 +112,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   //     ),
                   //   ),
                   // ),
-
-
                 ],
               ),
             ),
