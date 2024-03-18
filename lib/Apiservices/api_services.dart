@@ -296,9 +296,13 @@ class ApiServices{
     userForm.fields.add(MapEntry("Year","${sh.getString("sh_selectedYear")}"));
     userForm.fields.add(MapEntry("Asc","Scorpio"));
     userForm.fields.add(MapEntry("Asc2","7"));
-    userForm.fields.add(MapEntry("AYNS","-24.19068856852845"));
-    userForm.fields.add(MapEntry("as","225.28462936543343"));
-    userForm.fields.add(MapEntry("moon","44.48635698113049"));
+    // userForm.fields.add(MapEntry("AYNS","-24.19068856852845"));
+    // userForm.fields.add(MapEntry("as","225.28462936543343"));
+    // userForm.fields.add(MapEntry("moon","44.48635698113049"));
+
+    userForm.fields.add(MapEntry("AYNS","-24.19393863135313"));
+    userForm.fields.add(MapEntry("as","308.1519525190308"));
+    userForm.fields.add(MapEntry("moon","78.85608120526764"));
 
     final userValue = await dio.post("https://www.premastrologer.com/bk_21sep2017/api_panchang.php", data: userForm);
     if(userValue.statusCode == 200){
