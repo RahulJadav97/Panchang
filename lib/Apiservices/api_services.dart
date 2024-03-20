@@ -6,6 +6,7 @@ import 'package:panchang/Panchang_Model_controller/Model/PanchangModel.dart';
 import 'package:panchang/Predictions/model/DailyPredictionModel.dart';
 import 'package:panchang/Predictions/model/MonthlyPredictionModel.dart';
 import 'package:panchang/Predictions/model/WeeklyPredictionModel.dart';
+import 'package:panchang/Significance/model/month_significanse_model.dart';
 import 'package:panchang/Significance/model/significance_model.dart';
 import 'package:panchang/auth/model/AddUserModel.dart';
 import 'package:panchang/auth/model/GetAllCountryModel.dart';
@@ -245,7 +246,7 @@ class ApiServices{
     print("yy:${sh.getString("sh_selectedYear")}");
     print("popupDatepicker :$popupDatepicker");
     print("mycity :${sh.getString("sh_selectedCity")}");
-    print("subcat :$subcat");
+    print("subcat :${sh.getString("sh_selectedCityRowId")}");
     print("LatDeg :${sh.getString("sh_selectedLtdDeg")}");
     print("LatMin :${sh.getString("sh_selectedLtdMin")}");
     print("LonDeg :${sh.getString("sh_selectedLongDeg")}");
@@ -278,7 +279,7 @@ class ApiServices{
     userForm.fields.add(MapEntry("yy","${sh.getString("sh_selectedYear")}"));
     userForm.fields.add(MapEntry("popupDatepicker",popupDatepicker));
     userForm.fields.add(MapEntry("mycity","${sh.getString("sh_selectedCity")}"));
-    userForm.fields.add(MapEntry("subcat",subcat));
+    userForm.fields.add(MapEntry("subcat","${sh.getString("sh_selectedCityRowId")}"));
     userForm.fields.add(MapEntry("LatDeg","${sh.getString("sh_selectedLtdDeg")}"));
     userForm.fields.add(MapEntry("LatMin","${sh.getString("sh_selectedLtdMin")}"));
     userForm.fields.add(MapEntry("LonDeg","${sh.getString("sh_selectedLongDeg")}"));
@@ -579,6 +580,21 @@ class ApiServices{
       return result;
     }else{
       print("Tithi api failed..");
+      throw "Something Went Wrong..";
+    }
+
+  }
+
+
+  Future<MonthSignificanceModel> monthlySignificance(month)async {
+    FormData userForm = FormData();
+    final userValue = await dio.post("https://www.premastrologer.com/bk_21sep2017/api_month_significance.php?month=$month", data: userForm);
+    if(userValue.statusCode == 200){
+      final result = MonthSignificanceModel.fromJson(userValue.data);
+      print("monthlySignificance api called..");
+      return result;
+    }else{
+      print("monthlySignificance api failed....");
       throw "Something Went Wrong..";
     }
 

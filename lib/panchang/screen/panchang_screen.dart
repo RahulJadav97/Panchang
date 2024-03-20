@@ -9,6 +9,7 @@ import 'package:panchang/Predictions/screen/MonthlyPredictionScreen.dart';
 import 'package:panchang/Predictions/screen/WeeklyPredictionScreen.dart';
 import 'package:panchang/Predictions/screen/dailyPredictionScreen.dart';
 import 'package:panchang/Significance/screen/Significance_screen.dart';
+import 'package:panchang/Significance/screen/month_significance.dart';
 import 'package:panchang/changecity/screen/changecity_screen.dart';
 import 'package:panchang/chaughadia/screen/chaughadia_screen.dart';
 import 'package:panchang/common/common_colour.dart';
@@ -16,6 +17,7 @@ import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/controller/festival_date_controller.dart';
 import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/festivals/screen/festivals.dart';
+import 'package:panchang/grahan/screen/grahan_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -1630,7 +1632,8 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Significance
                             InkWell(
                               onTap: () {
-                                Get.to(()=>SignificanceScreen());
+                                Get.to(()=>MonthSignificance());
+                                // Get.to(()=>SignificanceScreen());
                               },
                               child: Container(
                                 padding: EdgeInsets.all(SizeConfig.screenWidth*0.010),
@@ -1651,6 +1654,34 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       color:Colors.purpleAccent,
                                     ),
                                     child: Text("Significance",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                              ),
+                            ),
+                            SizedBox(height: SizeConfig.screenHeight*0.015,),
+                            // Eclipse
+                            InkWell(
+                              onTap: () {
+                                print(currentdate);
+                                Get.to(()=>GrahanScreen(year: currentdate.toString(),));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(SizeConfig.screenWidth*0.010),
+                                height: SizeConfig.screenHeight*0.080,
+                                width: SizeConfig.screenWidth,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Colors.white,
+                                    border: Border.all(color: Colors.cyan, width: 2)
+                                ),
+                                alignment: Alignment.center,
+                                child: Container(
+                                    height: SizeConfig.screenHeight*0.075,
+                                    width: SizeConfig.screenWidth,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color:Colors.cyan,
+                                    ),
+                                    child: Text("List of Eclipse",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),

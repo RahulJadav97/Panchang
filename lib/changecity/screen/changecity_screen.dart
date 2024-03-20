@@ -36,6 +36,7 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
 
   TextEditingController _searchController = TextEditingController();
   TextEditingController _ltdCTC = TextEditingController();
+  TextEditingController _rowIdCTC = TextEditingController();
   TextEditingController _ltd1CTC = TextEditingController();
   TextEditingController _longCTC = TextEditingController();
   TextEditingController _long1CTC = TextEditingController();
@@ -290,6 +291,7 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                                   print("WAR: ${cityDataController.oldResponse.value.data!.first.wAR}");
                                   print("direction: ${cityDataController.oldResponse.value.data!.first.direction}");
                                   setState(() {
+                                    _rowIdCTC.text = cityDataController.oldResponse.value.data!.first.rowid.toString();
                                     _ltdCTC.text = cityDataController.oldResponse.value.data!.first.latdeg.toString();
                                     _ltd1CTC.text = cityDataController.oldResponse.value.data!.first.latmin.toString();
                                     _longCTC.text =  cityDataController.oldResponse.value.data!.first.longdeg.toString();
@@ -784,6 +786,7 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                                     SharedPreferences sh = await SharedPreferences.getInstance();
 
                                     sh.setString("sh_selectedCity", checkSelectedCity.toString());
+                                    sh.setString("sh_selectedCityRowId", _rowIdCTC.text.toString());
 
                                     sh.setString("sh_selectedLtdDeg", _ltdCTC.text.toString());
                                     sh.setString("sh_selectedLtdMin", _ltd1CTC.text.toString());

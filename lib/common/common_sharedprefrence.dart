@@ -13,6 +13,7 @@ String sh_selectedMonth='';
 String sh_selectedYear='';
 
 String sh_selectedCity='';
+String sh_selectedCityRowId='';
 
 String sh_selectedLtd='';
 String sh_selectedLtdDeg='';
