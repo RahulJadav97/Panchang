@@ -8,7 +8,10 @@ import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:translator/translator.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../panchang/screen/panchang_screen.dart';
 
 class HoraScreen extends StatefulWidget {
   const HoraScreen({super.key});
@@ -18,6 +21,8 @@ class HoraScreen extends StatefulWidget {
 }
 
 class _HoraScreenState extends State<HoraScreen> {
+
+  final translator = GoogleTranslator();
 
   HoraController hora = Get.put(HoraController());
 
@@ -166,7 +171,21 @@ class _HoraScreenState extends State<HoraScreen> {
                                         borderRadius: BorderRadius.circular(5)
                                     ),
                                     // padding: EdgeInsets.all(Get.width*0.020),
-                                    child: Text("Day", style:font_style.White_700_18_ff ,),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("Day", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.White_700_18_ff ,
+                                          );
+                                        } else {
+                                          return Text("Day", style:font_style.White_700_18_ff ,);
+                                        }
+                                      },
+                                    ),
+                                    // Text("Day", style:font_style.White_700_18_ff ,),
                                   ),
                                 ),
                                 SizedBox(width: Get.width*0.020,),
@@ -186,7 +205,21 @@ class _HoraScreenState extends State<HoraScreen> {
                                         borderRadius: BorderRadius.circular(5)
                                     ),
                                     // padding: EdgeInsets.all(Get.width*0.020),
-                                    child: Text("Night", style:font_style.White_700_18_ff ,),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("Night", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.White_700_18_ff ,
+                                          );
+                                        } else {
+                                          return Text("Night", style:font_style.White_700_18_ff ,);
+                                        }
+                                      },
+                                    ),
+                                    // Text("Night", style:font_style.White_700_18_ff ,),
                                   ),
                                 ),
                               ],
@@ -209,7 +242,20 @@ class _HoraScreenState extends State<HoraScreen> {
                                 color:common_green,
                               ),
                               alignment: Alignment.centerLeft,
-                              child: Text("Time",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                              child:
+                              FutureBuilder<Translation>(
+                                future: translator.translate("Time", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data!.text,
+                                        style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                  } else {
+                                    return Text("Time",style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                  }
+                                },
+                              ),
+                              // Text("Time",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: Get.width*0.020, vertical: 0.050),
@@ -220,7 +266,20 @@ class _HoraScreenState extends State<HoraScreen> {
                                 color:common_green,
                               ),
                               alignment: Alignment.centerLeft,
-                              child: Text("Ruling Planet",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                              child:
+                              FutureBuilder<Translation>(
+                                future: translator.translate("Ruling Planet", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                        snapshot.data!.text,
+                                        style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                  } else {
+                                    return Text("Ruling Planet",style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                  }
+                                },
+                              ),
+                              // Text("Ruling Planet",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                             ),
 
                             Container(
@@ -232,7 +291,20 @@ class _HoraScreenState extends State<HoraScreen> {
                                 color:common_green,
                               ),
                               alignment: Alignment.centerLeft,
-                              child: Text("Significance",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                              child:
+                              FutureBuilder<Translation>(
+                                future: translator.translate("Significance", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                        snapshot.data!.text,
+                                        style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                  } else {
+                                    return Text("Significance",style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                  }
+                                },
+                              ),
+                              // Text("Significance",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                             ),
                             // Container(
                             //   padding: EdgeInsets.symmetric(horizontal: Get.width*0.020, vertical: 0.050),
@@ -293,7 +365,20 @@ class _HoraScreenState extends State<HoraScreen> {
                                       color:common_red,
                                     ),
                                     alignment: Alignment.centerLeft,
-                                    child: Text("${chindex == false?hora.oldResponse.value.data!.day![index].planet:hora.oldResponse.value.data!.night![index].planet}",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${chindex == false?hora.oldResponse.value.data!.day![index].planet:hora.oldResponse.value.data!.night![index].planet}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: font_style.White_700_18_ff,textAlign: TextAlign.center);
+                                        } else {
+                                          return Text("${chindex == false?hora.oldResponse.value.data!.day![index].planet:hora.oldResponse.value.data!.night![index].planet}",style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                    // Text("${chindex == false?hora.oldResponse.value.data!.day![index].planet:hora.oldResponse.value.data!.night![index].planet}",style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                                   ),
 
                                   GestureDetector(
@@ -309,7 +394,19 @@ class _HoraScreenState extends State<HoraScreen> {
                                         titleStyle: font_style.Red_700_18,
                                         content: Column(
                                           children: [
-                                            Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",style: font_style.Black_700_18,)
+                                            FutureBuilder<Translation>(
+                                              future: translator.translate("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  return Text(
+                                                      snapshot.data!.text,
+                                                      style: font_style.Black_700_18);
+                                                } else {
+                                                  return  Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",style: font_style.Black_700_18,);
+                                                }
+                                              },
+                                            ),
+                                            // Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",style: font_style.Black_700_18,)
                                           ],
                                         )
                                       );
@@ -323,7 +420,20 @@ class _HoraScreenState extends State<HoraScreen> {
                                         color:colorIndex !=index ?common_red:common_green,
                                       ),
                                       alignment: Alignment.centerLeft,
-                                      child: Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",overflow: TextOverflow.ellipsis,style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
+                                      child:
+                                      FutureBuilder<Translation>(
+                                        future: translator.translate("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                                snapshot.data!.text,
+                                                overflow: TextOverflow.ellipsis,style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                          } else {
+                                            return  Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",overflow: TextOverflow.ellipsis,style: font_style.White_700_18_ff,textAlign: TextAlign.center );
+                                          }
+                                        },
+                                      ),
+                                      // Text("${chindex == false?hora.oldResponse.value.data!.day![index].significance:hora.oldResponse.value.data!.night![index].significance}",overflow: TextOverflow.ellipsis,style: font_style.White_700_18_ff,textAlign: TextAlign.center ),
                                     ),
                                   ),
                                 ],

@@ -6,6 +6,9 @@ import 'package:panchang/Predictions/Controller/MonthlyPredictionController.dart
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
+import 'package:translator/translator.dart';
+
+import '../../panchang/screen/panchang_screen.dart';
 
 class MonthlyPredictionScreen extends StatefulWidget {
   String? date;
@@ -16,6 +19,8 @@ class MonthlyPredictionScreen extends StatefulWidget {
 }
 
 class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
+
+  final translator = GoogleTranslator();
 
   MonthlyPredictionController _monthlyPredictionCont_obj = Get.put(MonthlyPredictionController());
 
@@ -63,7 +68,21 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                       width: Get.width,
                       color: Colors.grey.shade700,
                       alignment: Alignment.centerLeft,
-                      child: Text("Monthly Prediction", style:font_style.White_700_18_ff ,),
+                      child:
+                      FutureBuilder<Translation>(
+                        future: translator.translate("Weekly Prediction", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data!.text,
+                              style:font_style.White_700_18_ff,
+                            );
+                          } else {
+                            return  Text("Monthly Prediction", style:font_style.White_700_18_ff ,);
+                          }
+                        },
+                      ),
+                      // Text("Monthly Prediction", style:font_style.White_700_18_ff ,),
 
                     ),
 
@@ -83,7 +102,22 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                         padding: const EdgeInsets.all(5.0),
                         child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Text("Monthly Prediction ( $formattedMonth )", style: font_style.White_700_16_ff,)),
+                            child:
+                            FutureBuilder<Translation>(
+                              future: translator.translate("Monthly Prediction ( $formattedMonth )", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.text,
+                                      style: font_style.White_700_16_ff
+                                  );
+                                } else {
+                                  return  Text("Monthly Prediction ( $formattedMonth )", style: font_style.White_700_16_ff,);
+                                }
+                              },
+                            ),
+                            // Text("Monthly Prediction ( $formattedMonth )", style: font_style.White_700_16_ff,)
+                        ),
                       ),
 
                     ),
@@ -127,21 +161,65 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
-                                      style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)
+                                          );
+                                        } else {
+                                          return  Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                              style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold));
+                                        }
+                                      },
+                                    ),
+                                    // Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                    //   style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)
+                                          );
+                                        } else {
+                                          return   Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold));
+                                        }
+                                      },
+                                    ),
+                                    // Text("${_monthlyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(Get.width*0.010),
                                     width: Get.width,
                                     // color: Colors.blue,
-                                    child: Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
-                                      style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style:font_style.Black_700_15_ff
+                                          );
+                                        } else {
+                                          return  Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                            style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/);
+                                        }
+                                      },
+                                    ),
+                                    // Text(_monthlyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                    //   style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                   ),
                                   // SizedBox(height: Get.height*0.005,),
                                   Row(
@@ -165,7 +243,21 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                         ),
                                         alignment: Alignment.centerLeft,
                                         padding: EdgeInsets.all( Get.width*0.020),
-                                        child: Text("Lucky Number : ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
+                                        child:
+                                        FutureBuilder<Translation>(
+                                          future: translator.translate("Lucky Number : ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                  snapshot.data!.text,
+                                                  style:font_style.Black_700_15_ff
+                                              );
+                                            } else {
+                                              return  Text("Lucky Number : ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,);
+                                            }
+                                          },
+                                        ),
+                                        // Text("Lucky Number : ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
                                       ),
                                       Container(
                                         // height: Get.height*0.060,
@@ -185,7 +277,21 @@ class _MonthlyPredictionScreenState extends State<MonthlyPredictionScreen> {
                                         ),
                                         alignment: Alignment.centerLeft,
                                         padding: EdgeInsets.all( Get.width*0.020),
-                                        child: Text("Lucky Colour: ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
+                                        child:
+                                        FutureBuilder<Translation>(
+                                          future: translator.translate("Lucky Colour: ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                  snapshot.data!.text,
+                                                style: font_style.Black_700_15_ff
+                                              );
+                                            } else {
+                                              return Text("Lucky Colour: ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_700_15_ff,);
+                                            }
+                                          },
+                                        ),
+                                        // Text("Lucky Colour: ${_monthlyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
                                       )
 
                                     ],

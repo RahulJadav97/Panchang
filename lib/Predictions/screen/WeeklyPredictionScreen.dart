@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:panchang/Predictions/Controller/WeeklyPredictionController.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
+import 'package:translator/translator.dart';
 
 class WeeklyPredictionScreen extends StatefulWidget {
   String ?date;
@@ -16,6 +18,7 @@ class WeeklyPredictionScreen extends StatefulWidget {
 }
 
 class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
+  final translator = GoogleTranslator();
 
   WeeklyPredictionController _weeklyPredictionCont_obj = Get.put(WeeklyPredictionController());
 
@@ -77,7 +80,21 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                     width: Get.width,
                     color: Colors.grey.shade700,
                     alignment: Alignment.centerLeft,
-                    child: Text("Weekly Prediction", style:font_style.White_700_18_ff ,),
+                    child:
+                    FutureBuilder<Translation>(
+                      future: translator.translate("Weekly Prediction", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!.text,
+                            style:font_style.White_700_18_ff,
+                          );
+                        } else {
+                          return  Text("Weekly Prediction", style:font_style.White_700_18_ff ,);
+                        }
+                      },
+                    ),
+                    // Text("Weekly Prediction", style:font_style.White_700_18_ff ,),
                   ),
                   SizedBox(height: Get.height*0.02,),
                   Container(
@@ -92,7 +109,22 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                       padding: const EdgeInsets.all(5.0),
                       child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Text("Weekly Prediction ${formattedDate.toString()} to ${formattedDate1.toString()}", style: font_style.White_700_16_ff,)),
+                          child:
+                          FutureBuilder<Translation>(
+                            future: translator.translate("Weekly Prediction ${formattedDate.toString()} to ${formattedDate1.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  snapshot.data!.text,
+                                  style: font_style.White_700_16_ff,
+                                );
+                              } else {
+                                return  Text("Weekly Prediction ${formattedDate.toString()} to ${formattedDate1.toString()}", style: font_style.White_700_16_ff,);
+                              }
+                            },
+                          ),
+                          // Text("Weekly Prediction ${formattedDate.toString()} to ${formattedDate1.toString()}", style: font_style.White_700_16_ff,)
+                      ),
                     ),
 
                   ),
@@ -135,21 +167,65 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
                                   // color: Colors.blue,
-                                  child: Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
-                                      style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
+                                  child:
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                            style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)
+                                        );
+                                      } else {
+                                        return  Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                            style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold));
+                                      }
+                                    },
+                                  ),
+                                  // Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                  //     style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
                                   // color: Colors.blue,
-                                  child: Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                  child:
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("${_weeklyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                            snapshot.data!.text,
+                                            style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)
+                                        );
+                                      } else {
+                                        return  Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold));
+                                      }
+                                    },
+                                  ),
+                                  // Text("${_weeklyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(Get.width*0.010),
                                   width: Get.width,
                                   // color: Colors.blue,
-                                  child: Text(_weeklyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
-                                    style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
+                                  child:
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("${_weeklyPredictionCont_obj.oldResponse.value.data![index].description.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                            snapshot.data!.text,
+                                          style: font_style.Black_700_15_ff,
+                                        );
+                                      } else {
+                                        return Text(_weeklyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                          style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/);
+                                      }
+                                    },
+                                  ),
+                                  // Text(_weeklyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                  //   style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
                                 ),
                                 // SizedBox(height: Get.height*0.005,),
                                 Row(
@@ -173,7 +249,21 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                       ),
                                       alignment: Alignment.centerLeft,
                                       padding: EdgeInsets.all(Get.width*0.015),
-                                      child: Text("Lucky Number : ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
+                                      child:
+                                      FutureBuilder<Translation>(
+                                        future: translator.translate("Lucky Number : ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              snapshot.data!.text,
+                                                style: font_style.Black_bold_15_ff
+                                            );
+                                          } else {
+                                            return  Text("Lucky Number : ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,);
+                                          }
+                                        },
+                                      ),
+                                      // Text("Lucky Number : ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
                                     ),
                                     Container(
                                       // height: Get.height*0.060,
@@ -193,7 +283,21 @@ class _WeeklyPredictionScreenState extends State<WeeklyPredictionScreen> {
                                       ),
                                       alignment: Alignment.centerLeft,
                                       padding: EdgeInsets.all(Get.width*0.015),
-                                      child: Text("Lucky Colour: ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
+                                      child:
+                                      FutureBuilder<Translation>(
+                                        future: translator.translate("Lucky Colour: ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                                snapshot.data!.text,
+                                                style: font_style.Black_bold_15_ff
+                                            );
+                                          } else {
+                                            return Text("Lucky Colour: ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,);
+                                          }
+                                        },
+                                      ),
+                                      // Text("Lucky Colour: ${_weeklyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
                                     )
 
                                   ],

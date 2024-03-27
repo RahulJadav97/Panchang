@@ -4,6 +4,8 @@ import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/screen/festival_search_screen.dart';
 import 'package:panchang/festivals/screen/monthFestivale_screen.dart';
+import 'package:panchang/panchang/screen/panchang_screen.dart';
+import 'package:translator/translator.dart';
 
 class FestivalsScreen extends StatefulWidget {
   const FestivalsScreen({super.key});
@@ -13,6 +15,7 @@ class FestivalsScreen extends StatefulWidget {
 }
 
 class _FestivalsScreenState extends State<FestivalsScreen> {
+  final translator = GoogleTranslator();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,7 +39,21 @@ class _FestivalsScreenState extends State<FestivalsScreen> {
                   width: Get.width,
                   color: Colors.grey.shade700,
                   alignment: Alignment.centerLeft,
-                  child: Text("Festivals ", style:font_style.White_700_18_ff ,),
+                  child:
+                  FutureBuilder<Translation>(
+                    future: translator.translate("Festival", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data!.text,
+                          style:font_style.White_700_18_ff ,
+                        );
+                      } else {
+                        return  Text("Festivals ", style:font_style.White_700_18_ff ,);
+                      }
+                    },
+                  ),
+                  // Text("Festivals ", style:font_style.White_700_18_ff ,),
 
                 ),
                 SizedBox(height: Get.height*0.020,),
@@ -63,7 +80,22 @@ class _FestivalsScreenState extends State<FestivalsScreen> {
                           borderRadius: BorderRadius.circular(5),
                           color:common_red,
                         ),
-                        child: Text("Festival Search",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                        child:
+                        FutureBuilder<Translation>(
+                          future: translator.translate("Festival Search", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                snapshot.data!.text,
+                                style: font_style.white_600_20_cl,textAlign: TextAlign.center,
+                              );
+                            } else {
+                              return  Text("Festival Search",style: font_style.white_600_20_cl,textAlign: TextAlign.center, );
+                            }
+                          },
+                        ),
+                        // Text("Festival Search",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )
+                    ),
                   ),
                 ),
                 SizedBox(height: Get.height*0.020,),
@@ -90,7 +122,22 @@ class _FestivalsScreenState extends State<FestivalsScreen> {
                           borderRadius: BorderRadius.circular(5),
                           color: Color(0xff1b567a),
                         ),
-                        child: Text("Monthly Festivals",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                        child:
+                        FutureBuilder<Translation>(
+                          future: translator.translate("Monthly Festivals", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                snapshot.data!.text,
+                                style: font_style.white_600_20_cl,textAlign: TextAlign.center,
+                              );
+                            } else {
+                              return  Text("Monthly Festivals",style: font_style.white_600_20_cl,textAlign: TextAlign.center, );
+                            }
+                          },
+                        ),
+                        // Text("Monthly Festivals",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )
+                    ),
                   ),
                 ),
                 SizedBox(height: Get.height*0.020,),

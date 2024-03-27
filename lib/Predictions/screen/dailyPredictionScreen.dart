@@ -5,6 +5,9 @@ import 'package:panchang/Predictions/Controller/DailyPredictionController.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
+import 'package:translator/translator.dart';
+
+import '../../panchang/screen/panchang_screen.dart';
 
 class DailyPredictionScreen extends StatefulWidget {
   String ?date;
@@ -15,6 +18,7 @@ class DailyPredictionScreen extends StatefulWidget {
 }
 
 class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
+  final translator = GoogleTranslator();
 
   DailyPredictionController _dailyPredictionCont_obj = Get.put(DailyPredictionController());
   @override
@@ -49,7 +53,21 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                     width: Get.width,
                     color: Colors.grey.shade700,
                     alignment: Alignment.centerLeft,
-                    child: Text("Daily Prediction", style:font_style.White_700_18_ff ,),
+                    child:
+                    FutureBuilder<Translation>(
+                      future: translator.translate("Daily Prediction", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                              snapshot.data!.text,
+                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)
+                          );
+                        } else {
+                          return Text("Daily Prediction", style:font_style.White_700_18_ff ,);
+                        }
+                      },
+                    ),
+                    // Text("Daily Prediction", style:font_style.White_700_18_ff ,),
 
                   ),
                   SizedBox(height: SizeConfig.screenHeight*0.010,),
@@ -66,7 +84,21 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                     // child: Text("Chaughadia ${currentDate.toString()}", style: font_style.White_700_16_ff,),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Text("Daily Prediction ${widget.date.toString()}", style: font_style.White_700_16_ff,),
+                      child:
+                      FutureBuilder<Translation>(
+                        future: translator.translate("Daily Prediction ${widget.date.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                                snapshot.data!.text,
+                                style: font_style.White_700_16_ff
+                            );
+                          } else {
+                            return Text("Daily Prediction ${widget.date.toString()}",  style: font_style.White_700_16_ff,);
+                          }
+                        },
+                      ),
+                      // Text("Daily Prediction ${widget.date.toString()}", style: font_style.White_700_16_ff,),
                     ),
 
                   ),
@@ -110,22 +142,66 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                                  padding: EdgeInsets.all(Get.width*0.010),
                                  width: Get.width,
                                  // color: Colors.blue,
-                                 child: Text("${_dailyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
-                                     style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
+                                 child:
+                                 FutureBuilder<Translation>(
+                                   future: translator.translate("${_dailyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                   builder: (context, snapshot) {
+                                     if (snapshot.hasData) {
+                                       return Text(
+                                           snapshot.data!.text,
+                                           style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)
+                                       );
+                                     } else {
+                                       return  Text("${_dailyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                           style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold));
+                                     }
+                                   },
+                                 ),
+                                 // Text("${_dailyPredictionCont_obj.oldResponse.value.data![index].sunsignName.toString()}",
+                                 //     style: TextStyle(color: common_red,fontSize: 15,fontWeight: FontWeight.bold)),
                                ),
                                Container(
                                  padding: EdgeInsets.all(Get.width*0.010),
                                  width: Get.width,
                                  // color: Colors.blue,
-                                 child: Text("${_dailyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
+                                 child:
+                                 FutureBuilder<Translation>(
+                                   future: translator.translate("${_dailyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                   builder: (context, snapshot) {
+                                     if (snapshot.hasData) {
+                                       return Text(
+                                           snapshot.data!.text,
+                                           style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)
+                                       );
+                                     } else {
+                                       return Text("${_dailyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold));
+                                     }
+                                   },
+                                 ),
+                                 // Text("${_dailyPredictionCont_obj.oldResponse.value.data![index].date.toString()}", style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),
                                ),
 
                                Container(
                                  padding: EdgeInsets.all(Get.width*0.010),
                                  width: Get.width,
                                  // color: Colors.blue,
-                                 child: Text(_dailyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
-                                 style: font_style.Black_700_15_ff,/*textAlign: TextAlign.center,*/),
+                                 child:
+                                 FutureBuilder<Translation>(
+                                   future: translator.translate("${_dailyPredictionCont_obj.oldResponse.value.data![index].description.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                   builder: (context, snapshot) {
+                                     if (snapshot.hasData) {
+                                       return Text(
+                                           snapshot.data!.text,
+                                           style: font_style.Black_700_15_ff
+                                       );
+                                     } else {
+                                       return Text(_dailyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                         style: font_style.Black_700_15_ff,);
+                                     }
+                                   },
+                                 ),
+                                 // Text(_dailyPredictionCont_obj.oldResponse.value.data![index].description.toString(),
+                                 // style: font_style.Black_700_15_ff,),
                                ),
                                // SizedBox(height: Get.height*0.005,),
                                Row(
@@ -149,7 +225,21 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                                      ),
                                      alignment: Alignment.centerLeft,
                                      padding: EdgeInsets.all(Get.width*0.015),
-                                     child: Text("Lucky Number : ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
+                                     child:
+                                     FutureBuilder<Translation>(
+                                       future: translator.translate("Lucky Number : ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                       builder: (context, snapshot) {
+                                         if (snapshot.hasData) {
+                                           return Text(
+                                               snapshot.data!.text,
+                                               style: font_style.Black_bold_15_ff
+                                           );
+                                         } else {
+                                           return Text("Lucky Number : ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,);
+                                         }
+                                       },
+                                     ),
+                                     // Text("Lucky Number : ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyNumber.toString()}", style: font_style.Black_bold_15_ff,),
                                    ),
                                    Container(
                                      // height: Get.height*0.060,
@@ -169,7 +259,21 @@ class _DailyPredictionScreenState extends State<DailyPredictionScreen> {
                                      ),
                                      alignment: Alignment.centerLeft,
                                      padding: EdgeInsets.all(Get.width*0.015),
-                                     child: Text("Lucky Colour: ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
+                                     child:
+                                     FutureBuilder<Translation>(
+                                       future: translator.translate("Lucky Colour: ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                       builder: (context, snapshot) {
+                                         if (snapshot.hasData) {
+                                           return Text(
+                                               snapshot.data!.text,
+                                             style: font_style.Black_bold_15_ff,
+                                           );
+                                         } else {
+                                           return Text("Lucky Colour: ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,);
+                                         }
+                                       },
+                                     ),
+                                     // Text("Lucky Colour: ${_dailyPredictionCont_obj.oldResponse.value.data![index].luckyColor.toString()}", style: font_style.Black_bold_15_ff,),
                                    )
 
                                  ],

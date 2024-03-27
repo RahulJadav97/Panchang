@@ -5,6 +5,9 @@ import 'package:panchang/chaughadia/controller/choghadiya_controller.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
+import 'package:translator/translator.dart';
+
+import '../../panchang/screen/panchang_screen.dart';
 
 class ChaughadiaScreen extends StatefulWidget {
 
@@ -18,6 +21,7 @@ class ChaughadiaScreen extends StatefulWidget {
 
 class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
   ChogadiyaController chogadiyaController = Get.put(ChogadiyaController());
+  final translator = GoogleTranslator();
 
   bool chindex = false;
 
@@ -84,7 +88,19 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                   width: SizeConfig.screenWidth,
                   color: Colors.grey.shade700,
                   alignment: Alignment.centerLeft,
-                  child: Text("Chaughadia ", style:font_style.White_700_18_ff ,),
+                  child: FutureBuilder<Translation>(
+                    future: translator.translate("Chaughadiya ", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data!.text,
+                          style:font_style.White_700_18_ff
+                        );
+                      } else {
+                        return  Text("Chaughadiya ",style:font_style.White_700_18_ff );
+                      }
+                    },
+                  ),
 
                 ),
                 SizedBox(height: SizeConfig.screenHeight*0.002,),
@@ -104,7 +120,19 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                         ),
 
                         // child: Text("Chaughadia ${currentDate.toString()}", style: font_style.White_700_16_ff,),
-                        child: Text("Chaughadia ${widget.date.toString()}", style: font_style.White_700_16_ff,),
+                        child: FutureBuilder<Translation>(
+                          future: translator.translate("Chaughadia ${widget.date.toString()}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                  snapshot.data!.text,
+                                  style:font_style.White_700_18_ff
+                              );
+                            } else {
+                              return  Text("Chaughadia ${widget.date.toString()}", style: font_style.White_700_16_ff,);
+                            }
+                          },
+                        ),
 
                       ),
                       SizedBox(height: SizeConfig.screenHeight*0.010,),
@@ -127,7 +155,19 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                                   borderRadius: BorderRadius.circular(5)
                               ),
                               // padding: EdgeInsets.all(SizeConfig.screenWidth*0.020),
-                              child: Text("Day", style:font_style.White_700_16_ff ,),
+                              child: FutureBuilder<Translation>(
+                                future: translator.translate("Day", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                        snapshot.data!.text,
+                                        style:font_style.White_700_16_ff
+                                    );
+                                  } else {
+                                    return  Text("Day", style:font_style.White_700_16_ff,);
+                                  }
+                                },
+                              ),
                             ),
                           ),
                           SizedBox(width: SizeConfig.screenWidth*0.020,),
@@ -147,7 +187,19 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                                   borderRadius: BorderRadius.circular(5)
                               ),
                               // padding: EdgeInsets.all(SizeConfig.screenWidth*0.020),
-                              child: Text("Night", style:font_style.White_700_16_ff ,),
+                              child: FutureBuilder<Translation>(
+                                future: translator.translate("Night", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                        snapshot.data!.text,
+                                        style:font_style.White_700_16_ff
+                                    );
+                                  } else {
+                                    return  Text("Night", style:font_style.White_700_16_ff,);
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -181,7 +233,19 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                                 color:Color(0xffcb1505),
                               ),
                               alignment: Alignment.centerLeft,
-                              child: Text("${chindex == false?dayindex.choghadiya:nightindex.choghadiya}",style: font_style.White_700_16_ff,textAlign: TextAlign.center ),
+                              child: FutureBuilder<Translation>(
+                                future: translator.translate("${chindex == false?dayindex.choghadiya:nightindex.choghadiya}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                        snapshot.data!.text,
+                                        style: font_style.White_700_16_ff,textAlign: TextAlign.center
+                                    );
+                                  } else {
+                                    return  Text("${chindex == false?dayindex.choghadiya:nightindex.choghadiya}", style: font_style.White_700_16_ff,textAlign: TextAlign.center);
+                                  }
+                                },
+                              ),
                             ),
                             Container(
                               // height: SizeConfig.screenHeight*0.055,
@@ -204,13 +268,64 @@ class _ChaughadiaScreenState extends State<ChaughadiaScreen> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Column(
                                   children: [
-                                    Text("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}", style: font_style.Black_bold_15_ff,),
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: font_style.Black_bold_15_ff
+                                          );
+                                        } else {
+                                          return  Text("${chindex == false?"${dayindex.start} to ${dayindex.end}":"${"${nightindex.start} to ${nightindex.end}"}"}",  style: font_style.Black_bold_15_ff);
+                                        }
+                                      },
+                                    ),
                                     chindex == false&& dayindex.yamagandam !="0"?
-                                    Text("${chindex == false?dayindex.yamagandam:nightindex.yamagandam}", style: font_style.Black_bold_15_ff,):SizedBox(),
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${chindex == false?dayindex.yamagandam:nightindex.yamagandam}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: font_style.Black_bold_15_ff
+                                          );
+                                        } else {
+                                          return  Text("${chindex == false?dayindex.yamagandam:nightindex.yamagandam}",  style: font_style.Black_bold_15_ff);
+                                        }
+                                      },
+                                    ):
+                                    // Text("${chindex == false?dayindex.yamagandam:nightindex.yamagandam}", style: font_style.Black_bold_15_ff,):SizedBox(),
                                     chindex == false&& dayindex.gulikaKaal !="0"?
-                                    Text("${chindex == false?dayindex.gulikaKaal:nightindex.gulikaKaal}", style: font_style.Black_bold_15_ff,):SizedBox(),
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${chindex == false?dayindex.gulikaKaal:nightindex.gulikaKaal}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: font_style.Black_bold_15_ff
+                                          );
+                                        } else {
+                                          return  Text("${chindex == false?dayindex.gulikaKaal:nightindex.gulikaKaal}",  style: font_style.Black_bold_15_ff);
+                                        }
+                                      },
+                                    ):
+                                    // Text("${chindex == false?dayindex.gulikaKaal:nightindex.gulikaKaal}", style: font_style.Black_bold_15_ff,):SizedBox(),
                                     chindex == false&& dayindex.rahuKaal !="0"?
-                                    Text("${chindex == false?dayindex.rahuKaal:nightindex.rahuKaal}", style: font_style.Black_bold_15_ff,):SizedBox(),
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${chindex == false?dayindex.rahuKaal:nightindex.rahuKaal}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: font_style.Black_bold_15_ff
+                                          );
+                                        } else {
+                                          return  Text("${chindex == false?dayindex.rahuKaal:nightindex.rahuKaal}",  style: font_style.Black_bold_15_ff);
+                                        }
+                                      },
+                                    ):SizedBox()
+                                    // Text("${chindex == false?dayindex.rahuKaal:nightindex.rahuKaal}", style: font_style.Black_bold_15_ff,):SizedBox(),
                                   ],
                                 ),
                               )

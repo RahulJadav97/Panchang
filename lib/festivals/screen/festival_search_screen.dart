@@ -8,6 +8,8 @@ import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/festivals/controller/festival_controller.dart';
 import 'package:panchang/festivals/model/festival_model.dart';
+import 'package:panchang/panchang/screen/panchang_screen.dart';
+import 'package:translator/translator.dart';
 
 import 'festival_web_view.dart';
 class FestivalSearchScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class FestivalSearchScreen extends StatefulWidget {
 }
 
 class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
+  final translator = GoogleTranslator();
 
   FestivalController festivalController = Get.put(FestivalController());
   List<FestivalModel> festivalListSearch = [];
@@ -53,7 +56,21 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                   width: Get.width,
                   color: Colors.grey.shade700,
                   alignment: Alignment.centerLeft,
-                  child: Text("Search Festival ", style:font_style.White_700_18_ff ,),
+                  child:
+                  FutureBuilder<Translation>(
+                    future: translator.translate("Search Festival ", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                            snapshot.data!.text,
+                            style:font_style.White_700_18_ff
+                        );
+                      } else {
+                        return  Text("Search Festival ", style:font_style.White_700_18_ff ,);
+                      }
+                    },
+                  ),
+                  // Text("Search Festival ", style:font_style.White_700_18_ff ,),
 
                 ),
                 SizedBox(height: Get.height*0.020,),
@@ -116,7 +133,7 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: Container(
-                            height: Get.height*0.20,
+                            height: Get.height*0.21,
                             width: Get.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -150,21 +167,76 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                                           /// festival name
                                           Row(
                                             children: [
-                                              Text("Title : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),),
+                                              FutureBuilder<Translation>(
+                                                future: translator.translate("Title : ", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                      snapshot.data!.text,
+                                                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500)
+                                                    );
+                                                  } else {
+                                                    return  Text("Title : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),);
+                                                  }
+                                                },
+                                              ),
+                                              // Text("Title : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),),
                                               SizedBox(
                                                   width: Get.width*0.54,
                                                   height: Get.height*0.03,
                                                   child: SingleChildScrollView(
                                                     scrollDirection: Axis.horizontal,
-                                                      child: Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].title.toString(): festivalController.festivalList[index].title != ""?festivalController.festivalList[index].title:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w400),)))
+                                                      child:
+                                                      FutureBuilder<Translation>(
+                                                        future: translator.translate("${_searchCTC.text.isNotEmpty?festivalListSearch[index].title.toString(): festivalController.festivalList[index].title != ""?festivalController.festivalList[index].title:""}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasData) {
+                                                            return Text(
+                                                              snapshot.data!.text,
+                                                                style: TextStyle(color: common_red,fontWeight: FontWeight.w400)
+                                                            );
+                                                          } else {
+                                                            return Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].title.toString(): festivalController.festivalList[index].title != ""?festivalController.festivalList[index].title:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w400),);
+                                                          }
+                                                        },
+                                                      ),
+                                                      // Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].title.toString(): festivalController.festivalList[index].title != ""?festivalController.festivalList[index].title:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w400),)
+
+                                                  ))
                                             ],
                                           ),
                                           SizedBox(height: Get.height*0.01,),
                                           /// festival date
                                           Row(
                                             children: [
-                                              Text("Date : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),),
-                                              Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].date.toString(): festivalController.festivalList[index].date != ""?festivalController.festivalList[index].date:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)
+                                              FutureBuilder<Translation>(
+                                                future: translator.translate("Date : ", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                        snapshot.data!.text,
+                                                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300)
+                                                    );
+                                                  } else {
+                                                    return  Text("Date : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),);
+                                                  }
+                                                },
+                                              ),
+                                              // Text("Date : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),),
+                                              FutureBuilder<Translation>(
+                                                future: translator.translate("${_searchCTC.text.isNotEmpty?festivalListSearch[index].date.toString(): festivalController.festivalList[index].date != ""?festivalController.festivalList[index].date:""}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                        snapshot.data!.text,
+                                                        style: TextStyle(color: common_red,fontWeight: FontWeight.w200)
+                                                    );
+                                                  } else {
+                                                    return  Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].date.toString(): festivalController.festivalList[index].date != ""?festivalController.festivalList[index].date:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),);
+                                                  }
+                                                },
+                                              ),
+                                              // Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].date.toString(): festivalController.festivalList[index].date != ""?festivalController.festivalList[index].date:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)
                                             ],
                                           ),
                                           SizedBox(height: Get.height*0.01,),
@@ -172,13 +244,41 @@ class _FestivalSearchScreenState extends State<FestivalSearchScreen> {
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Description : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),),
+                                              FutureBuilder<Translation>(
+                                                future: translator.translate("Description : ", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                        snapshot.data!.text,
+                                                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300)
+                                                    );
+                                                  } else {
+                                                    return  Text("Description : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),);
+                                                  }
+                                                },
+                                              ),
+                                              // Text("Description : ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w300),),
                                               Container(
                                                   height: Get.height*0.08,
                                                   width: Get.width*0.64,
                                                   child: SingleChildScrollView(
                                                       scrollDirection: Axis.vertical,
-                                                      child: Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].description.toString(): festivalController.festivalList[index].description != ""?festivalController.festivalList[index].description:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)))
+                                                      child:
+                                                      FutureBuilder<Translation>(
+                                                        future: translator.translate("${_searchCTC.text.isNotEmpty?festivalListSearch[index].description.toString(): festivalController.festivalList[index].description != ""?festivalController.festivalList[index].description:""}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.hasData) {
+                                                            return Text(
+                                                                snapshot.data!.text,
+                                                                style: TextStyle(color: common_red,fontWeight: FontWeight.w200)
+                                                            );
+                                                          } else {
+                                                            return  Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].description.toString(): festivalController.festivalList[index].description != ""?festivalController.festivalList[index].description:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),);
+                                                          }
+                                                        },
+                                                      ),
+                                                      // Text("${_searchCTC.text.isNotEmpty?festivalListSearch[index].description.toString(): festivalController.festivalList[index].description != ""?festivalController.festivalList[index].description:""}",style: TextStyle(color: common_red,fontWeight: FontWeight.w200),)
+                                                  ))
                                             ],
                                           )
                                         ],

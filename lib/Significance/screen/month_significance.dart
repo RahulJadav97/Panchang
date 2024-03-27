@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panchang/common/common_colour.dart';
 import 'package:panchang/common/teststyle.dart';
+import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:translator/translator.dart';
 
 import '../../festivals/screen/festival_web_view.dart';
 import '../controller/month_significance_controller.dart';
@@ -15,7 +17,7 @@ class MonthSignificance extends StatefulWidget {
 }
 
 class _MonthSignificanceState extends State<MonthSignificance> {
-
+  final translator = GoogleTranslator();
   var msigni = Get.put(MonthlySignificanceController());
 
   @override
@@ -70,7 +72,21 @@ class _MonthSignificanceState extends State<MonthSignificance> {
                   width: Get.width,
                   color: Colors.grey.shade700,
                   alignment: Alignment.centerLeft,
-                  child: Text("Monthly Significance", style:font_style.White_700_18_ff ,),
+                  child:
+                  FutureBuilder<Translation>(
+                    future: translator.translate("Monthly Significance", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data!.text,
+                            style:font_style.White_700_18_ff
+                        );
+                      } else {
+                        return  Text("Monthly Significance", style:font_style.White_700_18_ff ,);
+                      }
+                    },
+                  ),
+                  // Text("Monthly Significance", style:font_style.White_700_18_ff ,),
 
                 ),
                 SizedBox(height: Get.height*0.020,),
@@ -106,7 +122,21 @@ class _MonthSignificanceState extends State<MonthSignificance> {
                                         color:common_red
                                     ),
                                     alignment: Alignment.centerLeft,
-                                    child: Text("${monthNames[index]} :",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),textAlign: TextAlign.center ),
+                                    child:
+                                    FutureBuilder<Translation>(
+                                      future: translator.translate("${monthNames[index]} :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                              snapshot.data!.text,
+                                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),textAlign: TextAlign.center
+                                          );
+                                        } else {
+                                          return  Text("${monthNames[index]} :",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                    // Text("${monthNames[index]} :",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),textAlign: TextAlign.center ),
                                     // child: Text("${monthNames[index]}:",style: font_style.white_600_20_cl,textAlign: TextAlign.center ),
                                   ),
                                 ),
@@ -140,7 +170,21 @@ class _MonthSignificanceState extends State<MonthSignificance> {
                                     )
                                   ]
                               ),
-                              child: Text("$month", style: font_style.Black_400_15_ff,),
+                              child:
+                              FutureBuilder<Translation>(
+                                future: translator.translate("$month:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                        snapshot.data!.text,
+                                        style: font_style.Black_400_15_ff
+                                    );
+                                  } else {
+                                    return  Text("$month", style: font_style.Black_400_15_ff,);
+                                  }
+                                },
+                              ),
+                              // Text("$month", style: font_style.Black_400_15_ff,),
                             ),
                           ),
                           SizedBox(height: Get.height*0.02,),
@@ -169,8 +213,34 @@ class _MonthSignificanceState extends State<MonthSignificance> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('${msigni.allMonthlySignificance[index].title}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
-                                                Text('Date: ${msigni.allMonthlySignificance[index].date}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
+                                                FutureBuilder<Translation>(
+                                                  future: translator.translate("$month:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Text(
+                                                          snapshot.data!.text,
+                                                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)
+                                                      );
+                                                    } else {
+                                                      return  Text('${msigni.allMonthlySignificance[index].title}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white));
+                                                    }
+                                                  },
+                                                ),
+                                                // Text('${msigni.allMonthlySignificance[index].title}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
+                                                FutureBuilder<Translation>(
+                                                  future: translator.translate("Date: ${msigni.allMonthlySignificance[index].date}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Text(
+                                                          snapshot.data!.text,
+                                                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)
+                                                      );
+                                                    } else {
+                                                      return   Text('Date: ${msigni.allMonthlySignificance[index].date}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white));
+                                                    }
+                                                  },
+                                                ),
+                                                // Text('Date: ${msigni.allMonthlySignificance[index].date}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
                                               ],
                                             )
                                         ),

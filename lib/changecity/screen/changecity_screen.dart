@@ -12,6 +12,7 @@ import 'package:panchang/common/teststyle.dart';
 import 'package:panchang/panchang/screen/panchang_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:translator/translator.dart';
 
 // import 'package:timezone/timezone.dart' as tz;
 // import 'package:timezone/standalone.dart' as tz;
@@ -30,6 +31,8 @@ class ChangeCityScreen extends StatefulWidget {
 }
 
 class _ChangeCityScreenState extends State<ChangeCityScreen> {
+
+  final translator = GoogleTranslator();
 
   CityController cityController = Get.put(CityController());
   CityDataController cityDataController = Get.put(CityDataController());
@@ -321,7 +324,21 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                                       color: Colors.grey.shade500,
                                       borderRadius: BorderRadius.circular(5)
                                   ),
-                                  child: Text("Done", style:font_style.Black_500_18_ff  ,),
+                                  child:
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("Done", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style: font_style.Black_500_18_ff,
+                                        );
+                                      } else {
+                                        return  Text("Done",style: font_style.Black_500_18_ff, );
+                                      }
+                                    },
+                                  ),
+                                  // Text("Done", style:font_style.Black_500_18_ff  ,),
                                 ),
                               ),
                             ),
@@ -405,7 +422,20 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(width: SizeConfig.screenWidth*0.020,),
-                            Text("Lattitudes:",style: font_style.Black_500_18_ff, ),
+                            FutureBuilder<Translation>(
+                              future: translator.translate("Latitude:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.text,
+                                    style: font_style.Black_500_18_ff,
+                                  );
+                                } else {
+                                  return  Text("Latitude:",style: font_style.Black_500_18_ff, );
+                                }
+                              },
+                            ),
+                            // Text("Lattitudes:",style: font_style.Black_500_18_ff, ),
                             SizedBox(width: SizeConfig.screenWidth*0.030,),
 
 
@@ -492,7 +522,21 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                                 ),
                                 Padding(
                                   padding:  EdgeInsets.only(top: SizeConfig.screenHeight*0.010),
-                                  child: Text("South",style: font_style.Black_500_18_ff,),
+                                  child:
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("South", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style: font_style.Black_500_18_ff,
+                                        );
+                                      } else {
+                                        return  Text("South",style: font_style.Black_500_18_ff, );
+                                      }
+                                    },
+                                  ),
+                                  // Text("South",style: font_style.Black_500_18_ff,),
                                 )
                               ],
                             )
@@ -505,7 +549,20 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(width: SizeConfig.screenWidth*0.020,),
-                            Text("Longitudes:",style: font_style.Black_500_18_ff, ),
+                            FutureBuilder<Translation>(
+                              future: translator.translate("Longitudes:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.text,
+                                    style: font_style.Black_500_18_ff,
+                                  );
+                                } else {
+                                  return  Text("Longitudes:",style: font_style.Black_500_18_ff, );
+                                }
+                              },
+                            ),
+                            // Text("Longitudes:",style: font_style.Black_500_18_ff, ),
                             SizedBox(width: SizeConfig.screenWidth*0.020,),
 
 
@@ -594,7 +651,21 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                                 SizedBox(width: SizeConfig.screenWidth*0.020,),
                                 Padding(
                                   padding:  EdgeInsets.only(top: SizeConfig.screenHeight*0.010),
-                                  child: Text("East", style: font_style.Black_500_18_ff,),
+                                  child:
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("East", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style: font_style.Black_500_18_ff,
+                                        );
+                                      } else {
+                                        return  Text("East",style: font_style.Black_500_18_ff, );
+                                      }
+                                    },
+                                  ),
+                                  // Text("East", style: font_style.Black_500_18_ff,),
                                 )
                               ],
                             )
@@ -608,7 +679,20 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(width: SizeConfig.screenWidth*0.020,),
-                            Text("TimeZone:",style: font_style.Black_500_18_ff, ),
+                            FutureBuilder<Translation>(
+                              future: translator.translate("TimeZone:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.text,
+                                    style: font_style.Black_500_18_ff,
+                                  );
+                                } else {
+                                  return  Text("TimeZone:",style: font_style.Black_500_18_ff, );
+                                }
+                              },
+                            ),
+                            // Text("TimeZone:",style: font_style.Black_500_18_ff, ),
                             SizedBox(width: SizeConfig.screenWidth*0.040,),
 
 
@@ -689,7 +773,20 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                           children: [
                             SizedBox(width: SizeConfig.screenWidth*0.1350,),
 
-                            Text("DST:",style: font_style.Black_500_18_ff, ),
+                            FutureBuilder<Translation>(
+                              future: translator.translate("DST:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.text,
+                                    style: font_style.Black_500_18_ff,
+                                  );
+                                } else {
+                                  return  Text("DST:",style: font_style.Black_500_18_ff, );
+                                }
+                              },
+                            ),
+                            // Text("DST:",style: font_style.Black_500_18_ff, ),
                             SizedBox(width: SizeConfig.screenWidth*0.05,),
                             Container(
                               // alignment: Alignment.center,
@@ -734,7 +831,20 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                           children: [
                             SizedBox(width: SizeConfig.screenWidth*0.1290,),
 
-                            Text("War:",style: font_style.Black_500_18_ff, ),
+                            FutureBuilder<Translation>(
+                              future: translator.translate("War:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.text,
+                                    style: font_style.Black_500_18_ff,
+                                  );
+                                } else {
+                                  return  Text("War:",style: font_style.Black_500_18_ff, );
+                                }
+                              },
+                            ),
+                            // Text("War:",style: font_style.Black_500_18_ff, ),
                             SizedBox(width: SizeConfig.screenWidth*0.05,),
                             Container(
                               // alignment: Alignment.center,
@@ -847,7 +957,21 @@ class _ChangeCityScreenState extends State<ChangeCityScreen> {
                                     // border: Border.all(width: 1)
                                   ),
                                   alignment: Alignment.center,
-                                  child: _panchangController_obj.loading.value?CircularProgressIndicator(color: Colors.white,):Text("Show Panchang", style: font_style.Black_400_15_ff,),
+                                  child: _panchangController_obj.loading.value?CircularProgressIndicator(color: Colors.white,):
+                                  FutureBuilder<Translation>(
+                                    future: translator.translate("Show Panchang", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style: font_style.Black_500_18_ff,
+                                        );
+                                      } else {
+                                        return  Text("Show Panchang",style: font_style.Black_500_18_ff, );
+                                      }
+                                    },
+                                  ),
+                                  // Text("Show Panchang", style: font_style.Black_400_15_ff,),
                                 ),
                               );
                             }

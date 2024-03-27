@@ -18,8 +18,10 @@ import 'package:panchang/festivals/controller/festival_date_controller.dart';
 import 'package:panchang/festivals/screen/festival_web_view.dart';
 import 'package:panchang/festivals/screen/festivals.dart';
 import 'package:panchang/grahan/screen/grahan_screen.dart';
+import 'package:panchang/grahan/screen/mo_grahan_screen.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:translator/translator.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:timezone/timezone.dart' as tz;
@@ -30,6 +32,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 
+
+String? selectedLanguage; // Default language key
 
 class PanchangScreen extends StatefulWidget {
 
@@ -49,7 +53,7 @@ class PanchangScreen extends StatefulWidget {
 class _PanchangScreenState extends State<PanchangScreen> {
 
 
-
+  final translator = GoogleTranslator();
 
   // Position? _currentlocation;
   late bool servicePermission=false;
@@ -272,6 +276,62 @@ class _PanchangScreenState extends State<PanchangScreen> {
 
 
   }
+
+
+  final Map<String, String> languageKeys = {
+    "Default Language": "klk",
+    "Gujarati":"gu",
+    "Hindi":"hi",
+    "English": "klkj",
+    "Telugu":"te",
+    "Marathi":"mr",
+    "Tamil":"ta",
+    "Urdu":"ur",
+    "Urdu":"ur",
+    "Kannada": "kn",
+    "Odia ": "or",
+    "Malayalam": "ml",
+    "Punjabi": "pa",
+    "Assamese": "as",
+    "Maithili": "mai",
+    "Santali": "sat",
+    "Kashmiri": "ks",
+    "Nepali": "ne",
+    "Konkani": "kok",
+    "Sindhi": "sd",
+    "Dogri ": "doi",
+    "Bodo ": "brx",
+    "Sanskrit ": "sa",
+    "Bhojpuri ": "bho",
+    "Magahi": "mag",
+    "Awadhi": "awa",
+    "Kokborok ": "trp",
+    "Albanian": "sq",
+    "Amharic": "am",
+    "Arabic": "ar",
+    "Armenian": "hy",
+    "Azerbaijani": "az",
+    "Basque": "eu",
+    "Belarusian": "be",
+    "Bengali": "bn",
+    "Bosnian": "bs",
+    "Bulgarian": "bg",
+    "Catalan": "ca",
+    "Cebuano": "ceb",
+    "Chinese (Simplified)": "zh-CN",
+    "Chinese (Traditional)": "zh-TW",
+    "Corsican": "co",
+    "Croatian": "hr",
+    "Czech": "cs",
+    "Danish": "da",
+    "Dutch": "nl",
+    "Esperanto": "eo",
+    "Estonian": "et",
+    "Finnish": "fi",
+
+    // Add more languages as needed
+  };
+
   bool panchagePageStatus = true;
 
   @override
@@ -289,12 +349,36 @@ class _PanchangScreenState extends State<PanchangScreen> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.020),
+                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.020,right: SizeConfig.screenWidth*0.020),
                       height: SizeConfig.screenHeight*0.050,
                       width: SizeConfig.screenWidth,
-                      color: Colors.grey.shade700,
+                      color: Colors.blue,
                       alignment: Alignment.centerLeft,
-                      child: Text("Panchang", style:font_style.White_700_18_ff ,),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Choose Language", style:font_style.White_700_18_ff ,),
+                            DropdownButton<String>(
+                              dropdownColor: Colors.blue,
+                              value: selectedLanguage,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedLanguage = newValue!;
+                                });
+                              },
+                              hint: Text('Select a language' ,style:font_style.White_700_18_ff ), // Set the hint text
+                              items: languageKeys.keys.map<DropdownMenuItem<String>>((String key) {
+                                return DropdownMenuItem<String>(
+
+                                  value: languageKeys[key],
+                                  child: Text(key,style:TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white,fontFamily: 'calibri'),
+                                  ));
+                              }).toList(),
+                            ),
+
+
+                          ],
+                      )
 
                     ),
                     _panchangController_obj.loading.value
@@ -397,7 +481,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
-                                            child: Text("Place: ${currentCityName}", style:font_style.white_400_11 ,)),
+                                            child: FutureBuilder<Translation>(
+                                              future: translator.translate("Place: ${currentCityName}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  return Text(
+                                                    snapshot.data!.text,
+                                                    style:font_style.white_400_11,
+                                                  );
+                                                } else {
+                                                  return  Text("Place: ${currentCityName}", style:font_style.white_400_11 ,);
+                                                }
+                                              },
+                                            ),
+                                        ),
                                       ),
                                     ),
                                   )
@@ -420,7 +517,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0xFFb36307),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Date:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child:FutureBuilder<Translation>(
+                                    future: translator.translate("Date", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        return  Text("Date:",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 StatefulBuilder(
                                   builder: (context, setState) {
@@ -441,7 +550,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                           ]
                                       ),
                                       alignment: Alignment.center,
-                                      child: Text("$currentdate ($currentdatedayname)", style: font_style.Black_bold_15_ff,),
+                                      child: FutureBuilder<Translation>(
+                                        future: translator.translate("$currentdate ($currentdatedayname)", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              snapshot.data!.text,
+                                                style: font_style.Black_bold_15_ff,
+                                            );
+                                          } else {
+                                            return   Text("$currentdate ($currentdatedayname)", style: font_style.Black_bold_15_ff,);
+                                          }
+                                        },
+                                      ),
 
                                     );
                                   },
@@ -463,7 +584,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0xFF04d479),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Sunrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child:FutureBuilder<Translation>(
+                                    future: translator.translate("Sunrise", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Sunrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
                                   height: SizeConfig.screenHeight*0.065,
@@ -482,7 +615,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       ]
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text("Sunrise ${_panchangController_obj.sunrise}", style: font_style.Black_bold_15_ff,),
+                                  child:FutureBuilder<Translation>(
+                                    future: translator.translate("Sunrise ${_panchangController_obj.sunrise}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.Black_bold_15_ff,
+                                        );
+                                      } else {
+                                        return  Text("Sunrise ${_panchangController_obj.sunrise}", style: font_style.Black_bold_15_ff,);
+                                      }
+                                    },
+                                  )
 
                                 )
                               ],
@@ -501,7 +646,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0xFFf505d1),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Sunset:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Sunset", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Sunset:",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
                                   height: SizeConfig.screenHeight*0.065,
@@ -520,7 +677,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       ]
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text("Sunset ${_panchangController_obj.sunset}", style: font_style.Black_bold_15_ff,),
+                                  child:FutureBuilder<Translation>(
+                                    future: translator.translate("Sunset ${_panchangController_obj.sunset}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.Black_bold_15_ff,
+                                        );
+                                      } else {
+                                        return  Text("Sunset ${_panchangController_obj.sunset}", style: font_style.Black_bold_15_ff,);
+                                      }
+                                    },
+                                  )
 
                                 )
                               ],
@@ -542,29 +711,53 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       width: SizeConfig.screenWidth*0.310,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color:Color(0XFF0394fc),
+                                        color:Color(0xFFf505d1),
                                       ),
                                       alignment: Alignment.centerLeft,
-                                      child: Text("Moonrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                      child: FutureBuilder<Translation>(
+                                        future: translator.translate("Moonrise", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              snapshot.data!.text,
+                                              style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                            );
+                                          } else {
+                                            return  Text("Moonrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                          }
+                                        },
+                                      ),
                                     ),
                                     Container(
-                                      height: SizeConfig.screenHeight*0.065,
-                                      width: SizeConfig.screenWidth*0.650,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Color(0XFFfedec5),
-                                          border: Border.all(color: common_red, width: 1),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 1,
-                                                color: Color(0XFFbe765a),
-                                                spreadRadius: 1.0,
-                                                offset: Offset(0.0, 2.0)
-                                            )
-                                          ]
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text("Moonrise ${_panchangController_obj.moonrise}", style: font_style.Black_bold_15_ff,),
+                                        height: SizeConfig.screenHeight*0.065,
+                                        width: SizeConfig.screenWidth*0.650,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Color(0XFFfedec5),
+                                            border: Border.all(color: common_red, width: 1),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  blurRadius: 1,
+                                                  color: Color(0XFFbe765a),
+                                                  spreadRadius: 1.0,
+                                                  offset: Offset(0.0, 2.0)
+                                              )
+                                            ]
+                                        ),
+                                        alignment: Alignment.center,
+                                        child:FutureBuilder<Translation>(
+                                          future: translator.translate("Moonrise ${_panchangController_obj.moonrise}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                snapshot.data!.text,
+                                                style:font_style.Black_bold_15_ff,
+                                              );
+                                            } else {
+                                              return  Text("Moonrise ${_panchangController_obj.moonrise}", style: font_style.Black_bold_15_ff,);
+                                            }
+                                          },
+                                        )
 
                                     )
                                   ],
@@ -580,29 +773,53 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       width: SizeConfig.screenWidth*0.310,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color:Color(0XFFf57105),
+                                        color:Color(0xFFf505d1),
                                       ),
                                       alignment: Alignment.centerLeft,
-                                      child: Text("Moonset:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                      child: FutureBuilder<Translation>(
+                                        future: translator.translate("Moonrise", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              snapshot.data!.text,
+                                              style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                            );
+                                          } else {
+                                            return  Text("Moonrise:",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                          }
+                                        },
+                                      ),
                                     ),
                                     Container(
-                                      height: SizeConfig.screenHeight*0.065,
-                                      width: SizeConfig.screenWidth*0.650,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Color(0XFFfedec5),
-                                          border: Border.all(color: common_red, width: 1),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 1,
-                                                color: Color(0XFFbe765a),
-                                                spreadRadius: 1.0,
-                                                offset: Offset(0.0, 2.0)
-                                            )
-                                          ]
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text("Moonset ${_panchangController_obj.moonset}", style: font_style.Black_bold_15_ff,),
+                                        height: SizeConfig.screenHeight*0.065,
+                                        width: SizeConfig.screenWidth*0.650,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Color(0XFFfedec5),
+                                            border: Border.all(color: common_red, width: 1),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  blurRadius: 1,
+                                                  color: Color(0XFFbe765a),
+                                                  spreadRadius: 1.0,
+                                                  offset: Offset(0.0, 2.0)
+                                              )
+                                            ]
+                                        ),
+                                        alignment: Alignment.center,
+                                        child:FutureBuilder<Translation>(
+                                          future: translator.translate("Moonrise ${_panchangController_obj.moonrise}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                snapshot.data!.text,
+                                                style:font_style.Black_bold_15_ff,
+                                              );
+                                            } else {
+                                              return  Text("Moonrise ${_panchangController_obj.moonrise}", style: font_style.Black_bold_15_ff,);
+                                            }
+                                          },
+                                        )
 
                                     )
                                   ],
@@ -651,6 +868,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             // SizedBox(height: SizeConfig.screenHeight*0.010,),
 
                             //Vikram Samwat
+                           /// vikaram samvat
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -663,27 +881,50 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFFBE2E2E),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Vikrami Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Vikrami Samwat:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Vikrami Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.vikramSamvat.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.vikramSamvat.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return  Text(_panchangController_obj.vikramSamvat.toString(), style: font_style.Black_bold_15_ff,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -703,27 +944,50 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFF447eeb),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Shaka Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Shaka Samwat:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Shaka Samwat:",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.shakaSamvat.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.shakaSamvat.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return  Text(_panchangController_obj.shakaSamvat.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -733,7 +997,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Tithi
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   padding: EdgeInsets.all(Get.height*0.008),
@@ -744,27 +1007,54 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFFb402c4),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Tithi :",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Tithi :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Tithi :",style: font_style.White_700_17_ff,textAlign: TextAlign.left);
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.tithi.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    padding: EdgeInsets.all(Get.height*0.008),
+                                    // height: SizeConfig.screenHeight*0.080,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    constraints: BoxConstraints(
+                                      minHeight: SizeConfig.screenHeight*0.080
+                                    ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.tithi.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return  Text(_panchangController_obj.tithi.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -774,7 +1064,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Nakshatra
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   padding: EdgeInsets.all(Get.height*0.008),
@@ -785,27 +1074,50 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFF205D25),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Nakshatra :",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Nakshatra :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Nakshatra :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.nakshatra.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.nakshatra.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.nakshatra.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -815,8 +1127,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Yoga
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-
                               children: [
                                 Container(
                                   padding: EdgeInsets.all(Get.height*0.008),
@@ -827,27 +1137,50 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFF503A34),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Yoga:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Yoga :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Yoga :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.yoga.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.yoga.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.yoga.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -857,7 +1190,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             //Karan
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   padding: EdgeInsets.all(Get.height*0.008),
@@ -868,27 +1200,50 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFF2173C2),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Karan:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Karan :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Karan :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.karan.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.karan.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.karan.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -897,7 +1252,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
 
                             //Rashi
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
@@ -909,27 +1263,50 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     color:Color(0XFF225E27),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Rashi:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Rashi :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        return  Text("Rashi :",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.rashi!.replaceAll("Rashi: ", "").toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.rashi!.replaceAll("Rashi: ", "").toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.rashi!.replaceAll("Rashi: ", "").toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -948,34 +1325,54 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                      constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                      width: SizeConfig.screenWidth*0.310,
                                      decoration: BoxDecoration(
-                                         borderRadius: BorderRadius.circular(10),
-                                         // color:Colors.purple,
-                                         color:Color(0XFFBB3030)
+                                       borderRadius: BorderRadius.circular(10),
+                                       color:Color(0XFFBB3030),
                                      ),
                                      alignment: Alignment.centerLeft,
-                                     child: Text("Mass:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                     child: FutureBuilder<Translation>(
+                                       future: translator.translate("Mass :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                       builder: (context, snapshot) {
+                                         if (snapshot.hasData) {
+                                           return Text(
+                                             snapshot.data!.text,
+                                             style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                           );
+                                         } else {
+                                           return  Text("Mass :",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                         }
+                                       },
+                                     ),
                                    ),
                                    Container(
-                                     padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                     // height: SizeConfig.screenHeight*0.065,
-
-
-                                     width: SizeConfig.screenWidth*0.650,
-                                     decoration: BoxDecoration(
-                                         borderRadius: BorderRadius.circular(10),
-                                         color: Color(0XFFfedec5),
-                                         border: Border.all(color: common_red, width: 1),
-                                         boxShadow: const [
-                                           BoxShadow(
-                                               blurRadius: 1,
-                                               color: Color(0XFFbe765a),
-                                               spreadRadius: 1.0,
-                                               offset: Offset(0.0, 2.0)
-                                           )
-                                         ]
-                                     ),
-                                     alignment: Alignment.center,
-                                     child: Text(_panchangController_obj.mass.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                       height: SizeConfig.screenHeight*0.065,
+                                       width: SizeConfig.screenWidth*0.650,
+                                       decoration: BoxDecoration(
+                                           borderRadius: BorderRadius.circular(10),
+                                           color:  Color(0XFFfedec5),
+                                           border: Border.all(color: common_red, width: 1),
+                                           boxShadow: const [
+                                             BoxShadow(
+                                                 blurRadius: 1,
+                                                 color: Color(0XFFbe765a),
+                                                 spreadRadius: 1.0,
+                                                 offset: Offset(0.0, 2.0)
+                                             )
+                                           ]
+                                       ),
+                                       alignment: Alignment.center,
+                                       child:FutureBuilder<Translation>(
+                                         future: translator.translate(_panchangController_obj.mass.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                         builder: (context, snapshot) {
+                                           if (snapshot.hasData) {
+                                             return Text(
+                                               snapshot.data!.text,
+                                               style:font_style.Black_bold_15_ff,
+                                             );
+                                           } else {
+                                             return Text(_panchangController_obj.mass.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                           }
+                                         },
+                                       )
 
                                    )
                                  ],
@@ -993,32 +1390,54 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0xFF311B92)
-                                    // color:Colors.blue.shade700,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Color(0xFF311B92),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Ritu:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify,  ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Ritu :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        return  Text("Ritu :",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.ritu.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.ritu.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.ritu.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1034,38 +1453,60 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color:  Color(0xFFdb07b8)
-                                    // color:CupertinoColors.activeGreen,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Color(0xFFdb07b8),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Panchak:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Panchak :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Panchak :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.panchak.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.panchak.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.panchak.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.010,),
-
+                            /// gandmool
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -1074,32 +1515,54 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0xFF06cc09),
-                                    // color:CupertinoColors.activeGreen,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Color(0xFF06cc09),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Gandmool:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Gandmool :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Gandmool :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.gandmool.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.gandmool.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.gandmool.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1115,32 +1578,54 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color:  Color(0xFFB71C1C),
-                                    // color:Colors.deepOrange,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Color(0xFFB71C1C),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Disha shool:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Disha shool :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        return  Text("Disha shool :",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.dishaShool.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.dishaShool.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.dishaShool.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1161,55 +1646,67 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                     width: SizeConfig.screenWidth*0.310,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color:  Color(0xFF7F2F93),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color:  Color(0xFF7F2F93),
                                       // color:Color(0xff1b567a),
                                     ),
                                     alignment: Alignment.centerLeft,
-                                    child: Text("Festival:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate("Festival :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Festival :",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                    // height: SizeConfig.screenHeight*0.065,
-                                    width: SizeConfig.screenWidth*0.650,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Color(0XFFfedec5),
-                                        border: Border.all(color: common_red, width: 1),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              blurRadius: 1,
-                                              color: Color(0XFFbe765a),
-                                              spreadRadius: 1.0,
-                                              offset: Offset(0.0, 2.0)
-                                          )
-                                        ]
-                                    ),
-                                    alignment: Alignment.center,
-                                    child:Obx(() => festivalDate.loading1.value?Center(child: CircularProgressIndicator(color: common_red,),):
-                                    festivalDate.oldResponse.value.data!.isEmpty?
-                                    Text(" No Festival", style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,):
-                                    Container(
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: festivalDate.oldResponse.value.data!.length,
-                                          itemBuilder:(BuildContext context,int indexx) {
-                                            return InkWell(
-                                                onTap: (){
-                                                  Get.to(()=>FestivalWebScreen(webUrl: "${festivalDate.oldResponse.value.data![indexx].link}",));
-                                                },
-                                                child: Align(
-                                                    alignment: Alignment.topLeft,
-                                                    child: Column(
-                                                      children: [
-                                                        Text("${festivalDate.oldResponse.value.data![indexx].title?.trim()??"No Festival"}", style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
-                                                        festivalDate.oldResponse.value.data!.length ==1?SizedBox(): Divider(color: common_red,thickness: 3,)
-                                                      ],
-                                                    )));
-                                          }
+                                      padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
+                                      // height: SizeConfig.screenHeight*0.065,
+                                      width: SizeConfig.screenWidth*0.650,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0XFFfedec5),
+                                          border: Border.all(color: common_red, width: 1),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                blurRadius: 1,
+                                                color: Color(0XFFbe765a),
+                                                spreadRadius: 1.0,
+                                                offset: Offset(0.0, 2.0)
+                                            )
+                                          ]
                                       ),
-                                    ),
-                                    )
+                                      alignment: Alignment.center,
+                                      child:Obx(() => festivalDate.loading1.value?Center(child: CircularProgressIndicator(color: common_red,),):
+                                      festivalDate.oldResponse.value.data!.isEmpty?
+                                      Text(" No Festival", style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,):
+                                      Container(
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: festivalDate.oldResponse.value.data!.length,
+                                            itemBuilder:(BuildContext context,int indexx) {
+                                              return InkWell(
+                                                  onTap: (){
+                                                    Get.to(()=>FestivalWebScreen(webUrl: "${festivalDate.oldResponse.value.data![indexx].link}",));
+                                                  },
+                                                  child: Align(
+                                                      alignment: Alignment.topLeft,
+                                                      child: Column(
+                                                        children: [
+                                                          Text("${festivalDate.oldResponse.value.data![indexx].title?.trim()??"No Festival"}", style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                                          festivalDate.oldResponse.value.data!.length ==1?SizedBox(): Divider(color: common_red,thickness: 3,)
+                                                        ],
+                                                      )));
+                                            }
+                                        ),
+                                      ),
+                                      )
                                     // Text(_panchangController_obj.fastival.toString().isEmpty?" No Festival":_panchangController_obj.fastival.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
                                   ),
                                 ],
@@ -1226,32 +1723,54 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   constraints: BoxConstraints(minHeight: SizeConfig.screenHeight * 0.060),
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color:  Color(0xFF7F2F55),
-                                    // color:Color(0xff654a24),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:Color(0xFF7F2F55),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Bhadra:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Bhadra :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Bhadra :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.Bhadra.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.Bhadra.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.Bhadra.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1272,7 +1791,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(15)
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text("Inauspicious Period:", style: font_style.Black_500_18_ff,),
+                                  child:FutureBuilder<Translation>(
+                                    future: translator.translate("Inauspicious Period:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style: font_style.Black_500_18_ff,
+                                        );
+                                      } else {
+                                        return  Text("Inauspicious Period:",style: font_style.Black_500_18_ff,);
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -1288,30 +1819,53 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFF0511f7),
+                                    color:Color(0xFF0511f7),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Rahukaal:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Rahukaal :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Rahukaal :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.rahu_kaal.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.rahu_kaal.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.rahu_kaal.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1328,30 +1882,53 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFF7F2F11),
+                                    color:Color(0xFF7F2F11),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Yamagandam:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Yamagandam :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Yamagandam :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.yamagamdam.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.yamagamdam.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.yamagamdam.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1368,30 +1945,53 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                   width: SizeConfig.screenWidth*0.310,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color:  Color(0xFFfa05ee),
+                                    color:Color(0xFFfa05ee),
                                   ),
                                   alignment: Alignment.centerLeft,
-                                  child: Text("Gulika kaal:",style: font_style.White_700_17_ff,textAlign: TextAlign.justify ),
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Gulika kaal :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                        );
+                                      } else {
+                                        return  Text("Gulika kaal :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                      }
+                                    },
+                                  ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                  // height: SizeConfig.screenHeight*0.065,
-                                  width: SizeConfig.screenWidth*0.650,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0XFFfedec5),
-                                      border: Border.all(color: common_red, width: 1),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 1,
-                                            color: Color(0XFFbe765a),
-                                            spreadRadius: 1.0,
-                                            offset: Offset(0.0, 2.0)
-                                        )
-                                      ]
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(_panchangController_obj.gulikaKaal.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                    height: SizeConfig.screenHeight*0.065,
+                                    width: SizeConfig.screenWidth*0.650,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:  Color(0XFFfedec5),
+                                        border: Border.all(color: common_red, width: 1),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              blurRadius: 1,
+                                              color: Color(0XFFbe765a),
+                                              spreadRadius: 1.0,
+                                              offset: Offset(0.0, 2.0)
+                                          )
+                                        ]
+                                    ),
+                                    alignment: Alignment.center,
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate(_panchangController_obj.gulikaKaal.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.Black_bold_15_ff,
+                                          );
+                                        } else {
+                                          return Text(_panchangController_obj.gulikaKaal.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                        }
+                                      },
+                                    )
 
                                 )
                               ],
@@ -1411,30 +2011,53 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                      width: SizeConfig.screenWidth*0.310,
                                      decoration: BoxDecoration(
                                        borderRadius: BorderRadius.circular(10),
-                                       color: Color(0xFF7F5F22),
+                                       color:Color(0xFF7F5F22),
                                      ),
                                      alignment: Alignment.centerLeft,
-                                     child: Text("Dur Muhurat:",style: font_style.White_700_17_ff,textAlign: TextAlign.center ),
+                                     child: FutureBuilder<Translation>(
+                                       future: translator.translate("Dur Muhurat :", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                       builder: (context, snapshot) {
+                                         if (snapshot.hasData) {
+                                           return Text(
+                                             snapshot.data!.text,
+                                             style:font_style.White_700_17_ff,textAlign: TextAlign.left,
+                                           );
+                                         } else {
+                                           return  Text("Dur Muhurat :",style: font_style.White_700_17_ff,textAlign: TextAlign.left );
+                                         }
+                                       },
+                                     ),
                                    ),
                                    Container(
-                                     padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight*0.015),
-                                     // height: SizeConfig.screenHeight*0.065,
-                                     width: SizeConfig.screenWidth*0.650,
-                                     decoration: BoxDecoration(
-                                         borderRadius: BorderRadius.circular(10),
-                                         color: Color(0XFFfedec5),
-                                         border: Border.all(color: common_red, width: 1),
-                                         boxShadow: const [
-                                           BoxShadow(
-                                               blurRadius: 1,
-                                               color: Color(0XFFbe765a),
-                                               spreadRadius: 1.0,
-                                               offset: Offset(0.0, 2.0)
-                                           )
-                                         ]
-                                     ),
-                                     alignment: Alignment.center,
-                                     child: Text(_panchangController_obj.durMuhurat.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,),
+                                       height: SizeConfig.screenHeight*0.065,
+                                       width: SizeConfig.screenWidth*0.650,
+                                       decoration: BoxDecoration(
+                                           borderRadius: BorderRadius.circular(10),
+                                           color:  Color(0XFFfedec5),
+                                           border: Border.all(color: common_red, width: 1),
+                                           boxShadow: const [
+                                             BoxShadow(
+                                                 blurRadius: 1,
+                                                 color: Color(0XFFbe765a),
+                                                 spreadRadius: 1.0,
+                                                 offset: Offset(0.0, 2.0)
+                                             )
+                                           ]
+                                       ),
+                                       alignment: Alignment.center,
+                                       child:FutureBuilder<Translation>(
+                                         future: translator.translate(_panchangController_obj.durMuhurat.toString(), to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                         builder: (context, snapshot) {
+                                           if (snapshot.hasData) {
+                                             return Text(
+                                               snapshot.data!.text,
+                                               style:font_style.Black_bold_15_ff,
+                                             );
+                                           } else {
+                                             return Text(_panchangController_obj.durMuhurat.toString(), style: font_style.Black_bold_15_ff,textAlign: TextAlign.center,);
+                                           }
+                                         },
+                                       )
 
                                    )
                                  ],
@@ -1509,7 +2132,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Colors.purple,
                                     ),
-                                    child: Text("Chaughadiya",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Chaughadia", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Chaughadia",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1539,7 +2175,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Colors.green,
                                     ),
-                                    child: Text("Change Date",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child:FutureBuilder<Translation>(
+                                      future: translator.translate("Change Date", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Change Date",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1570,7 +2219,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:common_red,
                                     ),
-                                    child: Text("Change City",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Change City", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Change City",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1596,7 +2258,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Color(0xff1b567a),
                                     ),
-                                    child: Text("Festivals",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Festivals", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Festivals",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1624,7 +2299,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Color(0xff463458),
                                     ),
-                                    child: Text("Hora",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Hora", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Hora",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1653,7 +2341,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Colors.purpleAccent,
                                     ),
-                                    child: Text("Significance",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Significanse", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Significance",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1661,7 +2362,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                             InkWell(
                               onTap: () {
                                 print(currentdate);
-                                Get.to(()=>GrahanScreen(year: currentdate.toString(),));
+                                Get.to(()=>MonGrahanScreen(year: currentdate.toString(),));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(SizeConfig.screenWidth*0.010),
@@ -1681,7 +2382,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Colors.cyan,
                                     ),
-                                    child: Text("List of Eclipse",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("List of Eclipse", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("List of Eclipse",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1709,7 +2423,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Color(0xff1b567a),
                                     ),
-                                    child: Text("Daily Predictions",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Daily Prediction", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Daily Prediction",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1737,7 +2464,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:Color(0xff654a24),
                                     ),
-                                    child: Text("Weekly Predictions",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Weekly Prediction", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Weekly Prediction",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
                             SizedBox(height: SizeConfig.screenHeight*0.015,),
@@ -1765,7 +2505,20 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color:common_red,
                                     ),
-                                    child: Text("Monthly Predictions",style: font_style.white_600_20_cl,textAlign: TextAlign.center, )),
+                                    child: FutureBuilder<Translation>(
+                                      future: translator.translate("Monthly Prediction", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!.text,
+                                            style:font_style.white_600_20_cl,textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return  Text("Monthly Prediction",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                        }
+                                      },
+                                    ),
+                                ),
                               ),
                             ),
 
@@ -1783,7 +2536,19 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                     borderRadius: BorderRadius.circular(5),
                                     color:Color(0xff980101),
                                   ),
-                                  child: Text("know About Yourself>>",style: font_style.white_600_15_cl,textAlign: TextAlign.center, )
+                                  child: FutureBuilder<Translation>(
+                                    future: translator.translate("Know About YourSelf >>", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!.text,
+                                          style:font_style.White_700_17_ff,textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        return  Text("Know About Yourself >>",style: font_style.White_700_17_ff,textAlign: TextAlign.center );
+                                      }
+                                    },
+                                  ),
                               ),
                             ),
 
@@ -1901,137 +2666,23 @@ class _PanchangScreenState extends State<PanchangScreen> {
     }
   }
 
+  void selectLangu(){
+    DropdownButton<String>(
+      value: selectedLanguage,
+      onChanged: (String? newValue) {
+        setState(() {
+          selectedLanguage = newValue!;
+        });
+      },
+      items: languageKeys.keys.map<DropdownMenuItem<String>>((String key) {
+        return DropdownMenuItem<String>(
+          value: languageKeys[key],
+          child: Text(key),
+        );
+      }).toList(),
+    );
+  }
 
-  // /// --------- current location ----------------///
-  //
-  // Future<Position> _determinePosition() async {
-  //   print("current location call");
-  //   bool serviceEnabled;
-  //   LocationPermission permission;
-  //
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     return Future.error('Location services are disabled.');
-  //   }
-  //
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       return Future.error('Location permissions are denied');
-  //     }
-  //   }
-  //
-  //   if (permission == LocationPermission.deniedForever) {
-  //     return Future.error(
-  //         'Location permissions are permanently denied, we cannot request permissions.');
-  //   }
-  //
-  //   return await Geolocator.getCurrentPosition();
-  // }
-  //
-  //
-  // Future<void> getPosition() async {
-  //   // Get the current position
-  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  //   await GetAddressFromLatLong(position);
-  // }
-  //
-  // var ltd ;
-  // var long;
-  // var Address;
-  // Future<void> GetAddressFromLatLong(Position position) async {
-  //   setState(() {
-  //     ltd =  position.latitude;
-  //     long =  position.longitude;
-  //   });
-  //   timezoneName();
-  //   double latitude = position.latitude;
-  //   double longitude = position.longitude;
-  //
-  //   SharedPreferences sh = await SharedPreferences.getInstance();
-  //
-  //   List<Placemark> placemarks = await placemarkFromCoordinates(
-  //     position.latitude,
-  //     position.longitude,
-  //   );
-  //
-  //   print(placemarks);
-  //   Placemark place = placemarks[0];
-  //   setState(() {
-  //     Address = '${place.locality}';
-  //     sh.setString("sh_selectedCity", Address.toString());
-  //     print("Address: $Address");
-  //   });
-  //
-  //   // Extract latitude degrees and minutes
-  //   int latitudeDegrees = latitude.floor();
-  //   double latitudeMinutes = (latitude - latitudeDegrees) * 60;
-  //
-  //   // Extract longitude degrees and minutes
-  //   int longitudeDegrees = longitude.floor();
-  //   double longitudeMinutes = (longitude - longitudeDegrees) * 60;
-  //
-  //   sh.setString("sh_selectedLtd", latitude.toString());
-  //   sh.setString("sh_selectedLtdDeg", latitudeDegrees.toString());
-  //   sh.setString("sh_selectedLtdMin", latitudeMinutes.toString());
-  //
-  //   sh.setString("sh_selectedLong", longitude.toString());
-  //   sh.setString("sh_selectedLongDeg", longitudeDegrees.toString());
-  //   sh.setString("sh_selectedLongMin", longitudeMinutes.toString());
-  //
-  //   print("==============================================GetAddressFromLatLong open ================================");
-  //   print("sh_selectedCity : ${sh.getString("sh_selectedCity")}");
-  //
-  //   print("sh_selectedLtd : ${sh.getString("sh_selectedLtd")}");
-  //   print("sh_selectedLtdDeg : ${sh.getString("sh_selectedLtdDeg")}");
-  //   print("sh_selectedLtdMin : ${sh.getString("sh_selectedLtdMin")}");
-  //
-  //   print("sh_selectedLong : ${sh.getString("sh_selectedLong")}");
-  //   print("sh_selectedLongDeg : ${sh.getString("sh_selectedLongDeg")}");
-  //   print("sh_selectedLongMin : ${sh.getString("sh_selectedLongMin")}");
-  //   print("==============================================GetAddressFromLatLong close ================================");
-  // }
-  //
-  // var tzName;
-  // timezoneName(){
-  //   print(ltd);
-  //   String tz = tzmap.latLngToTimezoneString(ltd,long);
-  //   setState(() {
-  //     tzName = tz;
-  //     setup();
-  //   });
-  //   print('Montreal is in the $tz time zone.');
-  //
-  //
-  // }
-  // String? realTimeZon;
-  // var timeZoneMin;
-  // var timeZoneHour;
-  // Future<void> setup() async {
-  //   var londonLocation = tz.getLocation(tzName.toString());
-  //   print("londonLocation $londonLocation");
-  //   var nowInLondon = tz.TZDateTime.now(londonLocation);
-  //   print("minute${nowInLondon.minute}");
-  //   print("hour${nowInLondon.hour}");
-  //   // print(nowInLondon.hour);
-  //
-  //   setState(() {
-  //     realTimeZon = nowInLondon.toString();
-  //     timeZoneMin = nowInLondon.minute;
-  //     timeZoneHour = nowInLondon.hour;
-  //   });
-  //
-  //   print("==============================================setup open ================================");
-  //   SharedPreferences sh = await SharedPreferences.getInstance();
-  //   sh.setString("sh_selectedZHour", timeZoneHour.toString());
-  //   sh.setString("sh_selectedZMin", timeZoneMin.toString());
-  //
-  //   print("sh_selectedZHour : ${sh.getString("sh_selectedZHour")}");
-  //   print("sh_selectedZMin : ${sh.getString("sh_selectedZMin")}");
-  //   print("==============================================setup Close ================================");
-  //
-  // }
 }
 
 
