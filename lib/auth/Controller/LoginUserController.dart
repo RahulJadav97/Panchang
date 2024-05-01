@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
+import '../../home/screen/change_home_screen.dart';
+
 class LoginUserController extends GetxController{
 
   var loading  = false.obs;
@@ -75,7 +77,8 @@ class LoginUserController extends GetxController{
               Response = res.obs;
               SharedPreferences sh = await SharedPreferences.getInstance();
               sh.setString("sh_userId",oldResponse.value.userData!.id.toString());
-              Get.to(HomeScreen());
+              Get.offAll(()=>ChangeHomeScreen());
+              // Get.to(HomeScreen());
             } else {
               Get.snackbar(
                 "Apple Login Error",

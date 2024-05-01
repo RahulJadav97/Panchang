@@ -214,7 +214,7 @@ class _MonthSignificanceState extends State<MonthSignificance> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 FutureBuilder<Translation>(
-                                                  future: translator.translate("$month:", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                                  future: translator.translate("${msigni.allMonthlySignificance[index].title}", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
                                                   builder: (context, snapshot) {
                                                     if (snapshot.hasData) {
                                                       return Text(

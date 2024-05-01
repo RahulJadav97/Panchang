@@ -747,7 +747,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         
                   GestureDetector(
                     onTap: (){
-                      Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer .com",));
+                      Get.to(()=>FestivalWebScreen(webUrl: "https://www.premastrologer.com",));
                     },
                     child: Container(
                         margin: EdgeInsets.symmetric(

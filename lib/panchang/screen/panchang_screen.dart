@@ -294,18 +294,11 @@ class _PanchangScreenState extends State<PanchangScreen> {
     "Punjabi": "pa",
     "Assamese": "as",
     "Maithili": "mai",
-    "Santali": "sat",
-    "Kashmiri": "ks",
     "Nepali": "ne",
-    "Konkani": "kok",
     "Sindhi": "sd",
     "Dogri ": "doi",
-    "Bodo ": "brx",
     "Sanskrit ": "sa",
     "Bhojpuri ": "bho",
-    "Magahi": "mag",
-    "Awadhi": "awa",
-    "Kokborok ": "trp",
     "Albanian": "sq",
     "Amharic": "am",
     "Arabic": "ar",
@@ -318,8 +311,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
     "Bulgarian": "bg",
     "Catalan": "ca",
     "Cebuano": "ceb",
-    "Chinese (Simplified)": "zh-CN",
-    "Chinese (Traditional)": "zh-TW",
     "Corsican": "co",
     "Croatian": "hr",
     "Czech": "cs",
@@ -328,7 +319,6 @@ class _PanchangScreenState extends State<PanchangScreen> {
     "Esperanto": "eo",
     "Estonian": "et",
     "Finnish": "fi",
-
     // Add more languages as needed
   };
 
@@ -2342,7 +2332,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                       color:Colors.purpleAccent,
                                     ),
                                     child: FutureBuilder<Translation>(
-                                      future: translator.translate("Significanse", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
+                                      future: translator.translate("Significance of the Day", to: "${selectedLanguage}"), // Translate to Hindi ("hi")
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Text(
@@ -2350,7 +2340,7 @@ class _PanchangScreenState extends State<PanchangScreen> {
                                             style:font_style.white_600_20_cl,textAlign: TextAlign.center,
                                           );
                                         } else {
-                                          return  Text("Significance",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
+                                          return  Text("Significance of the Day",style: font_style.white_600_20_cl,textAlign: TextAlign.center );
                                         }
                                       },
                                     ),

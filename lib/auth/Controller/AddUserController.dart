@@ -6,6 +6,8 @@ import 'package:panchang/home/screen/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
+import '../../home/screen/change_home_screen.dart';
+
 class AddUserController extends GetxController{
 
   var loading  = false.obs;
@@ -30,7 +32,8 @@ class AddUserController extends GetxController{
         //     '${oldResponse.value.message}',
         //     snackPosition: SnackPosition.TOP
         // );
-        Get.to(HomeScreen());
+        Get.offAll(()=>ChangeHomeScreen());
+        // Get.to(HomeScreen());
       }else{
         oldResponse = newResponse.obs;
         Get.snackbar(

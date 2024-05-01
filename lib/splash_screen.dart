@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panchang/auth/screen/login_screen.dart';
-import 'package:panchang/common/common_colour.dart';
-import 'package:panchang/common/common_sharedprefrence.dart';
 import 'package:panchang/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'home/screen/change_home_screen.dart';
 import 'home/screen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,9 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
       if(userIDs.toString() == ""||userIDs.toString() == null  || userIDs.toString() == "null"){
         print("userID ${userIDs}");
         Get.offAll(const LoginScreen());
-
       }else{
         Get.offAll(HomeScreen());
+        // Get.offAll(()=>ChangeHomeScreen());
       }
 
     });
